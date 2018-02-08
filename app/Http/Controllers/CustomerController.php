@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Cargo;
 use App\Customer;
+use App\Quotation;
+use App\Vessel;
+use Esl\helpers\Constants;
 use Esl\Repository\CustomersRepo;
 use Esl\Repository\demoCd;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CustomerController extends Controller
 {
@@ -86,14 +91,9 @@ class CustomerController extends Controller
         //
     }
 
-    public function customerRequest()
-    {
-        return view('customers.request');
-    }
-
     public function ajaxSearch(Request $request)
     {
-        $search_result = CustomersRepo::customerInit()->searchCustomers($request->search_item);
+        $search_result = CustomersRepo::customerInit()->searchCustomers($request->search_item, 'Client');
 
         $output = "";
         foreach ($search_result as $item){
@@ -107,5 +107,43 @@ class CustomerController extends Controller
         }
 
         return Response(['output' => $output]);
+    }
+
+    public function vesselDetails(Request $request)
+    {
+        $vessels = Vessel::where('name', $request->name)
+            ->where('lead_id', $request->lead_id)->get();
+        if (!$vessels->isEmpty()){
+            $vessel = $vessels->last();
+            return Response(['success' => ['vessel_name' => $vessel->name,
+                'grt' => ($vessel->grt + $vessel->consignee_good), 'loa' => $vessel->loa,
+                'port' => $vessel->port]]);
+        }
+
+        $vessel = Vessel::create($request->all());
+
+        $quote = Quotation::create(['user_id'=>Auth::user()->id, 'lead_id' => $request->lead_id, 'vessel_id' => $vessel->id,
+            'status' => Constants::LEAD_QUOTATION_PENDING]);
+
+        return Response(['success' => ['redirect' => url('/quotation/'.$quote->id)]]);
+    }
+
+    public function cargoDetails(Request $request)
+    {
+        Cargo::create($request->all());
+
+        return Response(['success' => ['url' => url('/')]]);
+    }
+
+    public function updateCargoDetails(Request $request)
+    {
+        Cargo::findOrFail($request->cargo_id)->update($request->all());
+        return Response(['success' => ['url' => url('/')]]);
+    }
+
+    public function deleteCargo(Request $request)
+    {
+        Cargo::findOrFail($request->item_id)->delete();
+        return Response(['success' => ['url' => url('/')]]);
     }
 }

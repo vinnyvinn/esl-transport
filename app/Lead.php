@@ -6,5 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Lead extends Model
 {
-    protected  $fillable = ['name','contact_person','phone','email','telephone','address','physical_locatio'];
+    protected  $fillable = ['name','contact_person','phone',
+        'email','telephone','address','location'];
+
+    public function quotation()
+    {
+        return $this->hasMany(Quotation::class, 'lead_id','id');
+    }
 }

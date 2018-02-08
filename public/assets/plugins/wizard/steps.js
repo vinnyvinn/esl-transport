@@ -8,7 +8,7 @@ $(".tab-wizard").steps({
     }, 
     onFinished: function (event, currentIndex) {
         var form = $(this);
-        // Submit form input
-        form.submit();        
+        console.log(form);
+        form.defaultPrevented();
     }
 });

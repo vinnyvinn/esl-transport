@@ -16,23 +16,50 @@
     </div>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-8">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">Customers</h4>
+                        <h4 class="card-title">Leads</h4>
                     </div>
                     <div class="comment-widgets m-b-20">
-                        <!-- Comment Row -->
-                        <div class="d-flex flex-row comment-row">
-                            <div class="comment-text w-100">
-                                <p class="m-b-5 m-t-10">Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum has beenorem Ipsum is simply dummy text of the printing and type setting industry.</p>
-                                <button class="btn btn-primary">View</button>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Contact Person</th>
+                                            <th>Phone</th>
+                                            <th>Email</th>
+                                            <th class="text-nowrap">Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="customers">
+                                        @foreach($leads as $lead)
+                                            <tr>
+                                                <td>{{ ucwords($lead->name) }}</td>
+                                                <td>{{ ucfirst($lead->contact_person) }}</td>
+                                                <td>{{ $lead->phone }}</td>
+                                                <td>{{ $lead->email }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($lead->created_at)->format('d-M-y') }}</td>
+                                                <td class="text-nowrap">
+                                                        <a href=" {{ route('leads.show', $lead->id) }}" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                    <div class="footable pagination">
+                                        {{ $leads->links() }}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-4">
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">Notification</h4>

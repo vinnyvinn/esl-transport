@@ -16,171 +16,121 @@
     </div>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-12">
-                <div class="card">
+            <div class="card card-body printableArea">
+                <h3 class="text-center">PROFORMA DISBURSEMENT ACCOUNT</h3>
+                <br>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="pull-left">
+                            <address>
+                                <img src="{{ asset('images/logo.png') }}" alt="">
+                                <h4>Express Shipping & Logistics (EA) Limited</h4>
+                                <h4>Cannon Towers <br>
+                                    6th Floor, Moi Avenue Mombasa - Kenya <br>
+                                    Email :agency@esl-eastafrica.com or ops@esl-eastafrica.com <br>
+                                    Web: www.esl-eastafrica.com</h4>
+                                <h3> &nbsp;<b>TO : {{ ucwords($customer->name) }}</b></h3>
+                                <h4 class="m-l-5"><strong>Contact Person : </strong> {{ ucwords($customer->contact_person) }}
+                                    <br/> <strong>Tel/Email : </strong> {{ $customer->telephone }} {{ $customer->email }}
+                                    <br/> <strong>Phone : </strong> {{ $customer->phone }}
+                                </h4>
+                                <br>
+                                {{--<h3><b>CARGO  {{ ucwords($customer->name) }}</b></h3>--}}
+                                {{--<h3><b>DISCHARGE RATE  {{ ucwords($customer->name) }}</b></h3>--}}
+                                {{--<h3><b>PORT STAY  </b>{{ ucwords($customer->name) }}</h3>--}}
+
+                            </address>
+                        </div>
+                        <div class="pull-right">
+                            <div class="row">
+                                <div class="form-group">
+                                    <h3> <b>Tax Registration :</b> 0121303W</h3>
+                                    <h3><b>Telephone :</b> +254 41 2229784</h3>
+                                </div>
+                            </div>
+                            <address>
+                                {{--<h4><b>Job No</b> ESL002634</h4>--}}
+                                {{--<h4><b>Voyage No</b> TBA</h4>--}}
+                                {{--<h4>Currency : USD</h4>--}}
+                                {{--<h4 id="vessel_name"><b>VESSEL</b> MV TBN</h4>--}}
+                                {{--<h4 id="grt"><b>GRT</b> 43753 GT</h4>--}}
+                                {{--<h4 id="loa"><b>LOA</b> 229 M</h4>--}}
+                                {{--<h4 id="port"><b>PORT</b> KEMBA</h4>--}}
+                                {{--<p><b>Date :</b>23rd Jan 2017</p>--}}
+                            </address>
+                        </div>
+                    </div>
+                    <hr>
                     <div class="card-body wizard-content">
-                        <h4 class="card-title">Step wizard</h4>
-                        <h6 class="card-subtitle">You can find the <a href="http://www.jquery-steps.com" target="_blank">offical website</a></h6>
-                        <form action="#" class="tab-wizard wizard-circle">
-                            <!-- Step 1 -->
-                            <h6>Personal Info</h6>
-                            <section>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="firstName1">First Name :</label>
-                                            <input type="text" class="form-control" id="firstName1"> </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="lastName1">Last Name :</label>
-                                            <input type="text" class="form-control" id="lastName1"> </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="emailAddress1">Email Address :</label>
-                                            <input type="email" class="form-control" id="emailAddress1"> </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="phoneNumber1">Phone Number :</label>
-                                            <input type="tel" class="form-control" id="phoneNumber1"> </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="location1">Select City :</label>
-                                            <select class="custom-select form-control" id="location1" name="location">
-                                                <option value="">Select City</option>
-                                                <option value="Amsterdam">India</option>
-                                                <option value="Berlin">USA</option>
-                                                <option value="Frankfurt">Dubai</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="date1">Date of Birth :</label>
-                                            <input type="date" class="form-control" id="date1"> </div>
-                                    </div>
-                                </div>
-                            </section>
-                            <!-- Step 2 -->
-                            <h6>Job Status</h6>
-                            <section>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="jobTitle1">Job Title :</label>
-                                            <input type="text" class="form-control" id="jobTitle1"> </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="videoUrl1">Company Name :</label>
-                                            <input type="text" class="form-control" id="videoUrl1">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="shortDescription1">Job Description :</label>
-                                            <textarea name="shortDescription" id="shortDescription1" rows="6" class="form-control"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                            </section>
-                            <!-- Step 3 -->
-                            <h6>Interview</h6>
-                            <section>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="int1">Interview For :</label>
-                                            <input type="text" class="form-control" id="int1"> </div>
-                                        <div class="form-group">
-                                            <label for="intType1">Interview Type :</label>
-                                            <select class="custom-select form-control" id="intType1" data-placeholder="Type to search cities" name="intType1">
-                                                <option value="Banquet">Normal</option>
-                                                <option value="Fund Raiser">Difficult</option>
-                                                <option value="Dinner Party">Hard</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="Location1">Location :</label>
-                                            <select class="custom-select form-control" id="Location1" name="location">
-                                                <option value="">Select City</option>
-                                                <option value="India">India</option>
-                                                <option value="USA">USA</option>
-                                                <option value="Dubai">Dubai</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="jobTitle2">Interview Date :</label>
-                                            <input type="date" class="form-control" id="jobTitle2">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Requirements :</label>
-                                            <div class="c-inputs-stacked">
-                                                <label class="inline custom-control custom-checkbox block">
-                                                    <input type="checkbox" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description ml-0">Employee</span> </label>
-                                                <label class="inline custom-control custom-checkbox block">
-                                                    <input type="checkbox" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description ml-0">Contract</span> </label>
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">Customer Request Details</h4>
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#home" role="tab"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Vessel Details</span></a> </li>
+                                    </ul>
+                                    <div class="tab-content tabcontent-border">
+                                        <div class="tab-pane active" id="home" role="tabpanel">
+                                            <div class="p-20">
+                                                <form class="form-material m-t-40" onsubmit="event.preventDefault();submitForm(this, '/vessel-details','redirect');" action="" id="vessel">
+                                                    <div class="row">
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group">
+                                                                <label for="name">Vessel Name</label>
+                                                                <input type="text" required id="name" name="name" class="form-control" placeholder="Name">
+                                                            </div>
+                                                            <input type="hidden" name="lead_id" value="{{ $customer->id }}">
+                                                            <div class="form-group">
+                                                                <label for="call_sign">Call Sign</label>
+                                                                <input type="text" required id="call_sign" name="call_sign" class="form-control" placeholder="Call Sign">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="imo_number">IMO Numbe </label>
+                                                                <input type="text" required id="imo_number" name="imo_number" class="form-control" placeholder="IMO Number">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="country">Country </label>
+                                                                <input type="text" required id="country" name="country" class="form-control" placeholder="Country">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="port"> Port</label>
+                                                                <input type="text" id="port" required name="port" class="form-control" placeholder="Port">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group">
+                                                                <label for="loa">Lenth Over All </label>
+                                                                <input type="number" id="loa" name="loa" required class="form-control" placeholder="Lenth Over All">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="grt">Gross Tonnage  GT</label>
+                                                                <input type="number" id="grt" name="grt" required class="form-control" placeholder="Gross Tonnage ">
+                                                            </div>
+                                                          <div class="form-group">
+                                                                <label for="consignee_good"> Consignee Goods GT </label>
+                                                                <input type="number" id="consignee_good" required name="consignee_good" class="form-control" placeholder="Net Tonnage">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="nrt"> Net Tonnage</label>
+                                                                <input type="number" id="nrt" name="nrt" required class="form-control" placeholder="Consignee Goods">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="dwt"> Dead Weight - including provision</label>
+                                                                <input type="number" id="dwt" name="dwt" required class="form-control" placeholder="Dead Weight - including provision">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <br>
+                                                                <input class="btn btn-block btn-primary" type="submit" value="Save">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </section>
-                            <!-- Step 4 -->
-                            <h6>Remark</h6>
-                            <section>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="behName1">Behaviour :</label>
-                                            <input type="text" class="form-control" id="behName1">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="participants1">Confidance</label>
-                                            <input type="text" class="form-control" id="participants1">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="participants1">Result</label>
-                                            <select class="custom-select form-control" id="participants1" name="location">
-                                                <option value="">Select Result</option>
-                                                <option value="Selected">Selected</option>
-                                                <option value="Rejected">Rejected</option>
-                                                <option value="Call Second-time">Call Second-time</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="decisions1">Comments</label>
-                                            <textarea name="decisions" id="decisions1" rows="4" class="form-control"></textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Rate Interviwer :</label>
-                                            <div class="c-inputs-stacked">
-                                                <label class="inline custom-control custom-checkbox block">
-                                                    <input type="checkbox" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description ml-0">1 star</span> </label>
-                                                <label class="inline custom-control custom-checkbox block">
-                                                    <input type="checkbox" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description ml-0">2 star</span> </label>
-                                                <label class="inline custom-control custom-checkbox block">
-                                                    <input type="checkbox" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description ml-0">3 star</span> </label>
-                                                <label class="inline custom-control custom-checkbox block">
-                                                    <input type="checkbox" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description ml-0">4 star</span> </label>
-                                                <label class="inline custom-control custom-checkbox block">
-                                                    <input type="checkbox" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description ml-0">5 star</span> </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </section>
-                        </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -188,18 +138,5 @@
     </div>
 @endsection
 @section('scripts')
-    <script>
-        var customer = $('#search_customer');
 
-        customer.on('keyup', function () {
-           axios.post('{{ url('/search-customer') }}',{
-               'search_item': customer.val()
-           }).then( function (response) {
-               $('#customers').empty().append(response.data.output);
-           })
-               .catch( function (error) {
-                   console.log(error)
-               });
-        });
-    </script>
 @endsection

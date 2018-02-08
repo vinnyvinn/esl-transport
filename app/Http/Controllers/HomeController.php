@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Lead;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,6 +24,7 @@ class HomeController extends Controller
      */
     public function dashboard()
     {
-        return view('dashboard.dashboard');
+        return view('dashboard.dashboard')
+            ->withLeads(Lead::simplePaginate(25));
     }
 }

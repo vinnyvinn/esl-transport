@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateGoodTypesTable extends Migration
+class CreateRemarksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateGoodTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('good_types', function (Blueprint $table) {
+        Schema::create('remarks', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->string('description')->nullable();
-            $table->string('uom')->default('Piece');
+            $table->integer('user_id');
+            $table->integer('remark_to');
+            $table->text('remark');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateGoodTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('good_types');
+        Schema::dropIfExists('remarks');
     }
 }

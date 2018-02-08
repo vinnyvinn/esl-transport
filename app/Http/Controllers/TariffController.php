@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\GoodType;
+use App\Tariff;
 use Illuminate\Http\Request;
 
-class GoodTypeController extends Controller
+class TariffController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +14,8 @@ class GoodTypeController extends Controller
      */
     public function index()
     {
-        return view('good-types.index')
-            ->withGoodtypes(GoodType::simplePaginate(25));
+        return view('tariffs.index')
+            ->withTariffs(Tariff::simplePaginate(25));
     }
 
     /**
@@ -25,7 +25,7 @@ class GoodTypeController extends Controller
      */
     public function create()
     {
-        return view('good-types.create');
+        return view('tariffs.create');
     }
 
     /**
@@ -36,17 +36,18 @@ class GoodTypeController extends Controller
      */
     public function store(Request $request)
     {
-        GoodType::create($request->all());
-        return redirect('/good-types');
+        Tariff::create($request->all());
+
+        return redirect('/tariffs');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\GoodType  $goodType
+     * @param  \App\Tariff  $tariff
      * @return \Illuminate\Http\Response
      */
-    public function show(GoodType $goodType)
+    public function show(Tariff $tariff)
     {
         //
     }
@@ -54,37 +55,38 @@ class GoodTypeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\GoodType  $goodType
+     * @param  \App\Tariff  $tariff
      * @return \Illuminate\Http\Response
      */
-    public function edit(GoodType $goodType)
+    public function edit(Tariff $tariff)
     {
-        return view('good-types.edit')
-            ->withGoodtype($goodType);
+        return view('tariffs.edit')
+            ->withTariff($tariff);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\GoodType  $goodType
+     * @param  \App\Tariff  $tariff
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, GoodType $goodType)
+    public function update(Request $request, Tariff $tariff)
     {
-        $goodType->update($request->all());
-        return redirect('/good-types');
+        $tariff->update($request->all());
+
+        return redirect('/tariffs');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\GoodType  $goodType
+     * @param  \App\Tariff  $tariff
      * @return \Illuminate\Http\Response
      */
-    public function destroy(GoodType $goodType)
+    public function destroy(Tariff $tariff)
     {
-        $goodType->delete();
-        return redirect('/good-types');
+        $tariff->delete();
+        return redirect('/tariffs');
     }
 }

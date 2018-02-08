@@ -53,6 +53,47 @@
 <script src="{{ asset('assets/plugins/wizard/steps.js') }}"></script>
 <script src="{{ asset('assets/plugins/wizard/jquery.validate.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/styleswitcher/jQuery.style.switcher.js') }}"></script>
+<script>
+    function submitForm(form, formUrl, redirectUrl = 'current'){
+        var formId = form.id;
+        var vessel = $('#'+formId);
+
+        var data = vessel.serializeArray().reduce(function(obj, item) {
+            obj[item.name] = item.value;
+            return obj;
+        }, {});
+
+        axios.post('{{ url('/') }}' + formUrl, data)
+            .then(function (response) {
+                var details = response.data.success;
+
+                if (redirectUrl === 'current'){
+                    window.location.reload();
+                }
+                else {
+                    window.location.href = details.redirect;
+                }
+
+            })
+            .catch(function (response) {
+                console.log(response.data);
+            });
+
+    }
+
+    function deleteItem(id, deleteUrl) {
+        axios.post('{{ url('/') }}' + deleteUrl, {
+            'item_id' : id,
+            '_token' : '{{ csrf_token() }}'
+        })
+            .then(function (response) {
+                window.location.reload();
+            })
+            .catch(function (response) {
+                console.log(response);
+            });
+    }
+</script>
 @yield('scripts')
 </body>
 

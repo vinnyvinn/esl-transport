@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Lead;
+use App\Quotation;
+use Carbon\Carbon;
+use Esl\Repository\CustomersRepo;
 use Illuminate\Http\Request;
 
 class LeadController extends Controller
@@ -14,7 +17,8 @@ class LeadController extends Controller
      */
     public function index()
     {
-        //
+        return view('leads.index')
+            ->withLeads(Lead::simplePaginate(25));
     }
 
     /**
@@ -24,7 +28,7 @@ class LeadController extends Controller
      */
     public function create()
     {
-        //
+        return view('leads.create');
     }
 
     /**
@@ -35,7 +39,8 @@ class LeadController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Lead::create($request->all());
+        return redirect('/leads');
     }
 
     /**
@@ -46,7 +51,9 @@ class LeadController extends Controller
      */
     public function show(Lead $lead)
     {
-        //
+        return view('leads.show')
+            ->withLead($lead)
+            ->withQuotations(Lead::with(['quotation.vessel'])->findOrFail($lead->id));
     }
 
     /**
@@ -57,7 +64,8 @@ class LeadController extends Controller
      */
     public function edit(Lead $lead)
     {
-        //
+        return view('leads.edit')
+            ->withLead($lead);
     }
 
     /**
@@ -69,7 +77,9 @@ class LeadController extends Controller
      */
     public function update(Request $request, Lead $lead)
     {
-        //
+        $lead->update($request->all());
+
+        return redirect('/leads');
     }
 
     /**
@@ -80,6 +90,30 @@ class LeadController extends Controller
      */
     public function destroy(Lead $lead)
     {
-        //
+        $lead->delete();
+        return redirect('/leads');
+    }
+
+    public function searchLeads(Request $request)
+    {
+        $search_result = CustomersRepo::customerInit()->searchCustomers($request->search_item, 'leads');
+
+        $output = "";
+        foreach ($search_result as $item){
+
+            $output .= '<tr>'.
+                '<td>'. ucwords($item->name).'</td>'.
+                '<td>'.ucfirst($item->contact_person).'</td>'.
+                '<td>'.$item->phone.'</td>'.
+                '<td>'.$item->email.'</td>'.
+                '<td>'.$item->address.'</td>'.
+                '<td>'.$item->telephone.'</td>'.
+                '<td>'.$item->location.'</td>'.
+                '<td>'.Carbon::parse($item->created_at)->format('d-M-y').'</td>'.
+                '<td>Action</td>'.
+                '</tr>';
+        }
+
+        return Response(['output' => $output]);
     }
 }

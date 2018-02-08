@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateGoodTypesTable extends Migration
+class CreateTariffsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,14 @@ class CreateGoodTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('good_types', function (Blueprint $table) {
+        Schema::create('tariffs', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('type');
             $table->string('name');
-            $table->string('description')->nullable();
-            $table->string('uom')->default('Piece');
+            $table->string('rate');
+            $table->string('unit_value');
+            $table->string('unit_type');
+            $table->string('unit');
             $table->timestamps();
         });
     }
@@ -29,6 +32,6 @@ class CreateGoodTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('good_types');
+        Schema::dropIfExists('tariffs');
     }
 }

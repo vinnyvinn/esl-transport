@@ -15,6 +15,17 @@ class CreateVesselsTable extends Migration
     {
         Schema::create('vessels', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('lead_id');
+            $table->string('name');
+            $table->string('imo_number');
+            $table->string('country');
+            $table->string('call_sign');
+            $table->string('loa');
+            $table->string('grt');
+            $table->string('consignee_good');
+            $table->string('nrt');
+            $table->string('dwt');
+            $table->string('port');
             $table->timestamps();
         });
     }
