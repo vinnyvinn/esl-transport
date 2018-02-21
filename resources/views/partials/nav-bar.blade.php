@@ -17,25 +17,19 @@
                         <i class="mdi mdi-gauge"></i><span class="hide-menu">Tariffs</span></a>
                 </li>
                 <li> <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
-                        <i class="mdi mdi-basket"></i><span class="hide-menu">Goods</span></a>
+                        <i class="mdi mdi-basket"></i><span class="hide-menu">Cargo</span></a>
                     <ul aria-expanded="false" class="collapse">
-                        <li><a href="{{ url('/good-types/create') }}">Add Good Type</a></li>
-                        <li><a href="{{ url('/good-types') }}">Goods Types</a></li>
+                        <li><a href="{{ url('/good-types/create') }}">Add Cargo Type</a></li>
+                        <li><a href="{{ url('/good-types') }}">Cargo Types</a></li>
                     </ul>
                 </li>
+
                 <li> <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
-                        <i class="mdi mdi-account-multiple"></i><span class="hide-menu">Employees</span></a>
+                        <i class="mdi mdi-account"></i><span class="hide-menu">HODs</span></a>
                     <ul aria-expanded="false" class="collapse">
-                        <li><a href="#">All Employees</a></li>
-                        <li><a href="">Employee Expertise</a></li>
-                    </ul>
-                </li>
-                <li> <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
-                        <i class="mdi mdi-account"></i><span class="hide-menu">HOD</span></a>
-                    <ul aria-expanded="false" class="collapse">
-                        <li><a href="#">Agency</a></li>
-                        <li><a href="">Transport</a></li>
-                        <li><a href="">Logistics</a></li>
+                        <li><a href="{{ url('/agency') }}">Agency</a></li>
+                        {{--<li><a href="">Transport</a></li>--}}
+                        {{--<li><a href="">Logistics</a></li>--}}
                     </ul>
                 </li>
             </ul>

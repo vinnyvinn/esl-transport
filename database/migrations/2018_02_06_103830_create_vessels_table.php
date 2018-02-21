@@ -17,15 +17,16 @@ class CreateVesselsTable extends Migration
             $table->increments('id');
             $table->integer('lead_id');
             $table->string('name');
-            $table->string('imo_number');
+            $table->string('imo_number')->nullable();
             $table->string('country');
-            $table->string('call_sign');
+            $table->string('call_sign')->nullable();
             $table->string('loa');
             $table->string('grt');
             $table->string('consignee_good');
-            $table->string('nrt');
-            $table->string('dwt');
-            $table->string('port');
+            $table->string('nrt')->nullable();
+            $table->string('dwt')->nullable();
+            $table->string('port_of_discharge')->nullable();
+            $table->string('port_of_loading')->nullable();
             $table->timestamps();
         });
     }

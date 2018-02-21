@@ -77,7 +77,7 @@
                                     </div>
                                     <div class="form-group">
                                         <br>
-                                        <input class="btn btn-block btn-primary" type="submit" value="Save">
+                                        <input class="btn pull-right btn-primary" type="submit" value="Save">
                                     </div>
                                 </div>
                             </div>

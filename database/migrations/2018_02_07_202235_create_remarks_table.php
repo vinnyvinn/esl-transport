@@ -17,6 +17,7 @@ class CreateRemarksTable extends Migration
             $table->increments('id');
             $table->integer('user_id');
             $table->integer('remark_to');
+            $table->integer('quotation_id');
             $table->text('remark');
             $table->timestamps();
         });

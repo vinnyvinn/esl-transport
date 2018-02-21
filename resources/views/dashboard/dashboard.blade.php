@@ -14,7 +14,70 @@
             <button class="right-side-toggle waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10"><i class="ti-settings text-white"></i></button>
         </div>
     </div>
+
     <div class="container-fluid">
+        <div class="row">
+            <!-- Column -->
+            <div class="col-lg-3 col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- Row -->
+                        <div class="row">
+                            <div class="col-8"><h2>{{ count(\App\Lead::where('status',0)->get()) }} <i class="ti-angle-down font-14 text-danger"></i></h2>
+                                <h6>Total Leads</h6></div>
+                            <div class="col-4 align-self-center text-right  p-l-0">
+                                <div id="sparklinedash3"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Column -->
+            <div class="col-lg-3 col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- Row -->
+                        <div class="row">
+                            <div class="col-8"><h2 class="">{{ count(\App\Quotation::all()) }} <i class="ti-angle-up font-14 text-success"></i></h2>
+                                <h6>Total PDA</h6></div>
+                            <div class="col-4 align-self-center text-right p-l-0">
+                                <div id="sparklinedash"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Column -->
+            <div class="col-lg-3 col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- Row -->
+                        <div class="row">
+                            <div class="col-8"><h2>$ {{ number_format(\App\QuotationService::all()->sum('total') )}} <i class="ti-angle-up font-14 text-success"></i></h2>
+                                <h6>Services Projection </h6></div>
+                            <div class="col-4 align-self-center text-right p-l-0">
+                                <div id="sparklinedash2"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Column -->
+            <div class="col-lg-3 col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- Row -->
+                        <div class="row">
+                            <div class="col-8"><h2>{{ \App\Cargo::all()->sum('weight') }} MT <i class="ti-angle-up font-14 text-success"></i></h2>
+                                <h6>Total Cargo Weight</h6></div>
+                            <div class="col-4 align-self-center text-right p-l-0">
+                                <div id="sparklinedash4"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-lg-8">
                 <div class="card">
@@ -37,16 +100,18 @@
                                         </thead>
                                         <tbody id="customers">
                                         @foreach($leads as $lead)
-                                            <tr>
-                                                <td>{{ ucwords($lead->name) }}</td>
-                                                <td>{{ ucfirst($lead->contact_person) }}</td>
-                                                <td>{{ $lead->phone }}</td>
-                                                <td>{{ $lead->email }}</td>
-                                                <td>{{ \Carbon\Carbon::parse($lead->created_at)->format('d-M-y') }}</td>
-                                                <td class="text-nowrap">
+                                            @if($lead->status == 0)
+                                                <tr>
+                                                    <td>{{ ucwords($lead->name) }}</td>
+                                                    <td>{{ ucfirst($lead->contact_person) }}</td>
+                                                    <td>{{ $lead->phone }}</td>
+                                                    <td>{{ $lead->email }}</td>
+                                                    <td>{{ \Carbon\Carbon::parse($lead->created_at)->format('d-M-y') }}</td>
+                                                    <td class="text-nowrap">
                                                         <a href=" {{ route('leads.show', $lead->id) }}" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
-                                                </td>
-                                            </tr>
+                                                    </td>
+                                                </tr>
+                                                @endif
                                         @endforeach
                                         </tbody>
                                     </table>
@@ -64,10 +129,12 @@
                     <div class="card-body">
                         <h4 class="card-title">Notification</h4>
                         <ul class="feeds">
-                            <li>
-                                <div class="bg-light-info"><i class="fa fa-bell-o"></i></div> You have 4 pending tasks.
-                                <a href="" class="btn btn-xs btn-primary"><i class="fa fa-eye"></i></a> <span class="text-muted"> 1 mins</span>
-                            </li>
+                            @foreach($v_notifications as $notification)
+                                <li>
+                                    <div class="bg-light-info"><i class="fa fa-bell-o"></i></div> You have 4 pending tasks.
+                                    <a href="{{ url('/notifications/'.$notification->id) }}" class="btn btn-xs btn-primary"><i class="fa fa-eye"></i></a> <span class="text-muted"> 1 mins</span>
+                                </li>
+                                @endforeach
                         </ul>
                     </div>
                 </div>

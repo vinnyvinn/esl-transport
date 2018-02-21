@@ -19,7 +19,7 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">Add Good Type</h4>
+                        <h4 class="card-title">Add Cargo Type</h4>
                         <form class="form-material m-t-40" action="{{ route('good-types.store') }}" method="post">
                             {{ csrf_field() }}
                             <div class="row">
@@ -41,7 +41,7 @@
                                         </div>
                                         <div class="form-group">
                                             <br>
-                                            <input class="btn btn-block btn-primary" type="submit" value="Save">
+                                            <input class="btn pull-right btn-primary" type="submit" value="Save">
                                         </div>
                                     </div>
                                 </div>

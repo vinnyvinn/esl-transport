@@ -6,6 +6,8 @@ use App\Cargo;
 use App\Customer;
 use App\Quotation;
 use App\Vessel;
+use App\Voyage;
+use Carbon\Carbon;
 use Esl\helpers\Constants;
 use Esl\Repository\CustomersRepo;
 use Esl\Repository\demoCd;
@@ -115,14 +117,15 @@ class CustomerController extends Controller
             ->where('lead_id', $request->lead_id)->get();
         if (!$vessels->isEmpty()){
             $vessel = $vessels->last();
+            $vessel->update($request->all());
             return Response(['success' => ['vessel_name' => $vessel->name,
                 'grt' => ($vessel->grt + $vessel->consignee_good), 'loa' => $vessel->loa,
-                'port' => $vessel->port]]);
+                'port' => $vessel->port_of_loading]]);
         }
 
         $vessel = Vessel::create($request->all());
 
-        $quote = Quotation::create(['user_id'=>Auth::user()->id, 'lead_id' => $request->lead_id, 'vessel_id' => $vessel->id,
+        $quote = Quotation::create(['user_id'=>Auth::user()->id,'discharge_rate' => $request->discharge_rate, 'lead_id' => $request->lead_id, 'vessel_id' => $vessel->id,
             'status' => Constants::LEAD_QUOTATION_PENDING]);
 
         return Response(['success' => ['redirect' => url('/quotation/'.$quote->id)]]);
@@ -130,9 +133,22 @@ class CustomerController extends Controller
 
     public function cargoDetails(Request $request)
     {
-        Cargo::create($request->all());
+        $data = $request->all();
+        $data['manifest_number'] = count(Cargo::all()).'/'.Date('Y');
+        $data['seal_no'] = count(Cargo::all()).'/'.Date('Y');
+        Cargo::create($data);
 
         return Response(['success' => ['url' => url('/')]]);
+    }
+
+    public function voyageDetails(Request $request)
+    {
+        $data = $request->all();
+        $data['eta'] = Carbon::parse($request->eta);
+        $data['vessel_arrived'] = Carbon::parse($request->vessel_arrived);
+        Voyage::create($data);
+
+        return Response(['success' => ['redirect' => url('/quotation/'.$request->quotation_id)]]);
     }
 
     public function updateCargoDetails(Request $request)

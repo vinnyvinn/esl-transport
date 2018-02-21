@@ -72,7 +72,7 @@
                                     </div>
                                 </div>
                                 <div class="col-12">
-                                    <button class="btn btn-primary">Edit Tariff</button>
+                                    <button class="btn pull-right btn-primary">Update</button>
                                 </div>
                             </div>
                         </form>

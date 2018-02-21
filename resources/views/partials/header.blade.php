@@ -10,7 +10,7 @@
                 <li class="nav-item"> <a class="nav-link nav-toggler hidden-md-up text-muted waves-effect waves-dark" href="javascript:void(0)"><i class="mdi mdi-menu"></i></a> </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-muted text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="mdi mdi-message"></i>
-                        <div class="notify"> <span class="heartbit"></span> <span class="point"></span> </div>
+                        <div class="notify"> {!! count($v_notifications) > 0 ? '<span class="heartbit"></span><span class="point"></span>' : '' !!} </div>
                     </a>
                     <div class="dropdown-menu mailbox animated slideInUp">
                         <ul>
@@ -19,15 +19,17 @@
                             </li>
                             <li>
                                 <div class="message-center">
-                                    <a href="#">
-                                        <div class="btn btn-danger btn-circle"><i class="fa fa-link"></i></div>
-                                        <div class="mail-contnet">
-                                            <h5>New Customer</h5> <span class="mail-desc">Just see the my new admin!</span> <span class="time">9:30 AM</span> </div>
-                                    </a>
+                                    @foreach($v_notifications as $notification)
+                                        <a href="{{ url('/notifications/'.$notification->id) }}">
+                                            <div class="btn btn-danger btn-circle"><i class="fa fa-bell"></i></div>
+                                            <div class="mail-contnet">
+                                                <h5>{{ ucwords($notification->title) }}</h5> <span class="mail-desc">{{ ucfirst($notification->text) }}</span></div>
+                                        </a>
+                                    @endforeach
                                 </div>
                             </li>
                             <li>
-                                <a class="nav-link text-center" href="javascript:void(0);"> <strong>Check all notifications</strong> <i class="fa fa-angle-right"></i> </a>
+                                <a class="nav-link text-center" href="{{ url('/all-notifications') }}"> <strong>Check all notifications</strong> <i class="fa fa-angle-right"></i> </a>
                             </li>
                         </ul>
                     </div>
@@ -37,9 +39,26 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="flag-icon flag-icon-ke"></i></a>
+                    {{--<div class="dropdown-menu dropdown-menu-right scale-up">--}}
+                        {{--<a class="dropdown-item" href="#"><i class="flag-icon flag-icon-tz"></i> Tanzania</a>--}}
+                        {{--<a class="dropdown-item" href="#"><i class="flag-icon flag-icon-ke"></i> Kenya</a>--}}
+                    {{--</div>--}}
+                </li>
+                <li></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Administration</a>
                     <div class="dropdown-menu dropdown-menu-right scale-up">
-                        <a class="dropdown-item" href="#"><i class="flag-icon flag-icon-tz"></i> Tanzania</a>
-                        <a class="dropdown-item" href="#"><i class="flag-icon flag-icon-ke"></i> Kenya</a>
+                        <ul class="dropdown-user">
+                            <li role="separator" class="divider"></li>
+                            <li>
+                                <a href="{{ url('departments') }}">Departments</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('stages.index') }}">Stages</a>
+                            </li>
+                        </ul>
+                    </div>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

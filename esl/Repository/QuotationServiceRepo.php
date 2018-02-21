@@ -9,6 +9,7 @@
 namespace Esl\Repository;
 
 
+use App\Quotation;
 use App\QuotationService;
 
 class QuotationServiceRepo
@@ -28,4 +29,5 @@ class QuotationServiceRepo
             'total' => number_format($services->sum('total'))
         ];
     }
+
 }

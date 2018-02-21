@@ -71,7 +71,7 @@
                                     </div>
                                 </div>
                                 <div class="col-12">
-                                    <button class="btn btn-primary">Add Tariff</button>
+                                    <button class="btn pull-right btn-primary">Add Tariff</button>
                                 </div>
                             </div>
                         </form>

@@ -22,7 +22,7 @@ class CreateLeadsTable extends Migration
             $table->string('telephone')->nullable();
             $table->string('address')->nullable();
             $table->string('location')->nullable();
-//            $table->string('status')->default();
+            $table->string('status')->default(0);
             $table->timestamps();
         });
     }

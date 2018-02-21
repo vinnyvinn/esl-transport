@@ -19,7 +19,7 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">Edit Good Type</h4>
+                        <h4 class="card-title">Edit Cargo Type</h4>
                         <form class="form-material m-t-40" action="{{ route('good-types.update', $goodtype->id) }}" method="post">
                             {{ csrf_field() }}
                             {{ method_field('PUT') }}
@@ -42,7 +42,7 @@
                                     </div>
                                     <div class="form-group">
                                         <br>
-                                        <input class="btn btn-block btn-primary" type="submit" value="Save">
+                                        <input class="btn pull-right btn-primary" type="submit" value="Update">
                                     </div>
                                 </div>
                             </div>

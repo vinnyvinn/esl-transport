@@ -8,6 +8,7 @@ class Customer extends Model
 {
     protected $table = 'Client';
     protected $primaryKey = 'DCLink';
+    public $timestamps = false;
 
-    protected $fillable = ['DCLink','Account','Contact_Person','Name','Telephone'];
+    protected $fillable = ['DCLink','Account','Physical1','Physical2','Email','Contact_Person','Name','Telephone'];
 }

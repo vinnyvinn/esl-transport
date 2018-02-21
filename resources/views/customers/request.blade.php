@@ -82,41 +82,50 @@
                                                             <input type="hidden" name="lead_id" value="{{ $customer->id }}">
                                                             <div class="form-group">
                                                                 <label for="call_sign">Call Sign</label>
-                                                                <input type="text" required id="call_sign" name="call_sign" class="form-control" placeholder="Call Sign">
+                                                                <input type="text"  id="call_sign" name="call_sign" class="form-control" placeholder="Call Sign">
                                                             </div>
                                                             <div class="form-group">
-                                                                <label for="imo_number">IMO Numbe </label>
-                                                                <input type="text" required id="imo_number" name="imo_number" class="form-control" placeholder="IMO Number">
+                                                                <label for="imo_number">IMO Number </label>
+                                                                <input type="text"  id="imo_number" name="imo_number" class="form-control" placeholder="IMO Number">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="discharge_rate">Discharge Rate </label>
+                                                                <input type="number"  id="discharge_rate" name="discharge_rate" class="form-control" placeholder="Discharge Rate">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="country">Country </label>
                                                                 <input type="text" required id="country" name="country" class="form-control" placeholder="Country">
                                                             </div>
                                                             <div class="form-group">
-                                                                <label for="port"> Port</label>
-                                                                <input type="text" id="port" required name="port" class="form-control" placeholder="Port">
+                                                                <label for="port_of_discharge"> Port of Discharge</label>
+                                                                <input type="text" id="port_of_discharge"  name="port_of_discharge" class="form-control" placeholder="Port of Discharge">
+                                                            </div>
+                                                            <div class="form-group">
+
+                                                                <label for="port_of_loading"> Port of Loading</label>
+                                                                <input type="text" id="port_of_loading"  name="port_of_loading" class="form-control" placeholder="Port of Loading">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-6">
                                                             <div class="form-group">
-                                                                <label for="loa">Lenth Over All </label>
-                                                                <input type="number" id="loa" name="loa" required class="form-control" placeholder="Lenth Over All">
+                                                                <label for="loa">Length Over All </label>
+                                                                <input type="text" id="loa" name="loa" required class="form-control" placeholder="Lenth Over All">
                                                             </div>
                                                             <div class="form-group">
-                                                                <label for="grt">Gross Tonnage  GT</label>
-                                                                <input type="number" id="grt" name="grt" required class="form-control" placeholder="Gross Tonnage ">
+                                                                <label for="grt">Gross Tonnage  GRT</label>
+                                                                <input type="text" id="grt" name="grt" required class="form-control" placeholder="Gross Tonnage ">
                                                             </div>
                                                           <div class="form-group">
-                                                                <label for="consignee_good"> Consignee Goods GT </label>
-                                                                <input type="number" id="consignee_good" required name="consignee_good" class="form-control" placeholder="Net Tonnage">
+                                                                <label for="consignee_good"> Cargo Tonnage </label>
+                                                                <input type="text" id="consignee_good" required name="consignee_good" class="form-control" placeholder="Cargo Weight">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="nrt"> Net Tonnage</label>
-                                                                <input type="number" id="nrt" name="nrt" required class="form-control" placeholder="Consignee Goods">
+                                                                <input type="text" id="nrt" name="nrt"  class="form-control" placeholder="Net Tonnage">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="dwt"> Dead Weight - including provision</label>
-                                                                <input type="number" id="dwt" name="dwt" required class="form-control" placeholder="Dead Weight - including provision">
+                                                                <input type="text" id="dwt" name="dwt"  class="form-control" placeholder="Dead Weight - including provision">
                                                             </div>
                                                             <div class="form-group">
                                                                 <br>

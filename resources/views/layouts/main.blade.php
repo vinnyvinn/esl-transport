@@ -67,6 +67,7 @@
             .then(function (response) {
                 var details = response.data.success;
 
+                console.log(details);
                 if (redirectUrl === 'current'){
                     window.location.reload();
                 }

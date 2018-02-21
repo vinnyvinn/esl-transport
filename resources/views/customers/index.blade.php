@@ -86,7 +86,7 @@
                                                                                         </div>
                                                                                         <div class="form-group">
                                                                                             <label for="email">Email </label>
-                                                                                            <input type="text" required id="email" name="email" class="form-control" placeholder="Email">
+                                                                                            <input type="email" required id="email" name="email" class="form-control" placeholder="Email">
                                                                                             {{--<span class="help-block text-muted">--}}
                                                                                             {{--<small>A block of help text that breaks onto a new line and may extend beyond one line.</small>--}}
                                                                                             {{--</span>--}}
