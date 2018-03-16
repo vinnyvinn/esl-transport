@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateVoyagesTable extends Migration
+class CreateConsigneesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,12 @@ class CreateVoyagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('voyages', function (Blueprint $table) {
+        Schema::create('consignees', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('quotation_id');
-            $table->string('voyage_no');
-            $table->string('internal_voyage_no');
             $table->string('name');
-            $table->string('service_code');
-            $table->string('final_destination');
-            $table->dateTime('eta');
-            $table->dateTime('vessel_arrived');
+            $table->string('email');
+            $table->text('details');
             $table->timestamps();
         });
     }
@@ -34,6 +30,6 @@ class CreateVoyagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('voyages');
+        Schema::dropIfExists('consignees');
     }
 }

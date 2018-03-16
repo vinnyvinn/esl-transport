@@ -19,7 +19,6 @@ class CreateQuotationsTable extends Migration
             $table->integer('lead_id');
             $table->integer('vessel_id');
             $table->string('status');
-            $table->string('discharge_rate');
             $table->timestamps();
         });
     }

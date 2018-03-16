@@ -30,7 +30,7 @@
                                     <th>Description</th>
                                     <th>Unit Of Measure</th>
                                     <th>Created</th>
-                                    <th class="text-nowrap">Action</th>
+                                    <th class="text-right">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody id="customers">
@@ -40,7 +40,7 @@
                                         <td>{{ ucfirst($goodtype->description) }}</td>
                                         <td>{{ $goodtype->uom }}</td>
                                         <td>{{ \Carbon\Carbon::parse($goodtype->created_at)->format('d-M-y') }}</td>
-                                        <td class="text-nowrap">
+                                        <td class="text-right">
                                             <form action="{{ route('good-types.destroy', $goodtype->id) }}" method="post">
                                                 <a href=" {{ route('good-types.edit', $goodtype->id) }}" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i></a>
                                                 {{ csrf_field() }}

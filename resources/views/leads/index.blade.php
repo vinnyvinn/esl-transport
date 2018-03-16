@@ -42,7 +42,7 @@
                                     <th>Telephone</th>
                                     <th>Physical Location</th>
                                     <th>Created</th>
-                                    <th class="text-nowrap">Action</th>
+                                    <th class="text-right">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody id="customers">
@@ -56,7 +56,7 @@
                                         <td>{{ $lead->telephone }}</td>
                                         <td>{{ $lead->location }}</td>
                                         <td>{{ \Carbon\Carbon::parse($lead->created_at)->format('d-M-y') }}</td>
-                                        <td class="text-nowrap">
+                                        <td class="text-right">
                                             <form action="{{ route('leads.destroy', $lead->id) }}" method="post">
                                                 <a href=" {{ route('leads.show', $lead->id) }}" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
                                                 <a href=" {{ route('leads.edit', $lead->id) }}" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i></a>

@@ -110,7 +110,14 @@ class LeadController extends Controller
                 '<td>'.$item->telephone.'</td>'.
                 '<td>'.$item->location.'</td>'.
                 '<td>'.Carbon::parse($item->created_at)->format('d-M-y').'</td>'.
-                '<td>Action</td>'.
+                '<td>'.
+'<form action="'.route('leads.destroy', $item->id).'" method="post">'.
+                '<a href="'.route('leads.show', $item->id).'" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>'.
+                                                '<a href="'.route('leads.edit', $item->id).'" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i></a>'.
+                                                csrf_field().'<br>'.
+                                                method_field('DELETE').
+                                                '<button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>'.
+                                            '</form></td>'.
                 '</tr>';
         }
 

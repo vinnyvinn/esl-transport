@@ -22,7 +22,7 @@ class CreateVesselsTable extends Migration
             $table->string('call_sign')->nullable();
             $table->string('loa');
             $table->string('grt');
-            $table->string('consignee_good');
+            $table->string('eta');
             $table->string('nrt')->nullable();
             $table->string('dwt')->nullable();
             $table->string('port_of_discharge')->nullable();

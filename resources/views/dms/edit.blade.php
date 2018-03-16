@@ -17,7 +17,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="card card-body printableArea">
-                <h3 class="text-center">DMS {{ ucwords( $dms->customer->Name)  }}</h3>
+                <h3 class="text-center">Final Disbursement Account {{ ucwords( $dms->customer->Name)  }}</h3>
                 <br>
                 <div class="row">
                     <div class="card-body wizard-content">
@@ -25,7 +25,7 @@
                             @if($update)
                                 <div class="card">
                                     <div class="card-body">
-                                        <h4>Update Client Details</h4>
+                                        <h4>Update Final Disbursement Account</h4>
                                         <div class="col-12">
                                             <form style="text-align: left !important;" id="update_service{{$dms->id}}" action="{{ url('/update-dms') }}" method="post">
                                                 {{ csrf_field() }}
@@ -63,8 +63,23 @@
                                                         </div>
                                                         <input type="hidden" name="dms_id" value="{{ $dms->id }}">
                                                         <div class="form-group">
-                                                            <label for="time_allowed">Time Allowed in Minutes </label>
-                                                            <input type="text" required id="time_allowed" name="time_allowed" class="form-control" placeholder="Time Allowed in Minutes">
+                                                            <label for="time_allowed">Time Allowed</label>
+                                                            <div class="row">
+                                                                <div class="col-sm-12">
+                                                                    <div class="row">
+                                                                        <div class="col-sm-6">
+                                                                            <div class="form-group"><label for="days">Number of Days</label>
+                                                                                <input type="text" name="days" id="days" class="form-control">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-sm-6">
+                                                                            <div class="form-group"><label for="hours">Number of Hours</label>
+                                                                                <input type="text" name="hours" id="hours" class="form-control">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="number_of_crane">Number of Cranes </label>
@@ -83,10 +98,10 @@
                             @else
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="card-title">Client Details</h4>
+                                    <h4 class="card-title">Final Disbursement Account Details</h4>
                                     <ul class="nav nav-tabs" role="tablist">
                                         <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#pda" role="tab">
-                                                <span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">FDA</span>
+                                                <span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Files</span>
                                             </a> </li>
                                         <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#home" role="tab">
                                                 <span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Vessel Details</span></a> </li>
@@ -112,7 +127,6 @@
                                             <div class="p-20">
                                                 <div class="col-sm-12">
                                                     <h4>Client Files</h4>
-                                                    <br>
                                                     <div class="col-sm-12">
                                                         @foreach($dms->vessel->vDocs as $doc)
                                                             {{ $loop->iteration }} . <a href="{{ url($doc->doc_path) }}" target="_blank" >{{ $doc->name }}</a>
@@ -182,14 +196,14 @@
                                                         <td><strong>IMO Number : </strong> {{ $dms->vessel->imo_number }}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td><strong>Cargo Discharge Rate : </strong> {{ $dms->discharge_rate }} MT / WWD</td>
+                                                        <td><strong>Cargo Discharge Rate : </strong> {{ $dms->cargo->first()->discharge_rate }} MT / WWD</td>
                                                         <td><strong>Lay Time Start : </strong> {{ \Carbon\Carbon::parse($dms->laytime_start)->format('d-M-y') }}</td>
                                                         <td><strong>DWT : </strong> {{ $dms->vessel->dwt }}</td>
                                                     </tr>
                                                     <tr>
                                                         <td><strong>LOA : </strong> {{ $dms->vessel->loa }}</td>
                                                         <td><strong>GRT : </strong> {{ $dms->vessel->grt }}</td>
-                                                        <td><strong>Consignee Cargo : </strong> {{ $dms->vessel->consignee_good }}</td>
+                                                        <td><strong>Consignee Cargo : </strong> {{ $dms->cargo->first()->weight }}</td>
                                                     </tr>
                                                     <tr>
                                                         <td><strong>NRT : </strong> {{ $dms->vessel->nrt }}</td>
@@ -200,10 +214,6 @@
                                                         <td><strong>Port of Discharge: </strong> {{ $dms->vessel->port_of_discharge }}</td>
                                                         <td><strong>Place of Receipt: </strong> {{ $dms->place_of_receipt }}</td>
                                                         <td><strong>Date of Loading : </strong> {{ \Carbon\Carbon::parse($dms->date_of_loading)->format('d-M-y') }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><strong>Created On : </strong> {{ \Carbon\Carbon::parse($dms->vessel->created_at)->format('d-M-y') }}</td>
-
                                                     </tr>
                                                 </table>
                                                 <div class="modal fade bs-example-modal-lgvessel" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
@@ -262,8 +272,8 @@
                                                     <tr>
                                                         <td>{{ ucwords($cargo->name) }}</td>
                                                         <td>{{ ucfirst($cargo->goodType->name )}}</td>
-                                                        <td>{{ $dms->discharge_rate }}</td>
-                                                        <td>{{ $dms->grt/$dms->discharge_rate }} Days</td>
+                                                        <td>{{ $cargo->discharge_rate }}</td>
+                                                        <td>{{ ceil($dms->cargo->first()->weight/$dms->cargo->first()->discharge_rate) }} Days</td>
                                                         <td>{{ ucwords($cargo->shipping_type) }}</td>
                                                         <td>{{ $cargo->package }}</td>
                                                         <td>{{ $cargo->weight }}</td>
@@ -278,59 +288,57 @@
                                                         <tbody>
                                                         <tr>
                                                             <td><strong>Name : </strong>{{ ucwords($dms->quote->voyage->name )}}</td>
-                                                            <td><strong>Voyage NO : </strong> {{ strtoupper($dms->quote->voyage->voyage_no) }}</td>
-                                                            <td><strong>Service Code : </strong> {{ strtoupper($dms->quote->voyage->service_code) }}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><strong>Name : </strong>{{ ucwords($dms->quote->voyage->name )}}</td>
-                                                            <td><strong>Voyage NO : </strong> {{ strtoupper($dms->quote->voyage->voyage_no) }}</td>
-                                                            <td><strong>Service Code : </strong> {{ strtoupper($dms->quote->voyage->service_code) }}</td>
+                                                            <td><strong>External Voyage NO : </strong> {{ strtoupper($dms->quote->voyage->voyage_no) }}</td>
+                                                            <td><strong>Internal Voyage Code : </strong> {{ strtoupper($dms->quote->voyage->internal_voyage_no) }}</td>
                                                         </tr>
                                                         <tr>
                                                             <td><strong>Final Destination : </strong>{{ ucwords($dms->quote->voyage->final_destination )}}</td>
                                                             <td><strong>ETA : </strong> {{ \Carbon\Carbon::parse($dms->quote->voyage->eta)->format('d-M-y') }}</td>
                                                             <td><strong>Vessel Arrived : </strong> {{ \Carbon\Carbon::parse($dms->quote->voyage->vessel_arrived)->format('d-M-y')}}</td>
                                                         </tr>
+                                                        <tr>
+                                                            <td><strong>Service Code : </strong> {{ strtoupper($dms->quote->voyage->service_code) }}</td>
+                                                        </tr>
+
                                                         </tbody>
                                                     </table>
                                                 </div>
                                         </div>
                                         <div class="tab-pane p-20" id="agency" role="tabpanel">
-                                            <h3 class="text-center"></h3>
+                                            <h3 class="text-center">Generate Files</h3>
+                                            <hr>
                                             <div class="row">
                                                 <div class="col-sm-3">
-                                                    <button class="btn btn-success">Generate Cargo Manifest</button>
+                                                    <a href="{{ url('/generate-documents/cargo-manifest/'.$dms->id) }}" class="btn btn-success">Cargo Manifest</a>
                                                 </div> <div class="col-sm-3">
-                                                    <button class="btn btn-success">Generate CFS Release Order</button>
+                                                    <a href="{{ url('/generate-documents/cfs-ro/'.$dms->id) }}"  class="btn btn-success">CFS Release Order</a>
                                                 </div> <div class="col-sm-3">
-                                                    <button class="btn btn-primary">Generate KPA Filezilla Doc</button>
+                                                    <a href="{{ url('/generate-documents/kpa/'.$dms->id) }}"  class="btn btn-primary">KPA Filezilla Doc</a>
                                                 </div> <div class="col-sm-3">
                                                     <button class="btn btn-primary">Download SOF</button>
                                                 </div>
                                             </div>
                                             <br>
                                             <div class="row">
-                                                <div class="col-sm-3">
-                                                    <button class="btn btn-success">Generate Outward Cargo Manifest</button>
-                                                </div> <div class="col-sm-3">
-                                                    <button class="btn btn-success">Generate Inward Cargo Manifest</button>
-                                                </div> <div class="col-sm-3">
-                                                    <button class="btn btn-primary">Generate BL Containerized</button>
-                                                </div> <div class="col-sm-3">
-                                                    <button class="btn btn-primary">Generate BL Convectional</button>
+                                                <div class="col-sm-12">
+                                                    <div class="row">
+                                                        <div class="col-sm-3">
+                                                            <a href="{{ url('/generate-documents/outward-manifest/'.$dms->id) }}" class="btn btn-success">Outward Cargo Manifest</a>
+                                                        </div> <div class="col-sm-3">
+                                                            <a href="{{ url('/generate-documents/inward-manifest/'.$dms->id) }}" class="btn btn-success">Inward Cargo Manifest</a>
+                                                        </div>
+                                                        <div class="col-sm-2">
+                                                            <a href="{{ url('/generate-documents/bl/'.$dms->id) }}" class="btn btn-primary">Generate BL</a>
+                                                        </div>
+                                                        <div class="col-sm-2">
+                                                            <button onclick="alertTransport()" class="btn btn-success">Forward to Transport</button>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <br>
                                             <div class="row">
-                                                <div class="col-sm-3">
-                                                    <button class="btn btn-success">Preview DO</button>
-                                                </div> <div class="col-sm-3">
-                                                    <button class="btn btn-success">Forward to Transport</button>
-                                                </div> <div class="col-sm-3">
-                                                    <button class="btn btn-primary">Generate BL Containerized</button>
-                                                </div> <div class="col-sm-3">
-                                                    <button class="btn btn-primary">Generate BL Convectional</button>
-                                                </div>
+
                                             </div>
                                         </div>
                                         <div class="tab-pane p-20" id="sof" role="tabpanel">
@@ -534,6 +542,10 @@
 @endsection
 @section('scripts')
     <script>
+
+        function alertTransport() {
+            alert('Email with required documents sent to Transport');
+        }
         function addSof(form, formUrl){
 
             var formId = form.id;

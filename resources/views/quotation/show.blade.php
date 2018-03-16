@@ -38,9 +38,9 @@
                                 @foreach($quotation->cargos as $cargo)
                                     <h4>&nbsp;<b>CARGO  </b> {{ ucwords($cargo->name) }}</h4>
                                     <h4>&nbsp;<b>CARGO  QUANTITY </b> {{ $cargo->weight }} MT</h4>
+                                    <h4>&nbsp;<b>DISCHARGE RATE</b>  {{ $cargo->discharge_rate }}  MT / WWD</h4>
+                                    <h4>&nbsp;<b>PORT STAY  </b> {{ ceil(($cargo->weight)/$cargo->discharge_rate) }} Days</h4>
                                 @endforeach
-                                <h4>&nbsp;<b>DISCHARGE RATE</b>  {{ $quotation->discharge_rate }}  MT / WWD</h4>
-                                <h4>&nbsp;<b>PORT STAY  </b> {{ ceil(($quotation->vessel->grt)/$quotation->discharge_rate) }} Days</h4>
 
                             </address>
                         </div>
@@ -65,7 +65,7 @@
                                 <h4 id="vessel_name"><b>VESSEL</b> {{ strtoupper($quotation->vessel->name )}}</h4>
                                 <h4 id="grt"><b>GRT</b> {{ $quotation->vessel->grt }} GT</h4>
                                 <h4 id="loa"><b>LOA</b> {{ $quotation->vessel->loa }} M</h4>
-                                <h4 id="port"><b>PORT</b> {{ strtoupper($quotation->vessel->port) }}</h4>
+                                <h4 id="port"><b>PORT</b> {{ strtoupper($quotation->vessel->port_of_discharge) }}</h4>
                                 <br>
                                 <p><b>Date : </b> {{ \Carbon\Carbon::parse($quotation->created_at)->format('d-M-y') }}</p>
                             </address>
@@ -82,6 +82,7 @@
                                         <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#home" role="tab"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Vessel Details</span></a> </li>
                                         <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#profile" role="tab"><span class="hidden-sm-up"><i class="ti-user"></i></span> <span class="hidden-xs-down">Cargo Details</span></a> </li>
                                         <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#messages" role="tab"><span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">Voyage Details</span></a> </li>
+                                        <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#consignee" role="tab"><span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">Consignee Details</span></a> </li>
                                     </ul>
                                     <div class="tab-content tabcontent-border">
                                         <div class="tab-pane active" id="home" role="tabpanel">
@@ -96,7 +97,7 @@
                                                     <tr>
                                                         <td><strong>LOA : </strong> {{ $quotation->vessel->loa }}</td>
                                                         <td><strong>GRT : </strong> {{ $quotation->vessel->grt }}</td>
-                                                        <td><strong>Consignee Goods : </strong> {{ $quotation->vessel->consignee_good }}</td>
+                                                        <td><strong>Consignee Goods : </strong> {{ $quotation->cargos->sum('weight') }}</td>
                                                         <td><strong>NRT : </strong> {{ $quotation->vessel->nrt }}</td>
                                                     </tr>
                                                     <tr>
@@ -187,7 +188,6 @@
                                             </div>
                                         </div>
                                         <div class="tab-pane  p-20" id="profile" role="tabpanel">
-
                                             <button class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lgcargo">Add Cargo</button>
                                             <div class="modal fade bs-example-modal-lgcargo" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
                                                 <div class="modal-dialog modal-lg">
@@ -228,41 +228,47 @@
                                                                                 <label for="description">Cargo Description</label>
                                                                                 <textarea name="description" class="form-control" id="description" placeholder="Cargo Description"></textarea>
                                                                             </div>
-                                                                            <div class="form-group">
-                                                                                <label for="t_net_weight">Total Net Weight</label>
-                                                                                <input type="number" id="t_net_weight" name="t_net_weight" required class="form-control" placeholder="Total Net Weight">
-                                                                            </div>
-                                                                            <div class="form-group">
-                                                                                <label for="t_gross_weight">Total Gross Weight</label>
-                                                                                <input type="number" id="t_gross_weight" name="t_gross_weight" required class="form-control" placeholder="Total Gross Weight">
-                                                                            </div>
+                                                                            {{--<div class="form-group">--}}
+                                                                                {{--<label for="t_net_weight">Total Net Weight</label>--}}
+                                                                                {{--<input type="number" id="t_net_weight" name="t_net_weight" required class="form-control" placeholder="Total Net Weight">--}}
+                                                                            {{--</div>--}}
+                                                                            {{--<div class="form-group">--}}
+                                                                                {{--<label for="t_gross_weight">Total Gross Weight</label>--}}
+                                                                                {{--<input type="number" id="t_gross_weight" name="t_gross_weight" required class="form-control" placeholder="Total Gross Weight">--}}
+                                                                            {{--</div>--}}
                                                                             <div class="form-group">
                                                                                 <label for="type">Type</label>
-                                                                                <input type="text" id="type" name="type" required class="form-control" placeholder="Type">
+                                                                                <input type="text" id="type" name="type" class="form-control" placeholder="Type">
                                                                             </div>
                                                                             <div class="form-group">
                                                                                 <label for="seal_no">Seal Number</label>
-                                                                                <input type="text" id="seal_no" name="seal_no" required class="form-control" placeholder="Seal Number">
+                                                                                <input type="text" id="seal_no" name="seal_no" class="form-control" placeholder="Seal Number">
                                                                             </div>
-
-                                                                        </div>
-                                                                        <div class="col-sm-6">
                                                                             <div class="form-group">
                                                                                 <label for="container_id">Container ID</label>
                                                                                 <input type="text" id="container_id" name="container_id" required class="form-control" placeholder="Container ID">
                                                                             </div>
-                                                                            <div class="form-group">
-                                                                                <label for="case_qty">Case Qty</label>
-                                                                                <input type="text" id="case_qty" name="case_qty" required class="form-control" placeholder="Case Qty">
-                                                                            </div>
+                                                                            {{--<div class="form-group">--}}
+                                                                            {{--<label for="case_qty">Case Qty</label>--}}
+                                                                            {{--<input type="text" id="case_qty" name="case_qty" required class="form-control" placeholder="Case Qty">--}}
+                                                                            {{--</div>--}}
                                                                             <div class="form-group">
                                                                                 <label for="package">Number of Package</label>
                                                                                 <input type="text" id="package" name="package" required class="form-control" placeholder="Number of Package">
                                                                             </div>
+
+
+                                                                        </div>
+                                                                        <div class="col-sm-6">
                                                                             <div class="form-group">
-                                                                                <label for="weight">Gross Weight (GRT)</label>
-                                                                                <input type="number" id="weight" name="weight" value="{{ $quotation->vessel->grt }}" readonly required class="form-control" placeholder="Gross Weight (GT)">
+                                                                                <label for="discharge_rate">Gross Weight (GRT)</label>
+                                                                                <input type="number" id="weight" name="weight" value="" required class="form-control" placeholder="Gross Weight (GT)">
                                                                             </div>
+                                                                            <div class="form-group">
+                                                                                <label for="discharge_rate">Discharge Rate</label>
+                                                                                <input type="number" id="discharge_rate" name="discharge_rate" value="" required class="form-control" placeholder="Discharge Rate">
+                                                                            </div>
+
                                                                             <div class="form-group">
                                                                                 <label for="total_package">Total Number of Package in Words</label>
                                                                                 <textarea name="total_package" class="form-control" id="total_package" placeholder="Total Number of Package in Words"></textarea>
@@ -270,6 +276,10 @@
                                                                             <div class="form-group">
                                                                                 <label for="shipper">Shipper Details</label>
                                                                                 <textarea name="shipper" class="form-control" id="shipper" placeholder="Shipper Details"></textarea>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label for="shipping_line">Shipping Lines</label>
+                                                                                <textarea name="shipping_line" class="form-control" id="shipping_line" placeholder="Shipping Lines"></textarea>
                                                                             </div>
                                                                             <div class="form-group">
                                                                                 <label for="notifying_address">Notifying Address</label>
@@ -296,7 +306,6 @@
                                                 </div>
                                                 <!-- /.modal-dialog -->
                                             </div>
-
                                                 <table class="table table-striped">
                                                     <thead>
                                                     <tr>
@@ -349,10 +358,6 @@
                                                                                                     </select>
                                                                                                 </div>
                                                                                                 <div class="form-group">
-                                                                                                    <label for="discharge_rate">DISCHARGE RATE </label>
-                                                                                                    <input type="text" required value="{{ $quotation->discharge_rate }}" id="discharge_rate" name="discharge_rate" class="form-control" placeholder="DISCHARGE RATE ">
-                                                                                                </div>
-                                                                                                <div class="form-group">
                                                                                                     <label for="shipping_type">Shipping Type</label>
                                                                                                     <select name="shipping_type" id="shipping_type" required class="form-control">
                                                                                                         <option value="">Select Shipping Types</option>
@@ -363,40 +368,46 @@
                                                                                                 <div class="form-group">
                                                                                                     <label for="description">Cargo Description</label>
                                                                                                     <textarea name="description" class="form-control" id="description" placeholder="Cargo Description">{{ $cargo->description }}</textarea>
-                                                                                                </div> <div class="form-group">
-                                                                                                    <label for="t_net_weight">Total Net Weight</label>
-                                                                                                    <input type="number"  value="{{ $cargo->t_net_weight }}" id="t_net_weight" name="t_net_weight" required class="form-control" placeholder="Total Net Weight">
                                                                                                 </div>
-                                                                                                <div class="form-group">
-                                                                                                    <label for="t_gross_weight">Total Gross Weight</label>
-                                                                                                    <input type="number" value="{{ $cargo->t_gross_weight }}" id="t_gross_weight" name="t_gross_weight" required class="form-control" placeholder="Total Gross Weight">
-                                                                                                </div>
+                                                                                                {{--<div class="form-group">--}}
+                                                                                                    {{--<label for="t_net_weight">Total Net Weight</label>--}}
+                                                                                                    {{--<input type="number"  value="{{ $cargo->t_net_weight }}" id="t_net_weight" name="t_net_weight" required class="form-control" placeholder="Total Net Weight">--}}
+                                                                                                {{--</div>--}}
+                                                                                                {{--<div class="form-group">--}}
+                                                                                                    {{--<label for="t_gross_weight">Total Gross Weight</label>--}}
+                                                                                                    {{--<input type="number" value="{{ $cargo->t_gross_weight }}" id="t_gross_weight" name="t_gross_weight" required class="form-control" placeholder="Total Gross Weight">--}}
+                                                                                                {{--</div>--}}
                                                                                                 <div class="form-group">
                                                                                                     <label for="type">Type</label>
                                                                                                     <input type="text" id="type" value="{{ $cargo->type }}" name="type" required class="form-control" placeholder="Type">
                                                                                                 </div>
                                                                                                 <div class="form-group">
                                                                                                     <label for="seal_no">Seal Number</label>
-                                                                                                    <input type="text" id="seal_no" value="{{ $cargo->seal_no }}" name="seal_no" required class="form-control" placeholder="Seal Number">
+                                                                                                    <input type="text" id="seal_no" value="{{ $cargo->seal_no }}" name="seal_no" class="form-control" placeholder="Seal Number">
+                                                                                                </div>
+                                                                                                <div class="form-group">
+                                                                                                    <label for="container_id">Container ID</label>
+                                                                                                    <input type="text" id="container_id" value="{{ $cargo->container_id }}" name="container_id" class="form-control" placeholder="Container ID">
                                                                                                 </div>
 
                                                                                             </div>
                                                                                             <div class="col-sm-6">
-                                                                                                <div class="form-group">
-                                                                                                    <label for="container_id">Container ID</label>
-                                                                                                    <input type="text" id="container_id" value="{{ $cargo->container_id }}" name="container_id" required class="form-control" placeholder="Container ID">
-                                                                                                </div>
-                                                                                                <div class="form-group">
-                                                                                                    <label for="case_qty">Case Qty</label>
-                                                                                                    <input type="text" id="case_qty" value="{{ $cargo->case_qty }}" name="case_qty" required class="form-control" placeholder="Case Qty">
-                                                                                                </div>
+
+                                                                                                {{--<div class="form-group">--}}
+                                                                                                    {{--<label for="case_qty">Case Qty</label>--}}
+                                                                                                    {{--<input type="text" id="case_qty" value="{{ $cargo->case_qty }}" name="case_qty" required class="form-control" placeholder="Case Qty">--}}
+                                                                                                {{--</div>--}}
                                                                                                 <div class="form-group">
                                                                                                     <label for="package">Number of Package</label>
                                                                                                     <input type="text" id="package" value="{{ $cargo->package }}" name="package" required class="form-control" placeholder="Number of Package">
                                                                                                 </div>
                                                                                                 <div class="form-group">
                                                                                                     <label for="weight">Gross Weight (GRT)</label>
-                                                                                                    <input type="number" id="weight" value="{{ $cargo->weight }}" name="weight" readonly required class="form-control" placeholder="Gross Weight (GT)">
+                                                                                                    <input type="number" id="weight" value="{{ $cargo->weight }}" name="weight" required class="form-control" placeholder="Gross Weight (GT)">
+                                                                                                </div>
+                                                                                                <div class="form-group">
+                                                                                                    <label for="discharge_rate">Discharge Rate</label>
+                                                                                                    <input type="number" id="discharge_rate" value="{{ $cargo->discharge_rate }}" name="discharge_rate" required class="form-control" placeholder="Discharge Rate">
                                                                                                 </div>
                                                                                                 <div class="form-group">
                                                                                                     <label for="total_package">Total Number of Package in Words</label>
@@ -452,13 +463,18 @@
                                                                 <input type="text" required id="name" name="name" class="form-control" placeholder="Name">
                                                             </div>
                                                             <div class="form-group">
-                                                                <label for="voyage_no">Voyage Number</label>
+                                                                <label for="voyage_no">External Voyage Number</label>
                                                                 <input type="text" required  id="voyage_no" name="voyage_no" class="form-control" placeholder="Voyage Number">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="internal_voyage_no">Internal Voyage No</label>
+                                                                <input type="text"  id="internal_voyage_no" name="internal_voyage_no" class="form-control" placeholder="Internal Voyage No">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="service_code">Service Code</label>
                                                                 <input type="text"  id="service_code" name="service_code" class="form-control" placeholder="Service Code">
                                                             </div>
+
 
                                                         </div>
                                                         <div class="col-sm-6">
@@ -472,7 +488,7 @@
                                                             </div>
                                                             <div class="form-group">
 
-                                                                <label for="vessel_arrived"> Vessel Arrived</label>
+                                                                <label for="vessel_arrived"> Vessel Arrived(ATA)</label>
                                                                 <input type="datetime-local" id="vessel_arrived"  name="vessel_arrived" class="form-control" placeholder=" Vessel Arrived">
                                                             </div>
                                                             <div class="form-group">
@@ -495,6 +511,54 @@
                                                             <td><strong>Final Destination : </strong>{{ ucwords($quotation->voyage->final_destination )}}</td>
                                                             <td><strong>ETA : </strong> {{ \Carbon\Carbon::parse($quotation->voyage->eta)->format('d-M-y') }}</td>
                                                             <td><strong>Vessel Arrived : </strong> {{ \Carbon\Carbon::parse($quotation->voyage->vessel_arrived)->format('d-M-y')}}</td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            @endif
+                                        </div>
+                                        <div class="tab-pane p-20" id="consignee" role="tabpanel">
+                                            <h3 class="text-center">Consignee Details</h3>
+                                            @if($quotation->consignee == null)
+                                                <form class="form-material m-t-40" onsubmit="event.preventDefault();submitForm(this, '/consignee-details','redirect');" action="" id="consig">
+                                                    <div class="row">
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group">
+                                                                <input type="hidden" name="quotation_id" value="{{ $quotation->id }}">
+                                                                <label for="name">Consignee Name</label>
+                                                                <input type="text" required id="name" name="name" class="form-control" placeholder="Name">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group">
+                                                                <label for="email">Consignee Email</label>
+                                                                <input type="email" required  id="email" name="email" class="form-control" placeholder="Email">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12">
+                                                            <div class="form-group">
+                                                                <label for="details">Consignee Details</label>
+                                                                <textarea name="details" id="details" cols="30"
+                                                                          rows="5"
+                                                                          class="form-control"></textarea>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <input class="btn pull-right btn-primary" type="submit" value="Save">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            @else
+                                                <div class="row">
+                                                    <table class="table table-stripped">
+                                                        <tbody>
+                                                        <tr>
+                                                            <td><strong>Name : </strong>{{ ucwords($quotation->consignee->name )}}</td>
+                                                            <td><strong>Email : </strong> {{ $quotation->consignee->email}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="3"><strong>Consignee Details </strong>
+                                                                <p>{{ ucfirst($quotation->consignee->details )}}</p></td>
                                                         </tr>
                                                         </tbody>
                                                     </table>
@@ -642,7 +706,32 @@
                         </div>
                         <div class="clearfix"></div>
                         <hr>
+                        <form action="" method="post" onsubmit="event.preventDefault();submitForm(this, '/notifying','redirect');" id="notifying">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                @if($quotation->parties != null)
+                                    @foreach(json_decode($quotation->parties->emails) as $party)
+                                        <b>{{$loop->iteration}}. </b> {{ $party }}
+                                    @endforeach
+                                @endif
+                                    <br>
+                                    <br>
+                            </div>
+                                <div class="col-sm-3">Add Emails to CC</div>
+                                <div class="col-sm-6">
+                                    <input type="hidden" name="quotation_id" value="{{$quotation->id}}">
+                                    <div class="form-group">
+                                        <input type="text" name="notifying" placeholder="Add emails here separate with (,) " class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <button type="submit" class="btn btn-primary pull-right">Add</button>
+                                </div>
+                        </div>
+                        </form>
+                        <hr>
                         <div class="col-sm-12">
+
                             <h3>Remarks</h3>
                             <table class="table table-responsive">
                                 <thead>
@@ -708,7 +797,7 @@
             'loa' : '{{ $quotation->vessel->loa }}',
             '_token' : '{{ csrf_token() }}',
             'quotation' : '{{ $quotation->id }}',
-            'port_stay' : '{{ceil($quotation->vessel->grt/$quotation->discharge_rate)}}',
+            'port_stay' : '{{ count($quotation->cargos) < 1 ? 0 : (ceil($quotation->cargos->first()->weight/$quotation->cargos->first()->discharge_rate))}}',
             'service': {}
         };
 
@@ -760,6 +849,7 @@
                 var serviceUnit = units === "" ? 0 : units;
                 var newId = 'serv'+(Object.keys(this.data.service).length + 1);
 
+                            console.log(this.data.port_stay);
                 var serviceData =  {
                     'id': newId,
                     'tariff_id' : selectedTariff.id,

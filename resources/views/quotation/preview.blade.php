@@ -38,10 +38,9 @@
                                 @foreach($quotation->cargos as $cargo)
                                     <h4>&nbsp;<b>CARGO  </b> {{ ucwords($cargo->name) }}</h4>
                                     <h4>&nbsp;<b>CARGO  QUANTITY </b> {{ $cargo->weight }} MT</h4>
+                                    <h4>&nbsp;<b>DISCHARGE RATE</b>  {{ $cargo->discharge_rate }}  MT / WWD</h4>
+                                    <h4>&nbsp;<b>PORT STAY  </b> {{ ceil(($cargo->weight)/$cargo->discharge_rate) }} Days</h4>
                                 @endforeach
-                                <h4>&nbsp;<b>DISCHARGE RATE</b>  {{ $quotation->discharge_rate }}  MT / WWD</h4>
-                                <h4>&nbsp;<b>PORT STAY  </b> {{ ceil(($quotation->vessel->grt)/$quotation->discharge_rate) }} Days</h4>
-
                             </address>
                         </div>
                         <div class="pull-right">

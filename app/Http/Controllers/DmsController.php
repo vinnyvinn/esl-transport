@@ -23,7 +23,8 @@ class DmsController extends Controller
 
     public function edit($id)
     {
-        $dms = BillOfLanding::with(['vessel.vDocs','sof','quote.services','quote.voyage','customer','cargo'])->findOrFail($id);
+        $dms = BillOfLanding::with(['vessel.vDocs','sof','quote.services',
+            'quote.voyage','customer','cargo','consignee'])->findOrFail($id);
 
         $dmsComponents = DmsComponent::with(['scomponent.stage'])->where('bill_of_landing_id',$id)->get();
         $checklist = $dmsComponents->map(function ($value){
@@ -161,6 +162,7 @@ class DmsController extends Controller
     public function updateDms(Request $request)
     {
         $data = $request->all();
+        $data['time_allowed'] = ($request->days * 24 * 60 * 60) + ($request->hours * 60 * 60);
         $data['laytime_start'] = Carbon::parse($request->laytime_start);
         $data['date_of_loading'] = Carbon::parse($request->date_of_loading);
         BillOfLanding::findOrFail($request->dms_id)->update($data);
@@ -172,11 +174,10 @@ class DmsController extends Controller
     {
         $dms = BillOfLanding::with(['sof','cargo','vessel','customer','quote.voyage'])->findOrFail($id);
 
-        $port_stay = ceil($dms->vessel->grt/$dms->discharge_rate);
+        $port_stay = ceil($dms->cargo->first()->weight/$dms->cargo->first()->discharge_rate);
 
         $laytime = [];
         $lowerpart['timeallowed'] = $this->getTimeDeatils(($port_stay * 24 * 60 * 60));
-        ;
 
         foreach ($dms->sof->sortByDesc('created_at') as $sof){
             array_push($laytime,[

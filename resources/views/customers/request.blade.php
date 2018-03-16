@@ -89,35 +89,30 @@
                                                                 <input type="text"  id="imo_number" name="imo_number" class="form-control" placeholder="IMO Number">
                                                             </div>
                                                             <div class="form-group">
-                                                                <label for="discharge_rate">Discharge Rate </label>
-                                                                <input type="number"  id="discharge_rate" name="discharge_rate" class="form-control" placeholder="Discharge Rate">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="country">Country </label>
+                                                                <label for="country">Country (Vessel Flag) </label>
                                                                 <input type="text" required id="country" name="country" class="form-control" placeholder="Country">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="port_of_discharge"> Port of Discharge</label>
-                                                                <input type="text" id="port_of_discharge"  name="port_of_discharge" class="form-control" placeholder="Port of Discharge">
+                                                                <input type="text" id="port_of_discharge" required  name="port_of_discharge" class="form-control" placeholder="Port of Discharge">
                                                             </div>
                                                             <div class="form-group">
-
-                                                                <label for="port_of_loading"> Port of Loading</label>
-                                                                <input type="text" id="port_of_loading"  name="port_of_loading" class="form-control" placeholder="Port of Loading">
+                                                                <label for="eta"> ETA </label>
+                                                                <input type="datetime-local" id="eta" required  name="eta" class="form-control" placeholder="Port of Discharge">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-6">
                                                             <div class="form-group">
+                                                                <label for="port_of_loading"> Port of Loading</label>
+                                                                <input type="text" id="port_of_loading" required  name="port_of_loading" class="form-control" placeholder="Port of Loading">
+                                                            </div>
+                                                            <div class="form-group">
                                                                 <label for="loa">Length Over All </label>
-                                                                <input type="text" id="loa" name="loa" required class="form-control" placeholder="Lenth Over All">
+                                                                <input type="text" id="loa" name="loa" required class="form-control" placeholder="Length Over All">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="grt">Gross Tonnage  GRT</label>
                                                                 <input type="text" id="grt" name="grt" required class="form-control" placeholder="Gross Tonnage ">
-                                                            </div>
-                                                          <div class="form-group">
-                                                                <label for="consignee_good"> Cargo Tonnage </label>
-                                                                <input type="text" id="consignee_good" required name="consignee_good" class="form-control" placeholder="Cargo Weight">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="nrt"> Net Tonnage</label>
@@ -129,7 +124,7 @@
                                                             </div>
                                                             <div class="form-group">
                                                                 <br>
-                                                                <input class="btn btn-block btn-primary" type="submit" value="Save">
+                                                                <input class="btn pull-right btn-primary" type="submit" value="Save">
                                                             </div>
                                                         </div>
                                                     </div>

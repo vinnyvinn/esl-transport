@@ -51,7 +51,7 @@
                                     <th>Vessel</th>
                                     <th>Quotation Status</th>
                                     <th>Created On</th>
-                                    <th class="text-nowrap">Action</th>
+                                    <th class="text-right">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody id="customers">
@@ -61,7 +61,7 @@
                                             <td>{{ ucfirst($quotation->vessel->name) }}</td>
                                             <td>{{ ucfirst($quotation->status) }}</td>
                                             <td>{{ \Carbon\Carbon::parse($quotation->created_at)->format('d-M-y') }}</td>
-                                            <td class="text-nowrap">
+                                            <td class="text-right">
                                                     <a href=" {{ url('/quotation/'. $quotation->id) }}" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
                                             </td>
                                         </tr>

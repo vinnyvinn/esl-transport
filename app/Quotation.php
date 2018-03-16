@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Quotation extends Model
 {
-    protected $fillable = [ 'lead_id','user_id','discharge_rate','vessel_id','status'];
+    protected $fillable = [ 'lead_id','user_id','vessel_id','status'];
 
     public function vessel()
     {
@@ -35,6 +35,15 @@ class Quotation extends Model
     public function voyage()
     {
         return $this->hasOne(Voyage::class,'quotation_id','id');
+    }
+
+    public function consignee()
+    {
+        return $this->hasOne(Consignee::class,'quotation_id','id');
+    }
+    public function parties()
+    {
+        return $this->hasOne(NotifyingParty::class,'quotation_id','id');
     }
 
     public function remarks()

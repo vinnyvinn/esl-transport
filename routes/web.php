@@ -24,7 +24,8 @@ Route::post('/search-lead', 'LeadController@searchLeads');
 Route::post('/search-dms', 'DmsController@searchDms');
 Route::post('/search-customer', 'CustomerController@ajaxSearch');
 Route::post('/vessel-details', 'CustomerController@vesselDetails');
-Route::post('//voyage-details', 'CustomerController@voyageDetails');
+Route::post('/voyage-details', 'CustomerController@voyageDetails');
+Route::post('/consignee-details', 'CustomerController@consigneeDetails');
 Route::post('/update-vessel-details', 'CustomerController@updateVesselDetails');
 Route::post('/cargo-details', 'CustomerController@cargoDetails');
 Route::post('/update-cargo-details', 'CustomerController@updateCargoDetails');
@@ -46,6 +47,7 @@ Route::get('/notifications/{id}', 'NotificationController@show');
 Route::get('/quotation/request/{id}', 'QuotationController@requestQuotation');
 //Route::get('/quotation/{id}/pdf', 'QuotationController@pdfQuotation');
 Route::post('/update-service', 'QuotationServiceController@updateService');
+Route::post('/notifying', 'NotifyingPartyController@notifying');
 
 //next stage
 Route::get('/quotation/convert/{id}', 'QuotationController@convertCustomer');
@@ -63,3 +65,7 @@ Route::post('/vessel/doc/upload/', 'VesselDocsController@upload');
 //stage
 Route::resource('/stages', 'StageController');
 Route::resource('/stage-components', 'StageComponentController');
+
+//generate docs
+Route::get('/generate-documents/{type}/{id}', 'GenerateDocument@generateDocument');
+

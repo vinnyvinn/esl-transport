@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Cargo;
+use App\Consignee;
 use App\Customer;
 use App\Quotation;
 use App\Vessel;
@@ -11,6 +12,7 @@ use Carbon\Carbon;
 use Esl\helpers\Constants;
 use Esl\Repository\CustomersRepo;
 use Esl\Repository\demoCd;
+use function GuzzleHttp\Promise\all;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -125,7 +127,8 @@ class CustomerController extends Controller
 
         $vessel = Vessel::create($request->all());
 
-        $quote = Quotation::create(['user_id'=>Auth::user()->id,'discharge_rate' => $request->discharge_rate, 'lead_id' => $request->lead_id, 'vessel_id' => $vessel->id,
+        $quote = Quotation::create(['user_id'=>Auth::user()->id,
+            'lead_id' => $request->lead_id, 'vessel_id' => $vessel->id,
             'status' => Constants::LEAD_QUOTATION_PENDING]);
 
         return Response(['success' => ['redirect' => url('/quotation/'.$quote->id)]]);
@@ -144,6 +147,7 @@ class CustomerController extends Controller
     public function voyageDetails(Request $request)
     {
         $data = $request->all();
+
         $data['eta'] = Carbon::parse($request->eta);
         $data['vessel_arrived'] = Carbon::parse($request->vessel_arrived);
         Voyage::create($data);
@@ -161,5 +165,12 @@ class CustomerController extends Controller
     {
         Cargo::findOrFail($request->item_id)->delete();
         return Response(['success' => ['url' => url('/')]]);
+    }
+
+    public function consigneeDetails(Request $request)
+    {
+        Consignee::create($request->all());
+        return Response(['success' => ['redirect' => url('/quotation/'.$request->quotation_id)]]);
+
     }
 }

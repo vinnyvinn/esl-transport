@@ -19,7 +19,7 @@ class QuotationController extends Controller
 {
     public function showQuotation($id)
     {
-        $quote = Quotation::with(['lead','cargos.goodType','vessel','voyage','services.tariff','remarks.user'])->findOrFail($id);
+        $quote = Quotation::with(['lead','parties','cargos.goodType','consignee','vessel','voyage','services.tariff','remarks.user'])->findOrFail($id);
 
         return view('quotation.show')
             ->withQuotation($quote)
@@ -143,7 +143,7 @@ class QuotationController extends Controller
             Constants::Q_DECLINED_C_TEXT,
             '/quotation/preview/'.$id,0,'Agency', Auth::user()->id);
 
-        $quotation = Quotation::with(['user','lead'])->findOrFail($id);
+        $quotation = Quotation::with(['user','consignee','lead'])->findOrFail($id);
         $leadData =  $quotation->lead;
         $customer = CustomersRepo::customerInit()->convertLeadToCustomer($leadData->toArray());
 
@@ -151,11 +151,12 @@ class QuotationController extends Controller
             'vessel_id' =>$quotation->vessel_id,
             'quote_id' => $quotation->id,
             'voyage_id' => $quotation->id,
+            'consignee_id' => $quotation->consignee->id,
             'Client_id' => $customer->DCLink,
             'laytime_start' => Carbon::now(),
             'time_allowed' => 0,
+//            'cargo_id' => $quotation->cargos->first()->id,
             'cargo_id' => 1,
-            'discharge_rate' => $quotation->discharge_rate,
             'stage' => 'Pre-arrival docs',
             'status' => 0,
             'sof_status' => 0,

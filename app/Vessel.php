@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Vessel extends Model
 {
     protected $fillable = ['lead_id','name','imo_number','country','call_sign',
-        'loa','grt','consignee_good','nrt','dwt','port_of_discharge','port_of_loading'];
+        'loa','grt','eta','nrt','dwt','port_of_discharge','port_of_loading'];
 
     public function lead()
     {

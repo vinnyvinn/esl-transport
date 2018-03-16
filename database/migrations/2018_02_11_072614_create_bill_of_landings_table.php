@@ -20,11 +20,11 @@ class CreateBillOfLandingsTable extends Migration
             $table->integer('quote_id');
             $table->integer('Client_id');
             $table->integer('cargo_id');
+            $table->integer('consignee_id');
             $table->string('code_name')->nullable();
             $table->string('stage')->nullable();
             $table->string('bl_number');
             $table->dateTime('laytime_start');
-            $table->string('discharge_rate');
             $table->string('time_allowed');
             $table->string('seal_number')->nullable();
             $table->string('berth_number')->nullable();
