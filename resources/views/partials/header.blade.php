@@ -52,10 +52,16 @@
                         <ul class="dropdown-user">
                             <li role="separator" class="divider"></li>
                             <li>
+                                <a href="">Manage Users</a>
+                            </li>
+                            <li>
                                 <a href="{{ url('departments') }}">Departments</a>
                             </li>
                             <li>
                                 <a href="{{ route('stages.index') }}">Stages</a>
+                            </li>
+                            <li>
+                                <a href="">Roles</a>
                             </li>
                         </ul>
                     </div>
