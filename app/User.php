@@ -9,6 +9,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
+    protected $dateFormat = 'Y-m-d H:i:s';
     use Notifiable, HasRoles, HasApiTokens;
 
     /**

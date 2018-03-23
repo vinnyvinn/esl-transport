@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class QuotationService extends Model
 {
+    protected $dateFormat = 'Y-m-d H:i:s';
     protected $fillable = ['quotation_id','tariff_id','description',
         'grt_loa','rate','units','tax','total'];
 

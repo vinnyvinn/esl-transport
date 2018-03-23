@@ -8,7 +8,7 @@ class Customer extends Model
 {
     protected $table = 'Client';
     protected $connection = 'sqlsrv2';
-    protected 
+    protected $dateFormat = 'Y-m-d H:i:s';
     protected $primaryKey = 'DCLink';
     public $timestamps = false;
 

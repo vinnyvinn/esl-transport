@@ -98,7 +98,7 @@
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="eta"> ETA </label>
-                                                                <input type="datetime-local" id="eta" required  name="eta" class="form-control" placeholder="Port of Discharge">
+                                                                <input type="text" id="eta" required  name="eta" class="datepicker form-control" placeholder="Port of Discharge">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-6">

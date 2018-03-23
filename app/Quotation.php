@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Quotation extends Model
 {
+    protected $dateFormat = 'Y-m-d H:i:s';
     protected $fillable = [ 'lead_id','user_id','vessel_id','status'];
 
     public function vessel()

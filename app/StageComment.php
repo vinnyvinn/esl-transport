@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class StageComment extends Model
 {
+    protected $dateFormat = 'Y-m-d H:i:s';
     protected $fillable = ['user_id','stage_id','comments'];
 
     public function user()

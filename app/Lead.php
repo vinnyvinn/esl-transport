@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Lead extends Model
 {
+    protected $dateFormat = 'Y-m-d H:i:s';
     protected  $fillable = ['name','contact_person','phone',
         'email','telephone','address','location'];
 
