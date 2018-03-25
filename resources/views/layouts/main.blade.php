@@ -18,6 +18,8 @@
     <link href="{{ asset('css/colors/blue.css') }}" id="theme" rel="stylesheet">
     <link href="{{ asset('assets/plugins/wizard/steps.css') }}" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 </head>
@@ -55,9 +57,8 @@
 <script src="{{ asset('assets/plugins/wizard/jquery.validate.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/styleswitcher/jQuery.style.switcher.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 <script>
-
-
     $(document).ready(function(){
         var date_input=$('.datepicker'); //our date input has the name "date"
         var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
@@ -68,6 +69,8 @@
             autoclose: true,
         };
         date_input.datepicker(options);
+        $('.select2').select2();
+
     })
 
 

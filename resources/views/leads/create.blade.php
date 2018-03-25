@@ -76,6 +76,15 @@
                                         {{--</span>--}}
                                     </div>
                                     <div class="form-group">
+                                        <label for="currency">Select Currency </label>
+                                        <select name="currency" id="currency" class="form-control select2">
+                                            <option value="">Select Currency</option>
+                                            @foreach(json_decode(\Esl\helpers\Constants::CURRENCY_ARRAY) as $value)
+                                                <option value="{{$value->code}}">{{ $value->name_plural }}</option>
+                                                @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
                                         <br>
                                         <input class="btn pull-right btn-primary" type="submit" value="Save">
                                     </div>

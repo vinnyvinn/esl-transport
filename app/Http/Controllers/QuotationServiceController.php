@@ -14,16 +14,20 @@ class QuotationServiceController extends Controller
     {
         $data = $request->all();
 
-        foreach ($data['service'] as $datum){
+        foreach ($data['service'] as $datum) {
             QuotationService::create([
                 'quotation_id' => $data['quotation'],
                 'tariff_id' => $datum['tariff_id'],
                 'description' => $datum['description'],
+                'tax_code' => $datum['tax_code'],
+                'tax_description' => $datum['tax_description'],
+                'tax_id' => $datum['tax_id'],
+                'tax_amount' => $datum['tax_amount'],
                 'grt_loa' => $datum['grt_loa'],
                 'rate' => $datum['rate'],
                 'units' => $datum['units'],
-                'tax' => 0,
-                'total' => (float) $datum['total']
+                'tax' => $datum['tax_amount'],
+                'total' => (float)$datum['total']
             ]);
         }
 
@@ -39,17 +43,22 @@ class QuotationServiceController extends Controller
 
     public function updateService(Request $request)
     {
-        $service = QuotationService::findOrFail($request->service_id);
+        $tax = json_decode($request->tax);
+        QuotationService::findOrFail($request->service_id)
+        ->update([
+            'tax_code' => $tax->Code,
+            'tax_description' => $tax->Description,
+            'tax_id' => $tax->idTaxRate,
+            'tax_amount' => (($tax->TaxRate) * ($request->rate * $request->units) / 100),
+            'description' => $request->description,
+            'grt_loa' => $request->grt_loa,
+            'rate' => $request->rate,
+            'units' => $request->units,
+            'tax' => (($tax->TaxRate) * ($request->rate * $request->units) / 100),
+            'total' => ((($tax->TaxRate) * ($request->rate * $request->units) / 100) + ($request->rate * $request->units))
+        ]);
 
-        if ($request->tariff_type == Constants::TARIFF_KPA){
-            $service->update([
-                    'description' => $request->description,
-                    'rate' => $request->rate,
-                    'units' => $request->units,
-                    'total' => ($request->grt_loa * $request->rate * $request->units)
 
-            ]);
-        }
 
         return Response(['success' => 'done']);
     }

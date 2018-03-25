@@ -19,6 +19,7 @@ class CreateLeadsTable extends Migration
             $table->string('contact_person');
             $table->string('phone');
             $table->string('email');
+            $table->string('currency');
             $table->string('telephone')->nullable();
             $table->string('address')->nullable();
             $table->string('location')->nullable();

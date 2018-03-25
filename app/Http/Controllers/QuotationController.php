@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\BillOfLanding;
 use App\GoodType;
 use App\Quotation;
+use App\ServiceTax;
 use App\Tariff;
 use Barryvdh\DomPDF\Facade as PDF;
 use Carbon\Carbon;
@@ -23,6 +24,7 @@ class QuotationController extends Controller
 
         return view('quotation.show')
             ->withQuotation($quote)
+            ->withTaxs(ServiceTax::all()->sortBy('Description'))
             ->withGoodtypes(GoodType::all())
             ->withTariffs(Tariff::all()->sortBy('name'));
     }

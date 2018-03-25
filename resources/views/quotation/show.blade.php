@@ -61,7 +61,7 @@
                             <address>
                                 {{--<h4><b>Job No</b> ESL002634</h4>--}}
                                 <h4><b>Voyage No</b> {{ $quotation->voyage == null ? '' : strtoupper($quotation->voyage->voyage_no) }}</h4>
-                                <h4>Currency : US Dollar</h4>
+                                <h4>Currency : {{ $quotation->lead->currency }}</h4>
                                 <h4 id="vessel_name"><b>VESSEL</b> {{ strtoupper($quotation->vessel->name )}}</h4>
                                 <h4 id="grt"><b>GRT</b> {{ $quotation->vessel->grt }} GT</h4>
                                 <h4 id="loa"><b>LOA</b> {{ $quotation->vessel->loa }} M</h4>
@@ -102,8 +102,8 @@
                                                     </tr>
                                                     <tr>
                                                         <td><strong>DWT : </strong> {{ $quotation->vessel->dwt }}</td>
-                                                        <td><strong>Port of Discharge: </strong> {{ $quotation->vessel->port_of_discharge }}</td>
-                                                        <td><strong>Port of Loading: </strong> {{ $quotation->vessel->port_of_loading }}</td>
+                                                        <td><strong>Port of Discharge: </strong> {{ $quotation->vessel->port_of_discharge }} , {{ $quotation->vessel->country_of_loading }}</td>
+                                                        <td><strong>Port of Loading: </strong> {{ $quotation->vessel->port_of_loading }} , {{ $quotation->vessel->country_of_loading }}</td>
                                                         <td><strong>Created On : </strong> {{ \Carbon\Carbon::parse($quotation->vessel->created_at)->format('d-M-y') }}</td>
                                                     </tr>
                                                 </table>
@@ -574,22 +574,35 @@
                         <div class="table-responsive m-t-40" style="clear: both;">
                             <h3>Add Tariff Service</h3>
                             <div class="row">
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <select name="tariff" onchange="perday(this)" required id="tariff" class="form-control">
-                                            @foreach($tariffs as $tariff)
-                                                <option value="{{$tariff}}">{{ ucwords($tariff->name) }} ~ {{ ucwords($tariff->unit) }}({{$tariff->unit_value}}) @ {{ $tariff->rate }}</option>
-                                            @endforeach
-                                        </select>
+                                <div class="col-sm-12">
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <select name="tariff" onchange="perday(this)" required id="tariff" class="form-control select2">
+                                                    @foreach($tariffs as $tariff)
+                                                        <option value="{{$tariff}}">{{ ucwords($tariff->name) }} ~ {{ ucwords($tariff->unit) }}({{$tariff->unit_value}}) @ {{ $tariff->rate }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <input type="number" required id="service_units" name="service_units" placeholder="Units" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <select name="tax" required id="tax" class="form-control select2">
+                                                    @foreach($taxs as $tax)
+                                                        <option value="{{$tax}}">{{ ucwords($tax->Description) }} - {{ $tax->TaxRate }} %</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <button class="btn btn-block btn-primary" onclick="addTariff()"><i class="fa fa-check"></i></button>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <input type="number" required id="service_units" name="service_units" placeholder="Units" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <button class="btn btn-primary" onclick="addTariff()"><i class="fa fa-check"></i></button>
                                 </div>
                                 <div class="col-sm-12">
                                     <table class="table table-striped table-responsive">
@@ -609,7 +622,7 @@
                                         <tbody id="service">
                                         </tbody>
                                     </table>
-                                    <button onclick="addServiceToQuotaion()" class="btn btn-primary">Add</button>
+                                    <button onclick="addServiceToQuotaion()" class="btn btn-primary pull-right">Add</button>
                                 </div>
                             </div>
                             <table class="table table-hover">
@@ -631,7 +644,7 @@
                                         <td class="text-right">{{ $service->grt_loa }}</td>
                                         <td class="text-right">{{ $service->rate }}</td>
                                         <td class="text-right">{{ $service->units }}</td>
-                                        <td class="text-right">{{ $service->tax }}</td>
+                                        <td class="text-right">{{ $service->tax_amount }}</td>
                                         <td class="text-right">{{ number_format($service->total) }}</td>
                                         <td class="text-right">
                                             <button data-toggle="modal" data-target=".bs-example-modal-lg{{$service->id}}" class="btn btn-xs btn-primary">
@@ -651,7 +664,7 @@
                                                                             <div class="row">
                                                                                 <div class="col-sm-12">
                                                                                     <div class="form-group">
-                                                                                        <label for="description text-left">Description <span class="help">(Customer or Company Name)</span></label>
+                                                                                        <label for="description text-left">Description</label>
                                                                                         <input type="text" value="{{ ucwords($service->description) }}" required id="description" name="description" class="form-control" placeholder="Description">
                                                                                     </div>
                                                                                     <div class="form-group">
@@ -667,6 +680,13 @@
                                                                                     <div class="form-group">
                                                                                         <label for="units">Units </label>
                                                                                         <input type="text" required id="units" name="units" value="{{ $service->units }}" class="form-control" placeholder="Units">
+                                                                                    </div>
+                                                                                    <div class="form-group">
+                                                                                        <select name="tax" required id="tax" class="form-control select2">
+                                                                                            @foreach($taxs as $tax)
+                                                                                                <option value="{{$tax}}">{{ ucwords($tax->Description) }} - {{ $tax->TaxRate }} %</option>
+                                                                                            @endforeach
+                                                                                        </select>
                                                                                     </div>
                                                                                     <div class="form-group">
                                                                                         <br>
@@ -698,8 +718,8 @@
                     </div>
                     <div class="col-md-12">
                         <div class="pull-right m-t-30 text-right">
-                            <p id="sub_ex">Total (Excl) $ : {{ number_format($quotation->services->sum('total')) }}</p>
-                            <p id="total_tax">Tax $ : {{ number_format($quotation->services->sum('total_tax')) }} </p>
+                            <p id="sub_ex">Total (Excl) $ : {{ number_format($quotation->services->sum('total') - $quotation->services->sum('tax')) }}</p>
+                            <p id="total_tax">Tax $ : {{ number_format($quotation->services->sum('tax')) }} </p>
                             <p id="sub_in">Total (Incl) $ : {{ number_format($quotation->services->sum('total')) }} </p>
                             <hr>
                             <h3 id="total_amount"><b>Total (Incl) $ :</b> {{ number_format($quotation->services->sum('total')) }}</h3>
@@ -804,6 +824,10 @@
         function addTariff() {
             var selected = document.getElementById("tariff");
             var selectedTariff = JSON.parse(selected.options[selected.selectedIndex].value);
+
+            var sTax = document.getElementById("tax");
+            var selectedTax = JSON.parse(sTax.options[sTax.selectedIndex].value);
+
             var units = $('#service_units').val();
 
 //            Calculation using grt/loa
@@ -817,10 +841,14 @@
                     'id': newId,
                     'tariff_id' : selectedTariff.id,
                     'description' : selectedTariff.name,
+                    'tax_code' : selectedTax.Code,
+                    'tax_description' : selectedTax.Description,
+                    'tax_id' : selectedTax.idTaxRate,
+                    'tax_amount' : ((selectedTax.TaxRate * (parseFloat(grt_loa) * parseFloat(selectedTariff.rate )* parseFloat(serviceUnit))) / 100),
                     'grt_loa' : grt_loa,
                     'rate' : selectedTariff.rate,
                     'units' : serviceUnit,
-                    'total' : (parseFloat(grt_loa) * parseFloat(selectedTariff.rate )* parseFloat(serviceUnit))
+                    'total' : ((parseFloat(grt_loa) * parseFloat(selectedTariff.rate )* parseFloat(serviceUnit)) + ((selectedTax.TaxRate * (parseFloat(grt_loa) * parseFloat(selectedTariff.rate )* parseFloat(serviceUnit))) / 100))
                 }
 
                 addService(serviceData);
@@ -835,10 +863,14 @@
                     'id': newId,
                     'tariff_id' : selectedTariff.id,
                     'description' : selectedTariff.name,
+                    'tax_code' : selectedTax.Code,
+                    'tax_description' : selectedTax.Description,
+                    'tax_id' : selectedTax.idTaxRate,
+                    'tax_amount' : ((selectedTax.TaxRate * (parseFloat(grt_loa) * parseFloat(selectedTariff.rate )* parseFloat(serviceUnit))) / 100),
                     'grt_loa' : grt_loa,
                     'rate' : selectedTariff.rate,
                     'units' : serviceUnit,
-                    'total' : (parseFloat(grt_loa) * parseFloat(selectedTariff.rate )* parseFloat(serviceUnit))
+                    'total' : (((selectedTax.TaxRate * (parseFloat(grt_loa) * parseFloat(selectedTariff.rate )* parseFloat(serviceUnit))) / 100) + (parseFloat(grt_loa) * parseFloat(selectedTariff.rate )* parseFloat(serviceUnit)))
                 }
 
                 addService(serviceData);
@@ -854,10 +886,14 @@
                     'id': newId,
                     'tariff_id' : selectedTariff.id,
                     'description' : selectedTariff.name,
+                    'tax_code' : selectedTax.Code,
+                    'tax_description' : selectedTax.Description,
+                    'tax_id' : selectedTax.idTaxRate,
+                    'tax_amount' : ((selectedTax.TaxRate * (parseFloat(selectedTariff.rate )* parseFloat(serviceUnit))) / 100),
                     'grt_loa' : grt_loa,
                     'rate' : selectedTariff.rate,
                     'units' : serviceUnit,
-                    'total' : (parseFloat(selectedTariff.rate )* parseFloat(serviceUnit))
+                    'total' : (((selectedTax.TaxRate * (parseFloat(selectedTariff.rate )* parseFloat(serviceUnit))) / 100) + (parseFloat(selectedTariff.rate )* parseFloat(serviceUnit)))
                 }
 
                 addService(serviceData);
@@ -872,10 +908,14 @@
                     'id': newId,
                     'tariff_id' : selectedTariff.id,
                     'description' : selectedTariff.name,
+                    'tax_code' : selectedTax.Code,
+                    'tax_description' : selectedTax.Description,
+                    'tax_id' : selectedTax.idTaxRate,
+                    'tax_amount' : ((selectedTax.TaxRate  * (parseFloat(selectedTariff.rate )* parseFloat(serviceUnit))) / 100),
                     'grt_loa' : grt_loa,
                     'rate' : selectedTariff.rate,
                     'units' : serviceUnit,
-                    'total' : (parseFloat(selectedTariff.rate )* parseFloat(serviceUnit))
+                    'total' : (((selectedTax.TaxRate  * (parseFloat(selectedTariff.rate )* parseFloat(serviceUnit))) / 100) + (parseFloat(selectedTariff.rate )* parseFloat(serviceUnit)))
                 }
 
                 addService(serviceData);
@@ -889,10 +929,14 @@
                     'id': newId,
                     'tariff_id' : selectedTariff.id,
                     'description' : selectedTariff.name,
+                    'tax_code' : selectedTax.Code,
+                    'tax_description' : selectedTax.Description,
+                    'tax_id' : selectedTax.idTaxRate,
+                    'tax_amount' : ((selectedTax.TaxRate * (parseFloat(selectedTariff.rate )* parseFloat(serviceUnit))) / 100),
                     'grt_loa' : grt_loa,
                     'rate' : selectedTariff.rate,
                     'units' : serviceUnit,
-                    'total' : (parseFloat(selectedTariff.rate )* parseFloat(serviceUnit))
+                    'total' : (((selectedTax.TaxRate * (parseFloat(selectedTariff.rate )* parseFloat(serviceUnit))) / 100) + (parseFloat(selectedTariff.rate )* parseFloat(serviceUnit)))
                 }
 
                 addService(serviceData);
@@ -901,12 +945,13 @@
         }
 
         function addService(data){
+            console.log(data);
             $('#service').append('<tr id="' + data.id + '">' +
                 '<td>' + data.description + '</td>' +
                 '<td class="text-right">' + data.grt_loa + '</td>' +
                 '<td class="text-right">' + Number(data.rate).toFixed(2) + '</td>' +
                 '<td class="text-right">' + Number(data.units).toFixed(2) + '</td>' +
-                '<td class="text-right"> </td>' +
+                '<td class="text-right">' + data.tax_amount +' </td>' +
                 '<td class="text-right">' + Number(data.total).toFixed(2)+ '</td>' +
                 '<td class="text-right"><button onclick="deleteRow(this)" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></button></td>' +
                 '</tr>');
@@ -929,10 +974,10 @@
                     .then(function (response) {
 //                       TODO::validation
                         $('#q_service').empty().append(response.data.success.services);
-                        $('#sub_ex').empty().append("Total (Excl) $ : " + response.data.success.total);
-                        $('#total_tax').empty().append(response.data.success.total_tax);
-                        $('#sub_in').empty().append("Total (Incl) $ : " + response.data.success.total);
-                        $('#total_amount').empty().append("<b>Total (Incl) $ :</b>  " + response.data.success.total);
+                        $('#sub_ex').empty().append("Total (Excl) $ : " + response.data.success.exc_total);
+                        $('#total_tax').empty().append("Tax $ : " + response.data.success.total_tax);
+                        $('#sub_in').empty().append("Total (Incl) $ : " + response.data.success.inc_total);
+                        $('#total_amount').empty().append("<b>Total (Incl) $ :</b>  " + response.data.success.inc_total);
                         $('#service').empty();
                         this.data['service'] = {};
                     })

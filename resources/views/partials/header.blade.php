@@ -54,9 +54,9 @@
                             <li>
                                 <a href="">Manage Users</a>
                             </li>
-                            <li>
-                                <a href="{{ url('departments') }}">Departments</a>
-                            </li>
+                            {{--<li>--}}
+                                {{--<a href="{{ url('departments') }}">Departments</a>--}}
+                            {{--</li>--}}
                             <li>
                                 <a href="{{ route('stages.index') }}">Stages</a>
                             </li>

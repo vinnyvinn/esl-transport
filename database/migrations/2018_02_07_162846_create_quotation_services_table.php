@@ -18,6 +18,10 @@ class CreateQuotationServicesTable extends Migration
             $table->integer('quotation_id');
             $table->integer('tariff_id');
             $table->text('description');
+            $table->string('tax_code');
+            $table->string('tax_description');
+            $table->string('tax_id');
+            $table->string('tax_amount');
             $table->string('grt_loa');
             $table->string('rate');
             $table->string('units');

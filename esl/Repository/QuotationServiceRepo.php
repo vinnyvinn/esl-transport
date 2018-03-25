@@ -25,8 +25,9 @@ class QuotationServiceRepo
 
         return [
             'services' => $services,
+            'exc_total' => number_format(($services->sum('total') - $services->sum('tax'))),
             'total_tax' => number_format($services->sum('tax')),
-            'total' => number_format($services->sum('total'))
+            'inc_total' => number_format($services->sum('total'))
         ];
     }
 

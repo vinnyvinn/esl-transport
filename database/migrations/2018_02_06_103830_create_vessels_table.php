@@ -25,7 +25,9 @@ class CreateVesselsTable extends Migration
             $table->string('eta');
             $table->string('nrt')->nullable();
             $table->string('dwt')->nullable();
+            $table->string('country_of_discharge')->nullable();
             $table->string('port_of_discharge')->nullable();
+            $table->string('country_of_loading')->nullable();
             $table->string('port_of_loading')->nullable();
             $table->timestamps();
         });

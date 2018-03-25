@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Lead;
 use App\Quotation;
 use Carbon\Carbon;
+use Esl\helpers\Constants;
 use Esl\Repository\CustomersRepo;
 use Illuminate\Http\Request;
 
@@ -17,6 +18,7 @@ class LeadController extends Controller
      */
     public function index()
     {
+//        dd(Constants::COUNTRY_LIST);
         return view('leads.index')
             ->withLeads(Lead::simplePaginate(25));
     }
@@ -28,6 +30,7 @@ class LeadController extends Controller
      */
     public function create()
     {
+//        dd(json_decode(Constants::CURRENCY_ARRAY));
         return view('leads.create');
     }
 

@@ -90,18 +90,44 @@
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="country">Country (Vessel Flag) </label>
-                                                                <input type="text" required id="country" name="country" class="form-control" placeholder="Country">
+                                                                <select name="country" id="country"
+                                                                        class="select2 form-control">
+                                                                    <option value="">Select Country</option>
+                                                                    @foreach(\Esl\helpers\Constants::COUNTRY_LIST as $value)
+                                                                        <option value="{{$value}}">{{$value}}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="eta"> ETA </label>
+                                                                <input type="text" id="eta" required  name="eta" class="datepicker form-control" placeholder="ETA">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="country_of_discharge"> Country of Discharge</label>
+                                                                <select name="country_of_discharge" id="country_of_discharge"
+                                                                        class="select2 form-control">
+                                                                    <option value="">Select Country</option>
+                                                                    @foreach(\Esl\helpers\Constants::COUNTRY_LIST as $value)
+                                                                        <option value="{{$value}}">{{$value}}</option>
+                                                                    @endforeach
+                                                                </select>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="port_of_discharge"> Port of Discharge</label>
                                                                 <input type="text" id="port_of_discharge" required  name="port_of_discharge" class="form-control" placeholder="Port of Discharge">
                                                             </div>
-                                                            <div class="form-group">
-                                                                <label for="eta"> ETA </label>
-                                                                <input type="text" id="eta" required  name="eta" class="datepicker form-control" placeholder="Port of Discharge">
-                                                            </div>
                                                         </div>
                                                         <div class="col-sm-6">
+                                                            <div class="form-group">
+                                                                <label for="country_of_loading"> Country of Loading</label>
+                                                                <select name="country_of_loading" id="country_of_loading"
+                                                                        class="select2 form-control">
+                                                                    <option value="">Select Country</option>
+                                                                    @foreach(\Esl\helpers\Constants::COUNTRY_LIST as $value)
+                                                                        <option value="{{$value}}">{{$value}}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
                                                             <div class="form-group">
                                                                 <label for="port_of_loading"> Port of Loading</label>
                                                                 <input type="text" id="port_of_loading" required  name="port_of_loading" class="form-control" placeholder="Port of Loading">

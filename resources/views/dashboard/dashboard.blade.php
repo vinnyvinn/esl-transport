@@ -23,11 +23,7 @@
                     <div class="card-body">
                         <!-- Row -->
                         <div class="row">
-                            <div class="col-8"><h2>{{ count(\App\Lead::where('status',0)->get()) }} <i class="ti-angle-down font-14 text-danger"></i></h2>
-                                <h6>Total Leads</h6></div>
-                            <div class="col-4 align-self-center text-right  p-l-0">
-                                <div id="sparklinedash3"></div>
-                            </div>
+                            <a href="{{ url('/leads') }}" class="btn btn-primary">Generate Quotation</a>
                         </div>
                     </div>
                 </div>
