@@ -19,7 +19,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Stages <a href="{{ route('stages.create') }}" class="btn btn-primary pull-right">Add Stages</a></h4>
+                        <h4 class="card-title">Extra Service Types <a href="{{ route('other-services-type.create') }}" class="btn btn-primary pull-right">Add Service Type</a></h4>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -33,15 +33,14 @@
                                 </tr>
                                 </thead>
                                 <tbody id="customers">
-                                @foreach($stages as $stage)
+                                @foreach($services as $service)
                                     <tr>
-                                        <td>{{ ucwords($stage->name) }}</td>
-                                        <td>{{ ucfirst($stage->description) }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($stage->created_at)->format('d-M-y') }}</td>
+                                        <td>{{ ucwords($service->name) }}</td>
+                                        <td>{{ ucfirst($service->description) }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($service->created_at)->format('d-M-y') }}</td>
                                         <td class="text-right">
-                                            <form action="{{ route('stages.destroy', $stage->id) }}" method="post">
-                                                <a href=" {{ route('stages.edit', $stage->id) }}" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i></a>
-                                                <a href=" {{ route('stages.show', $stage->id) }}" class="btn btn-sm btn-primary"><i class="fa fa-eye"></i></a>
+                                            <form action="{{ route('other-services-type.destroy', $service->id) }}" method="post">
+                                                <a href=" {{ route('other-services-type.edit', $service->id) }}" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i></a>
                                                 {{ csrf_field() }}
                                                 {{ method_field('DELETE') }}
                                                 <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
@@ -52,7 +51,7 @@
                                 </tbody>
                             </table>
                             <div class="footable pagination">
-                                {{ $stages->links() }}
+                                {{ $services->links() }}
                             </div>
                         </div>
                     </div>

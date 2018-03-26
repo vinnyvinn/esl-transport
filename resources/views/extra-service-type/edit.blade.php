@@ -19,27 +19,27 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">Add Stage</h4>
-                        <form class="form-material m-t-40" action="{{ route('stages.store') }}" method="post">
+                        <h4 class="card-title">Edit Extra Service Type</h4>
+                        <form class="form-material m-t-40" action="{{ route('other-services-type.update', $service->id) }}" method="post">
                             {{ csrf_field() }}
+                            {{ method_field('put') }}
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="name">Name</label>
-                                        <input type="text" required id="name" name="name" class="form-control" placeholder="Name">
+                                        <input type="text" required id="name" value="{{ $service->name }}" name="name" class="form-control" placeholder="Name">
                                     </div>
                                 </div>
-
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label for="description">Description</label>
-                                            <input type="text" required id="description" name="description" class="form-control" placeholder="Description">
-                                        </div>
-                                        <div class="form-group">
-                                            <br>
-                                            <input class="btn btn-primary" type="submit" value="Save">
-                                        </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="description">Description</label>
+                                        <input type="text" required id="description" value="{{ $service->description }}" name="description" class="form-control" placeholder="Description">
                                     </div>
+                                    <div class="form-group">
+                                        <br>
+                                        <input class="btn pull-right btn-primary" type="submit" value="Update">
+                                    </div>
+                                </div>
                             </div>
                         </form>
                     </div>

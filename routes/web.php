@@ -42,6 +42,7 @@ Route::get('/quotation/customer/declined/{id}', 'QuotationController@customerDec
 Route::get('/all-notifications', 'NotificationController@index');
 Route::get('/agency', 'AgencyController@index');
 Route::post('/agency/approve', 'AgencyApprovalController@approve');
+Route::post('/agency/remark', 'AgencyApprovalController@addRemark');
 Route::post('/agency/disapprove', 'AgencyApprovalController@revision');
 Route::get('/notifications/{id}', 'NotificationController@show');
 Route::get('/quotation/request/{id}', 'QuotationController@requestQuotation');
@@ -64,6 +65,8 @@ Route::post('/vessel/doc/upload/', 'VesselDocsController@upload');
 
 //stage
 Route::resource('/stages', 'StageController');
+Route::resource('/other-services-type', 'ExtraServiceTypeController');
+Route::resource('/other-services', 'ExtraServiceController');
 Route::resource('/stage-components', 'StageComponentController');
 
 //generate docs

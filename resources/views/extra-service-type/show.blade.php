@@ -34,16 +34,14 @@
                                 <td><strong>Location : </strong> {{ $lead->location }}</td>
                             </tr>
                         </table>
-                        @if(count($quotations->quotation)<1)
+
                         <div class="col-sm-8">
                             <a href="{{ url('/customer-request/'.$lead->id.'/'.\Esl\helpers\Constants::LEAD_CUSTOMER) }}" class="btn btn-primary">Generate Quotation</a>
                         </div>
-                            @endif
                     </div>
                 </div>
                 <div class="card">
                     <div class="card-body">
-                        <h3>Lead Quotations</h3>
                         <div class="table-responsive">
                             <table class="table table-striped">
                                 <thead>
@@ -52,7 +50,7 @@
                                     <th>Vessel</th>
                                     <th>Quotation Status</th>
                                     <th>Created On</th>
-                                    <th class="text-right">Action</th>
+                                    <th class="text-nowrap">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody id="customers">
@@ -62,7 +60,7 @@
                                             <td>{{ ucfirst($quotation->vessel->name) }}</td>
                                             <td>{{ ucfirst($quotation->status) }}</td>
                                             <td>{{ \Carbon\Carbon::parse($quotation->created_at)->format('d-M-y') }}</td>
-                                            <td class="text-right">
+                                            <td class="text-nowrap">
                                                     <a href=" {{ url('/quotation/'. $quotation->id) }}" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
                                             </td>
                                         </tr>

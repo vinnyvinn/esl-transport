@@ -9,6 +9,7 @@ use App\Stage;
 use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade as PDF;
 use DateTime;
+use Esl\Repository\NotificationRepo;
 use Illuminate\Http\Request;
 
 class DmsController extends Controller
@@ -27,7 +28,7 @@ class DmsController extends Controller
             'quote.voyage','customer','cargo','consignee'])->findOrFail($id);
 
         $dmsComponents = DmsComponent::with(['scomponent.stage'])->where('bill_of_landing_id',$id)->get();
-        $checklist = $dmsComponents->map(function ($value){
+        $checklist = $dmsComponents->map(function ($value) {
 //            dd($value);
             return [
                 'title' => $value->scomponent->stage->name,
@@ -41,15 +42,24 @@ class DmsController extends Controller
                 ]
             ];
         })->reject(null);
-//        dd($checklist->groupBy('title'));
         $update = false;
         if ($dms->code_name == null || $dms->seal_number == null || $dms->berth_number == null || $dms->place_of_receipt == null || $dms->date_of_loading == null ||
             $dms->number_of_crane == null ){
             $update = true;
         }
 
+        $stageids = [];
+        $demo = DmsComponent::with(['scomponent'])->where('bill_of_landing_id',$id)->get(['stage_component_id']);
+        foreach ($demo as $value){
+            if (!in_array($value->scomponent->stage_id, $stageids)){
+                array_push($stageids,$value->scomponent->stage_id);
+            }
+        }
+
+
         return view('dms.edit')
             ->withDms($dms)
+            ->withStageids($stageids)
             ->withChecklist($checklist->groupBy('title'))
             ->withUpdate($update)
             ->withStages(Stage::with(['components'])->get());
@@ -58,7 +68,6 @@ class DmsController extends Controller
     public function store(Request $request)
     {
         $data = [];
-
 
         if ($request->has('checklist')){
 
@@ -166,6 +175,8 @@ class DmsController extends Controller
         $data['laytime_start'] = Carbon::parse($request->laytime_start);
         $data['date_of_loading'] = Carbon::parse($request->date_of_loading);
         BillOfLanding::findOrFail($request->dms_id)->update($data);
+
+        NotificationRepo::create()->message('FDA updated successfully','FDA Update');
 
         return redirect()->back();
     }

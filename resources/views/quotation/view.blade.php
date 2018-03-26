@@ -60,7 +60,7 @@
                             <address>
                                 {{--<h4><b>Job No</b> ESL002634</h4>--}}
                                 {{--<h4><b>Voyage No</b> TBA</h4>--}}
-                                <h4>Currency : US Dollar</h4>
+                                <h4>Currency : {{$quotation->lead->currency }}</h4>
                                 <h4 id="vessel_name"><b>VESSEL</b> {{ strtoupper($quotation->vessel->name )}}</h4>
                                 <h4 id="grt"><b>GRT</b> {{ $quotation->vessel->grt }} GT</h4>
                                 <h4 id="loa"><b>LOA</b> {{ $quotation->vessel->loa }} M</h4>
@@ -73,46 +73,63 @@
                     <hr>
                     <div class="col-md-12">
                         <div class="table-responsive m-t-40" style="clear: both;">
-                            <h3>Add Tariff Service</h3>
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <select name="tariff" required id="tariff" class="form-control">
-                                            @foreach($tariffs as $tariff)
-                                                <option value="{{$tariff}}">{{ ucwords($tariff->name) }} ~ {{ ucwords($tariff->unit) }}({{$tariff->unit_value}}) @ {{ $tariff->rate }}</option>
-                                            @endforeach
-                                        </select>
+                            @if($quotation->status != \Esl\helpers\Constants::LEAD_QUOTATION_ACCEPTED
+                            && $quotation->status != \Esl\helpers\Constants::LEAD_QUOTATION_WAITING
+                            && $quotation->status != \Esl\helpers\Constants::LEAD_QUOTATION_CONVERTED)
+                                <h3>Add Tariff Service</h3>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <select name="tariff" onchange="perday(this)" required id="tariff" class="form-control select2">
+                                                        @foreach($tariffs as $tariff)
+                                                            <option value="{{$tariff}}">{{ ucwords($tariff->name) }} ~ {{ ucwords($tariff->unit) }}({{$tariff->unit_value}}) @ {{ $tariff->rate }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <div class="form-group">
+                                                    <input type="number" required id="service_units" name="service_units" placeholder="Units" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <select name="tax" required id="tax" class="form-control select2">
+                                                        @foreach($taxs as $tax)
+                                                            <option value="{{$tax}}">{{ ucwords($tax->Description) }} - {{ $tax->TaxRate }} %</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <button class="btn btn-block btn-primary" onclick="addTariff()"><i class="fa fa-check"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <table class="table table-striped table-responsive">
+                                            <thead>
+                                            <tr>
+                                            <tr>
+                                                <th>Description</th>
+                                                <th class="text-right">GRT/LOA</th>
+                                                <th class="text-right">RATE</th>
+                                                <th class="text-right">UNITS</th>
+                                                <th class="text-right">Tax</th>
+                                                <th class="text-right">Total (Incl)</th>
+                                                <th class="text-right">Action</th>
+                                            </tr>
+                                            </tr>
+                                            </thead>
+                                            <tbody id="service">
+                                            </tbody>
+                                        </table>
+                                        <button onclick="addServiceToQuotaion()" class="btn pull-right btn-primary">Add</button>
                                     </div>
                                 </div>
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <input type="number" required id="service_units" name="service_units" placeholder="Units" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <button class="btn btn-primary" onclick="addTariff()"><i class="fa fa-check"></i></button>
-                                </div>
-                                <div class="col-sm-12">
-                                    <table class="table table-striped table-responsive">
-                                        <thead>
-                                        <tr>
-                                        <tr>
-                                            <th>Description</th>
-                                            <th class="text-right">GRT/LOA</th>
-                                            <th class="text-right">RATE</th>
-                                            <th class="text-right">UNITS</th>
-                                            <th class="text-right">Tax</th>
-                                            <th class="text-right">Total (Incl)</th>
-                                            <th class="text-right">Action</th>
-                                        </tr>
-                                        </tr>
-                                        </thead>
-                                        <tbody id="service">
-                                        </tbody>
-                                    </table>
-                                    <button onclick="addServiceToQuotaion()" class="btn btn-primary">Add</button>
-                                </div>
-                            </div>
+                            @endif
                             <table class="table table-hover">
                                 <thead>
                                 <tr>
@@ -199,11 +216,11 @@
                     </div>
                     <div class="col-md-12">
                         <div class="pull-right m-t-30 text-right">
-                            <p id="sub_ex">Total (Excl) $ : {{ number_format($quotation->services->sum('total')) }}</p>
-                            <p id="total_tax">Tax $ : {{ number_format($quotation->services->sum('total_tax')) }} </p>
-                            <p id="sub_in">Total (Incl) $ : {{ number_format($quotation->services->sum('total')) }} </p>
+                            <p id="sub_ex">Total (Excl) {{$quotation->lead->currency }} : {{ number_format($quotation->services->sum('total')) }}</p>
+                            <p id="total_tax">Tax {{$quotation->lead->currency }} : {{ number_format($quotation->services->sum('total_tax')) }} </p>
+                            <p id="sub_in">Total (Incl) {{$quotation->lead->currency }} : {{ number_format($quotation->services->sum('total')) }} </p>
                             <hr>
-                            <h3 id="total_amount"><b>Total (Incl) $ :</b> {{ number_format($quotation->services->sum('total')) }}</h3>
+                            <h3 id="total_amount"><b>Total (Incl) {{$quotation->lead->currency }} :</b> {{ number_format($quotation->services->sum('total')) }}</h3>
                         </div>
                         <div class="clearfix"></div>
                         <hr>
@@ -229,21 +246,23 @@
                             </table>
                         </div>
                         <hr>
-                        <div class="col-sm-12">
-                            <form id="pda_remarks_form" action="" method="post">
-                                {{ csrf_field() }}
-                                <div class="form-group">
-                                    <label for="remarks">Remarks</label>
-                                    <textarea name="remarks" id="remarks" cols="30" rows="10" class="form-control"></textarea>
+                        @if($quotation->status == \Esl\helpers\Constants::LEAD_QUOTATION_REQUEST)
+                            <div class="col-sm-12">
+                                <form id="pda_remarks_form" action="" method="post">
+                                    {{ csrf_field() }}
+                                    <div class="form-group">
+                                        <label for="remarks">Remarks</label>
+                                        <textarea name="remarks" id="remarks" cols="30" rows="3" class="form-control"></textarea>
+                                    </div>
+                                    <input type="hidden" name="quotation_id" id="quotation_id" value="{{ $quotation->id }}">
+                                </form>
+                                <div class="text-right">
+                                    <a href="{{ url('/quotation/preview/'.$quotation->id) }}" class="btn btn btn-outline-success">Preview</a>
+                                    <button  class="btn btn-danger" onclick="event.preventDefault(); disapprove()"> DISAPPROVE </button>
+                                    <button class="btn btn-primary" onclick="event.preventDefault(); approve()"> APPROVE </button>
                                 </div>
-                                <input type="hidden" name="quotation_id" id="quotation_id" value="{{ $quotation->id }}">
-                            </form>
-                            <div class="text-right">
-                                <a href="{{ url('/quotation/preview/'.$quotation->id) }}" class="btn btn btn-outline-success">Preview</a>
-                                <button  class="btn btn-danger" onclick="event.preventDefault(); disapprove()"> DISAPPROVE </button>
-                                <button class="btn btn-primary" onclick="event.preventDefault(); approve()"> APPROVE </button>
                             </div>
-                        </div>
+                            @endif
                     </div>
                 </div>
             </div>
@@ -252,6 +271,7 @@
 @endsection
 @section('scripts')
     <script>
+        var currency = '{{$quotation->lead->currency }}';
         var form = $('#pda_remarks_form');
 
         function approve() {
@@ -310,13 +330,17 @@
             'loa' : '{{ $quotation->vessel->loa }}',
             '_token' : '{{ csrf_token() }}',
             'quotation' : '{{ $quotation->id }}',
-            'port_stay' : '{{ceil($quotation->cargos->first()->weight/$quotation->cargos->first()->discharge_rate)}}',
+            'port_stay' : '{{ count($quotation->cargos) < 1 ? 0 : (ceil($quotation->cargos->first()->weight/$quotation->cargos->first()->discharge_rate))}}',
             'service': {}
         };
 
         function addTariff() {
             var selected = document.getElementById("tariff");
             var selectedTariff = JSON.parse(selected.options[selected.selectedIndex].value);
+
+            var sTax = document.getElementById("tax");
+            var selectedTax = JSON.parse(sTax.options[sTax.selectedIndex].value);
+
             var units = $('#service_units').val();
 
 //            Calculation using grt/loa
@@ -330,10 +354,14 @@
                     'id': newId,
                     'tariff_id' : selectedTariff.id,
                     'description' : selectedTariff.name,
+                    'tax_code' : selectedTax.Code,
+                    'tax_description' : selectedTax.Description,
+                    'tax_id' : selectedTax.idTaxRate,
+                    'tax_amount' : ((selectedTax.TaxRate * (parseFloat(grt_loa) * parseFloat(selectedTariff.rate )* parseFloat(serviceUnit))) / 100),
                     'grt_loa' : grt_loa,
                     'rate' : selectedTariff.rate,
                     'units' : serviceUnit,
-                    'total' : (parseFloat(grt_loa) * parseFloat(selectedTariff.rate )* parseFloat(serviceUnit))
+                    'total' : ((parseFloat(grt_loa) * parseFloat(selectedTariff.rate )* parseFloat(serviceUnit)) + ((selectedTax.TaxRate * (parseFloat(grt_loa) * parseFloat(selectedTariff.rate )* parseFloat(serviceUnit))) / 100))
                 }
 
                 addService(serviceData);
@@ -348,10 +376,14 @@
                     'id': newId,
                     'tariff_id' : selectedTariff.id,
                     'description' : selectedTariff.name,
+                    'tax_code' : selectedTax.Code,
+                    'tax_description' : selectedTax.Description,
+                    'tax_id' : selectedTax.idTaxRate,
+                    'tax_amount' : ((selectedTax.TaxRate * (parseFloat(grt_loa) * parseFloat(selectedTariff.rate )* parseFloat(serviceUnit))) / 100),
                     'grt_loa' : grt_loa,
                     'rate' : selectedTariff.rate,
                     'units' : serviceUnit,
-                    'total' : (parseFloat(grt_loa) * parseFloat(selectedTariff.rate )* parseFloat(serviceUnit))
+                    'total' : (((selectedTax.TaxRate * (parseFloat(grt_loa) * parseFloat(selectedTariff.rate )* parseFloat(serviceUnit))) / 100) + (parseFloat(grt_loa) * parseFloat(selectedTariff.rate )* parseFloat(serviceUnit)))
                 }
 
                 addService(serviceData);
@@ -362,14 +394,19 @@
                 var serviceUnit = units === "" ? 0 : units;
                 var newId = 'serv'+(Object.keys(this.data.service).length + 1);
 
+                console.log(this.data.port_stay);
                 var serviceData =  {
                     'id': newId,
                     'tariff_id' : selectedTariff.id,
                     'description' : selectedTariff.name,
+                    'tax_code' : selectedTax.Code,
+                    'tax_description' : selectedTax.Description,
+                    'tax_id' : selectedTax.idTaxRate,
+                    'tax_amount' : ((selectedTax.TaxRate * (parseFloat(selectedTariff.rate )* parseFloat(serviceUnit))) / 100),
                     'grt_loa' : grt_loa,
                     'rate' : selectedTariff.rate,
                     'units' : serviceUnit,
-                    'total' : (parseFloat(selectedTariff.rate )* parseFloat(serviceUnit))
+                    'total' : (((selectedTax.TaxRate * (parseFloat(selectedTariff.rate )* parseFloat(serviceUnit))) / 100) + (parseFloat(selectedTariff.rate )* parseFloat(serviceUnit)))
                 }
 
                 addService(serviceData);
@@ -384,10 +421,14 @@
                     'id': newId,
                     'tariff_id' : selectedTariff.id,
                     'description' : selectedTariff.name,
+                    'tax_code' : selectedTax.Code,
+                    'tax_description' : selectedTax.Description,
+                    'tax_id' : selectedTax.idTaxRate,
+                    'tax_amount' : ((selectedTax.TaxRate  * (parseFloat(selectedTariff.rate )* parseFloat(serviceUnit))) / 100),
                     'grt_loa' : grt_loa,
                     'rate' : selectedTariff.rate,
                     'units' : serviceUnit,
-                    'total' : (parseFloat(selectedTariff.rate )* parseFloat(serviceUnit))
+                    'total' : (((selectedTax.TaxRate  * (parseFloat(selectedTariff.rate )* parseFloat(serviceUnit))) / 100) + (parseFloat(selectedTariff.rate )* parseFloat(serviceUnit)))
                 }
 
                 addService(serviceData);
@@ -401,10 +442,14 @@
                     'id': newId,
                     'tariff_id' : selectedTariff.id,
                     'description' : selectedTariff.name,
+                    'tax_code' : selectedTax.Code,
+                    'tax_description' : selectedTax.Description,
+                    'tax_id' : selectedTax.idTaxRate,
+                    'tax_amount' : ((selectedTax.TaxRate * (parseFloat(selectedTariff.rate )* parseFloat(serviceUnit))) / 100),
                     'grt_loa' : grt_loa,
                     'rate' : selectedTariff.rate,
                     'units' : serviceUnit,
-                    'total' : (parseFloat(selectedTariff.rate )* parseFloat(serviceUnit))
+                    'total' : (((selectedTax.TaxRate * (parseFloat(selectedTariff.rate )* parseFloat(serviceUnit))) / 100) + (parseFloat(selectedTariff.rate )* parseFloat(serviceUnit)))
                 }
 
                 addService(serviceData);
@@ -413,12 +458,13 @@
         }
 
         function addService(data){
+            console.log(data);
             $('#service').append('<tr id="' + data.id + '">' +
                 '<td>' + data.description + '</td>' +
                 '<td class="text-right">' + data.grt_loa + '</td>' +
                 '<td class="text-right">' + Number(data.rate).toFixed(2) + '</td>' +
                 '<td class="text-right">' + Number(data.units).toFixed(2) + '</td>' +
-                '<td class="text-right"> </td>' +
+                '<td class="text-right">' + data.tax_amount +' </td>' +
                 '<td class="text-right">' + Number(data.total).toFixed(2)+ '</td>' +
                 '<td class="text-right"><button onclick="deleteRow(this)" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></button></td>' +
                 '</tr>');
@@ -441,10 +487,10 @@
                     .then(function (response) {
 //                       TODO::validation
                         $('#q_service').empty().append(response.data.success.services);
-                        $('#sub_ex').empty().append("Total (Excl) $ : " + response.data.success.total);
-                        $('#total_tax').empty().append(response.data.success.total_tax);
-                        $('#sub_in').empty().append("Total (Incl) $ : " + response.data.success.total);
-                        $('#total_amount').empty().append("<b>Total (Incl) $ :</b>  " + response.data.success.total);
+                        $('#sub_ex').empty().append("Total (Excl) " + this.currency + " : " + response.data.success.exc_total);
+                        $('#total_tax').empty().append("Tax " + this.currency + " : " + response.data.success.total_tax);
+                        $('#sub_in').empty().append("Total (Incl) " + this.currency + " : " + response.data.success.inc_total);
+                        $('#total_amount').empty().append("<b>Total (Incl) " + this.currency + " :</b>  " + response.data.success.inc_total);
                         $('#service').empty();
                         this.data['service'] = {};
                     })
@@ -470,10 +516,10 @@
                 .then(function (response) {
 //                       TODO::validation
                     $('#q_service').empty().append(response.data.success.services);
-                    $('#sub_ex').empty().append("Total (Excl) $ : " + response.data.success.total);
-                    $('#total_tax').empty().append(response.data.success.total_tax);
-                    $('#sub_in').empty().append("Total (Incl) $ : " + response.data.success.total);
-                    $('#total_amount').empty().append("<b>Total (Incl) $ :</b>  " + response.data.success.total);
+                    $('#sub_ex').empty().append("Total (Excl) " + this.currency + " : " + response.data.success.exc_total);
+                    $('#total_tax').empty().append("Tax " + this.currency + " : " + response.data.success.total_tax);
+                    $('#sub_in').empty().append("Total (Incl) " + this.currency + " : " + response.data.success.inc_total);
+                    $('#total_amount').empty().append("<b>Total (Incl) " + this.currency + " :</b>  " + response.data.success.inc_total);
                     $('#service').empty();
                     this.data['service'] = {};
                 })

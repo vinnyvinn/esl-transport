@@ -60,7 +60,7 @@
                             <address>
                                 {{--<h4><b>Job No</b> ESL002634</h4>--}}
                                 <h4><b>Voyage No</b> {{ strtoupper($quotation->voyage->voyage_no) }}</h4>
-                                <h4>Currency : US Dollar</h4>
+                                <h4>Currency : {{$quotation->lead->currency }}</h4>
                                 <h4 id="vessel_name"><b>VESSEL</b> {{ strtoupper($quotation->vessel->name )}}</h4>
                                 <h4 id="grt"><b>GRT</b> {{ $quotation->vessel->grt }} GT</h4>
                                 <h4 id="loa"><b>LOA</b> {{ $quotation->vessel->loa }} M</h4>
@@ -101,11 +101,11 @@
                     </div>
                     <div class="col-md-12">
                         <div class="pull-right m-t-30 text-right">
-                            <p id="sub_ex">Total (Excl) $ : {{ number_format($quotation->services->sum('total')) }}</p>
-                            <p id="total_tax">Tax $ : {{ number_format($quotation->services->sum('total_tax')) }} </p>
-                            <p id="sub_in">Total (Incl) $ : {{ number_format($quotation->services->sum('total')) }} </p>
+                            <p id="sub_ex">Total (Excl) {{$quotation->lead->currency }} : {{ number_format($quotation->services->sum('total')) }}</p>
+                            <p id="total_tax">Tax {{$quotation->lead->currency }} : {{ number_format($quotation->services->sum('total_tax')) }} </p>
+                            <p id="sub_in">Total (Incl) {{$quotation->lead->currency }} : {{ number_format($quotation->services->sum('total')) }} </p>
                             <hr>
-                            <h3 id="total_amount"><b>Total (Incl) $ :</b> {{ number_format($quotation->services->sum('total')) }}</h3>
+                            <h3 id="total_amount"><b>Total (Incl) {{$quotation->lead->currency }} :</b> {{ number_format($quotation->services->sum('total')) }}</h3>
                         </div>
                         <div class="clearfix"></div>
                         <hr>

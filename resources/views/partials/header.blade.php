@@ -61,6 +61,12 @@
                                 <a href="{{ route('stages.index') }}">Stages</a>
                             </li>
                             <li>
+                                <a href="{{ route('other-services-type.index') }}">Extra Services Types</a>
+                            </li>
+                            <li>
+                                <a href="{{ url('/good-types')  }}">Cargo Types</a>
+                            </li>
+                            <li>
                                 <a href="">Roles</a>
                             </li>
                         </ul>

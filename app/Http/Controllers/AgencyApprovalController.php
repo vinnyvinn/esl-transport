@@ -21,7 +21,8 @@ class AgencyApprovalController extends Controller
 
         NotificationRepo::create()->notification(Constants::Q_APPROVED_TITLE,
             Constants::Q_APPROVED_TEXT,
-            '/quotation/'.$request->quotation_id,0,'Agency', $quotation->user_id);
+            '/quotation/'.$request->quotation_id,0,'Agency', $quotation->user_id)
+        ->success('Approved successfully');
 
         self::updates([
             'quotation_id' => $request->quotation_id,
@@ -40,7 +41,8 @@ class AgencyApprovalController extends Controller
 
         NotificationRepo::create()->notification(Constants::Q_DISAPPROVED_TITLE,
             Constants::Q_DISAPPROVED_TEXT,
-            '/quotation/'.$request->quotation_id,0,'Agency', $quotation->user_id);
+            '/quotation/'.$request->quotation_id,0,'Agency', $quotation->user_id)
+        ->message('Quotation disapproved','Disapproval');
 
         self::updates([
             'quotation_id' => $request->quotation_id,
@@ -66,5 +68,17 @@ class AgencyApprovalController extends Controller
             'quotation_id' => $data['quotation_id'],
             'remark' => $data['remarks']
         ]);}
+    }
+
+    public function addRemark(Request $request)
+    {
+        RemarkRepo::make()->remark([
+            'user_id' => Auth::user()->id,
+            'remark_to' => Auth::user()->id,
+            'quotation_id' => $request->quotation_id,
+            'remark' => $request->remarks
+        ]);
+
+        return Response(['success' => 'Approved']);
     }
 }

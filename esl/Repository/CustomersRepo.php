@@ -64,7 +64,15 @@ class CustomersRepo
 
         unset($data['name'], $data['telephone'],$data['address'],$data['location'],
             $data['email'], $data['phone'],$data['contact_person'] );
+        $this->deleteLead($data['id']);
 
        return Customer::create($data);
+    }
+
+    private function deleteLead($id)
+    {
+        Lead::findOrFail($id)->update(['status'=>1]);
+
+        return true;
     }
 }

@@ -49,13 +49,13 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="laytime_start">Lay Time Start</label>
-                                                            <input type="datetime-local" required id="laytime_start" name="laytime_start" class="form-control">
+                                                            <input type="text" required id="laytime_start" name="laytime_start" class="datepicker form-control">
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-6">
                                                         <div class="form-group">
                                                             <label for="date_of_loading">Date of Loading</label>
-                                                            <input type="datetime-local" required id="date_of_loading" name="date_of_loading" class="form-control">
+                                                            <input type="text" required id="date_of_loading" name="date_of_loading" class="datepicker form-control">
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="place_of_receipt">Place of Receipt</label>
@@ -115,6 +115,8 @@
                                                 <span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">SOF</span></a> </li>
                                         <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#checklist1" role="tab">
                                                 <span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">Checklist Details</span></a> </li>
+                                        <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#history" role="tab">
+                                                <span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">History</span></a> </li>
                                         {{--@foreach(\App\Stage::all() as $value)--}}
                                             {{--<li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#{{ str_slug($value->name) }}" role="tab">--}}
                                                     {{--<span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">{{ ucwords($value->name) }}</span></a> </li>--}}
@@ -208,10 +210,10 @@
                                                     <tr>
                                                         <td><strong>NRT : </strong> {{ $dms->vessel->nrt }}</td>
                                                         <td><strong>Chargeable GRT : </strong> {{ $dms->vessel->grt }}</td>
-                                                        <td><strong>Port of Loading: </strong> {{ $dms->vessel->port_of_loading }}</td>
+                                                        <td><strong>Port of Loading: </strong> {{ $dms->vessel->port_of_loading }}, {{ $dms->vessel->country_of_loading }}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td><strong>Port of Discharge: </strong> {{ $dms->vessel->port_of_discharge }}</td>
+                                                        <td><strong>Port of Discharge: </strong> {{ $dms->vessel->port_of_discharge }}, {{ $dms->vessel->country_of_discharge }}</td>
                                                         <td><strong>Place of Receipt: </strong> {{ $dms->place_of_receipt }}</td>
                                                         <td><strong>Date of Loading : </strong> {{ \Carbon\Carbon::parse($dms->date_of_loading)->format('d-M-y') }}</td>
                                                     </tr>
@@ -416,10 +418,48 @@
                                                 @endforeach
                                             </div>
                                         {{--@endforeach--}}
+                                        <div class="tab-pane p-20" id="history" role="tabpanel">
+                                            @foreach($checklist as $key => $values)
+                                                <h3>{{ ucwords($key) }}</h3>
+                                                <table class="table table-responsive table-bordered">
+                                                    <thead>
+                                                    <tr>
+                                                        <th><b>Checklist</b></th>
+                                                        <th><b>Type</b></th>
+                                                        <th><b>Data</b></th>
+                                                        <th><b>Sub checklist</b></th>
+                                                        <th><b>Date Added</b></th>
+                                                    </tr>
+                                                    </thead>
+                                                    @foreach($values as $inn)
+
+                                                        <tbody>
+                                                        <tr>
+                                                            <th><strong>{{ ucwords($inn[$key]['name'] )}}</strong></th>
+                                                            <th>{{ ucwords($inn[$key]['type']) }}</th>
+                                                            @if($inn[$key]['type'] == 'text')
+                                                                <th>{!!  $inn[$key]['type'] == 'text' ? ucfirst($inn[$key]['text'])  : implode("<br>",$inn[$key]['doc_links'])  !!}</th>
+                                                            @else
+                                                                <th>
+                                                                    @foreach($inn[$key]['doc_links'] as $link)
+                                                                        <a href="{{ url($link) }}" target="_blank">{{$link}} <br></a>
+                                                                    @endforeach
+                                                                </th>
+                                                            @endif
+                                                            <th>{{ $inn[$key]['subchecklist'] != null ? implode(',',json_decode($inn[$key]['subchecklist'])) : ''}}</th>
+                                                            <th>{{ \Carbon\Carbon::parse( $inn[$key]['created_at'])->format('d-M-y') }}</th>
+                                                        </tr>
+                                                        </tbody>
+
+                                                    @endforeach
+                                                </table>
+                                            @endforeach
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             @foreach($stages as $stage)
+                                @if(!in_array($stage->id,$stageids))
                                 <div class="card">
                                     <div class="card-body">
                                         <h4 class="card-title">{{ ucwords($stage->name) }}</h4>
@@ -478,6 +518,7 @@
                                         </form>
                                     </div>
                                 </div>
+                                    @endif
                             @endforeach
                                 @endif
                         </div>

@@ -28,6 +28,29 @@ class NotificationRepo
             'department_id' => $department_id
         ]);
 
-        return true;
+        return $this;
+    }
+
+    public function success($message)
+    {
+        alert()->success($message,'Successful')->autoclose(5000);
+        return $this;
+    }
+
+    public function warning($message)
+    {
+        alert()->warning($message,'Warning')->autoclose(5000);
+        return $this;
+    }
+    public function error($message)
+    {
+        alert()->error($message,'Error')->autoclose(5000);
+        return $this;
+    }
+
+    public function message($message, $title)
+    {
+        alert()->error($message,$title)->autoclose(5000);
+        return $this;
     }
 }

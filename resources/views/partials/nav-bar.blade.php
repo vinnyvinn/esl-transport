@@ -6,22 +6,16 @@
                         <i class="mdi mdi-gauge"></i><span class="hide-menu">Dashboard</span></a>
                 </li>
                 <li> <a class="has-arrow waves-effect waves-dark" href="{{ url('/leads') }}" aria-expanded="false">
-                        <i class="mdi mdi-account-multiple"></i><span class="hide-menu">Customers</span></a>
-                    <ul aria-expanded="false" class="collapse">
-                        <li><a href="{{ url('/leads/create') }}">New Lead</a></li>
-                        <li><a href="{{ url('/leads') }}">Leads</a></li>
-                        <li><a href="{{ url('/customers') }}">All Customers</a></li>
-                    </ul>
+                        <i class="mdi mdi-gauge"></i><span class="hide-menu">Leads</span></a>
+                </li>
+                <li> <a class="has-arrow waves-effect waves-dark" href="{{ url('/customers') }}" aria-expanded="false">
+                        <i class="mdi mdi-gauge"></i><span class="hide-menu">Customers</span></a>
                 </li>
                 <li> <a class="has-arrow waves-effect waves-dark" href="{{ url('/tariffs') }}" aria-expanded="false">
                         <i class="mdi mdi-gauge"></i><span class="hide-menu">Tariffs</span></a>
                 </li>
-                <li> <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
-                        <i class="mdi mdi-basket"></i><span class="hide-menu">Cargo</span></a>
-                    <ul aria-expanded="false" class="collapse">
-                        <li><a href="{{ url('/good-types/create') }}">Add Cargo Type</a></li>
-                        <li><a href="{{ url('/good-types') }}">Cargo Types</a></li>
-                    </ul>
+                <li> <a class="has-arrow waves-effect waves-dark" href="{{ url('/other-services') }}" aria-expanded="false">
+                        <i class="mdi mdi-gauge"></i><span class="hide-menu">Extra Services</span></a>
                 </li>
 
                 <li> <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">

@@ -20,7 +20,8 @@ class QuotationController extends Controller
 {
     public function showQuotation($id)
     {
-        $quote = Quotation::with(['lead','parties','cargos.goodType','consignee','vessel','voyage','services.tariff','remarks.user'])->findOrFail($id);
+        $quote = Quotation::with(['lead','parties','cargos.goodType','consignee',
+            'vessel','voyage','services.tariff','remarks.user'])->findOrFail($id);
 
         return view('quotation.show')
             ->withQuotation($quote)
@@ -34,7 +35,8 @@ class QuotationController extends Controller
         Quotation::findOrFail($id)->update(['status' => Constants::LEAD_QUOTATION_REQUEST]);
 
         NotificationRepo::create()->notification(Constants::Q_APPROVAL_TITLE, Constants::Q_APPROVAL_TEXT,
-            '/quotation/preview/'.$id,0,Constants::DEPARTMENT_AGENCY);
+            '/quotation/preview/'.$id,0,Constants::DEPARTMENT_AGENCY)
+        ->success('Approval send successfully');
 
         return redirect()->back();
     }
@@ -46,6 +48,7 @@ class QuotationController extends Controller
         return view('quotation.view')
             ->withQuotation($quote)
             ->withGoodtypes(GoodType::all())
+            ->withTaxs(ServiceTax::all()->sortBy('Description'))
             ->withTariffs(Tariff::all()->sortBy('name'));
     }
 
@@ -68,6 +71,8 @@ class QuotationController extends Controller
 
         //TODO:: generate pdf here
 
+        NotificationRepo::create()->success('PDA send to client successfully');
+
         return redirect()->back();
     }
 
@@ -88,7 +93,7 @@ class QuotationController extends Controller
 
         NotificationRepo::create()->notification(Constants::Q_APPROVED_TITLE,
             Constants::Q_APPROVED_TEXT,
-            '/quotation/preview/'.$id,0,'Agency', Auth::user()->id);
+            '/quotation/preview/'.$id,0,'Agency', Auth::user()->id)->success('Accepted successfully');
 
         //TODO:: generate pdf here
         //TODO:: send mails
@@ -113,8 +118,6 @@ class QuotationController extends Controller
                 Constants::LEAD_QUOTATION_APPROVED)->simplePaginate(25);
         }
 
-
-
         return view('pdas.index')
             ->withDms($dms)
             ->withStatus($status);
@@ -128,7 +131,8 @@ class QuotationController extends Controller
 
         NotificationRepo::create()->notification(Constants::Q_DECLINED_C_TITLE,
             Constants::Q_DECLINED_C_TEXT,
-            '/quotation/preview/'.$id,0,'Agency', Auth::user()->id);
+            '/quotation/preview/'.$id,0,'Agency', Auth::user()->id)
+        ->warning('Declined by customer');
 
         //TODO:: generate pdf here
         //TODO:: send mails
@@ -138,14 +142,37 @@ class QuotationController extends Controller
 
     public function convertCustomer(Request $request, $id)
     {
+        $quotation = Quotation::with(['user','consignee','lead','parties','cargos.goodType',
+            'vessel','voyage','services.tariff','remarks.user'])->findOrFail($id);
+
+        if ($quotation->consignee == null){
+            NotificationRepo::create()->error('No Consignee details added');
+            return redirect()->back();
+        }
+
+        if ($quotation->voyage == null){
+            NotificationRepo::create()->error('No Voyage details added');
+            return redirect()->back();
+        }
+
+        if (count($quotation->services) < 1){
+            NotificationRepo::create()->error('No Services added');
+            return redirect()->back();
+        }
+
+        if (count($quotation->cargos) < 1){
+            NotificationRepo::create()->error('No Cargo added');
+            return redirect()->back();
+        }
+
         QuotationRepo::make()->changeStatus($id,
             Constants::LEAD_QUOTATION_CONVERTED);
 
         NotificationRepo::create()->notification(Constants::Q_DECLINED_C_TITLE,
             Constants::Q_DECLINED_C_TEXT,
-            '/quotation/preview/'.$id,0,'Agency', Auth::user()->id);
+            '/quotation/preview/'.$id,0,'Agency', Auth::user()->id)
+        ->success('Invoice generated and Project created successfully');
 
-        $quotation = Quotation::with(['user','consignee','lead'])->findOrFail($id);
         $leadData =  $quotation->lead;
         $customer = CustomersRepo::customerInit()->convertLeadToCustomer($leadData->toArray());
 

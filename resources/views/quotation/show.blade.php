@@ -484,16 +484,16 @@
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="eta"> ETA</label>
-                                                                <input type="datetime-local" id="eta"  name="eta" class="form-control" placeholder="Port of Discharge">
+                                                                <input type="text" id="eta"  name="eta" class="form-control datepicker">
                                                             </div>
                                                             <div class="form-group">
 
                                                                 <label for="vessel_arrived"> Vessel Arrived(ATA)</label>
-                                                                <input type="datetime-local" id="vessel_arrived"  name="vessel_arrived" class="form-control" placeholder=" Vessel Arrived">
+                                                                <input type="text" id="vessel_arrived"  name="vessel_arrived" class="form-control datepicker">
                                                             </div>
                                                             <div class="form-group">
                                                                 <br>
-                                                                <input class="btn btn-block btn-primary" type="submit" value="Save">
+                                                                <input class="btn pull-right btn-primary" type="submit" value="Save">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -572,6 +572,9 @@
                     </div>
                     <div class="col-md-12">
                         <div class="table-responsive m-t-40" style="clear: both;">
+                            @if($quotation->status != \Esl\helpers\Constants::LEAD_QUOTATION_ACCEPTED
+                            && $quotation->status != \Esl\helpers\Constants::LEAD_QUOTATION_WAITING
+                            && $quotation->status != \Esl\helpers\Constants::LEAD_QUOTATION_CONVERTED)
                             <h3>Add Tariff Service</h3>
                             <div class="row">
                                 <div class="col-sm-12">
@@ -625,6 +628,7 @@
                                     <button onclick="addServiceToQuotaion()" class="btn btn-primary pull-right">Add</button>
                                 </div>
                             </div>
+                            @endif
                             <table class="table table-hover">
                                 <thead>
                                 <tr>
@@ -682,6 +686,7 @@
                                                                                         <input type="text" required id="units" name="units" value="{{ $service->units }}" class="form-control" placeholder="Units">
                                                                                     </div>
                                                                                     <div class="form-group">
+                                                                                        <label for="tax">Tax Rate</label>
                                                                                         <select name="tax" required id="tax" class="form-control select2">
                                                                                             @foreach($taxs as $tax)
                                                                                                 <option value="{{$tax}}">{{ ucwords($tax->Description) }} - {{ $tax->TaxRate }} %</option>
@@ -718,11 +723,11 @@
                     </div>
                     <div class="col-md-12">
                         <div class="pull-right m-t-30 text-right">
-                            <p id="sub_ex">Total (Excl) $ : {{ number_format($quotation->services->sum('total') - $quotation->services->sum('tax')) }}</p>
-                            <p id="total_tax">Tax $ : {{ number_format($quotation->services->sum('tax')) }} </p>
-                            <p id="sub_in">Total (Incl) $ : {{ number_format($quotation->services->sum('total')) }} </p>
+                            <p id="sub_ex">Total (Excl) {{$quotation->lead->currency }} : {{ number_format($quotation->services->sum('total') - $quotation->services->sum('tax')) }}</p>
+                            <p id="total_tax">Tax {{$quotation->lead->currency }} : {{ number_format($quotation->services->sum('tax')) }} </p>
+                            <p id="sub_in">Total (Incl) {{$quotation->lead->currency }} : {{ number_format($quotation->services->sum('total')) }} </p>
                             <hr>
-                            <h3 id="total_amount"><b>Total (Incl) $ :</b> {{ number_format($quotation->services->sum('total')) }}</h3>
+                            <h3 id="total_amount"><b>Total (Incl) {{$quotation->lead->currency }} :</b> {{ number_format($quotation->services->sum('total')) }}</h3>
                         </div>
                         <div class="clearfix"></div>
                         <hr>
@@ -772,15 +777,42 @@
                                 </tbody>
                             </table>
                         </div>
+                        <div class="col-sm-12">
+                            <form id="pda_remarks_form" action="" method="post">
+                                {{ csrf_field() }}
+                                <div class="form-group">
+                                    <label for="remarks">Remarks</label>
+                                    <textarea name="remarks" id="remarks" cols="30" rows="3" class="form-control"></textarea>
+                                </div>
+                                <input type="hidden" name="quotation_id" id="quotation_id" value="{{ $quotation->id }}">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <button class="btn btn-primary pull-right"  onclick="event.preventDefault(); remark()">Add remark</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                         <hr>
                         <div class="text-right">
+                            @if($quotation->status == \Esl\helpers\Constants::LEAD_QUOTATION_APPROVED)
                                 <a href="{{ url('/quotation/send/'.$quotation->id) }}" class="btn btn btn-outline-success">Send To Customer</a>
+                            @endif
+                                @if($quotation->status == \Esl\helpers\Constants::LEAD_QUOTATION_WAITING)
                                 <a href="{{ url('/quotation/customer/accepted/'.$quotation->id) }}" class="btn btn btn-primary">Accepted</a>
                                 <a href="{{ url('/quotation/customer/declined/'.$quotation->id) }}" class="btn btn-danger" type="submit"> Declined </a>
+                                @endif
+                                @if($quotation->status == \Esl\helpers\Constants::LEAD_QUOTATION_ACCEPTED)
                                 <a href="{{ url('/quotation/convert/'.$quotation->id) }}" class="btn btn btn-primary">Start Processing</a>
+                                @endif
 {{--                                <a href="{{ url('/quotation/customer/accepted/'.$quotation->id) }}" class="btn btn btn-primary">Archive</a>--}}
                                 <a href="{{ url('/quotation/preview/'.$quotation->id) }}" class="btn btn btn-outline-success">Preview</a>
+                                @if($quotation->status != \Esl\helpers\Constants::LEAD_QUOTATION_ACCEPTED
+                            && $quotation->status != \Esl\helpers\Constants::LEAD_QUOTATION_WAITING
+                            && $quotation->status != \Esl\helpers\Constants::LEAD_QUOTATION_REQUEST
+                            && $quotation->status != \Esl\helpers\Constants::LEAD_QUOTATION_APPROVED
+                            && $quotation->status != \Esl\helpers\Constants::LEAD_QUOTATION_CONVERTED)
                                 <a href="{{ url('/quotation/request/'.$quotation->id) }}" class="btn btn-success" type="submit"> Request Approval </a>
+                                    @endif
                         </div>
                     </div>
                 </div>
@@ -790,6 +822,30 @@
 @endsection
 @section('scripts')
     <script>
+        var form = $('#pda_remarks_form');
+        var currency = '{{$quotation->lead->currency }}';
+
+        function remark() {
+            var formData = form.serializeArray().reduce(function (obj, item){
+                obj[item.name] = item.value;
+                return obj;
+            }, {});
+
+            submitData(formData,'/agency/remark')
+        }
+
+        function submitData(data, formUrl) {
+            console.log(data);
+            axios.post('{{ url('/') }}' + formUrl, data)
+                .then(function (response) {
+                    console.log(response.data)
+                    window.location.reload();
+                })
+                .catch(function (response) {
+                    console.log(response.data);
+                });
+        }
+
         var vessel = $('#vessel');
         vessel.on('submit', function (e) {
             var data = vessel.serializeArray().reduce(function(obj, item) {
@@ -974,10 +1030,10 @@
                     .then(function (response) {
 //                       TODO::validation
                         $('#q_service').empty().append(response.data.success.services);
-                        $('#sub_ex').empty().append("Total (Excl) $ : " + response.data.success.exc_total);
-                        $('#total_tax').empty().append("Tax $ : " + response.data.success.total_tax);
-                        $('#sub_in').empty().append("Total (Incl) $ : " + response.data.success.inc_total);
-                        $('#total_amount').empty().append("<b>Total (Incl) $ :</b>  " + response.data.success.inc_total);
+                        $('#sub_ex').empty().append("Total (Excl) " + this.currency + " : " + response.data.success.exc_total);
+                        $('#total_tax').empty().append("Tax " + this.currency + " : " + response.data.success.total_tax);
+                        $('#sub_in').empty().append("Total (Incl) " + this.currency + " : " + response.data.success.inc_total);
+                        $('#total_amount').empty().append("<b>Total (Incl) " + this.currency + " :</b>  " + response.data.success.inc_total);
                         $('#service').empty();
                         this.data['service'] = {};
                     })
@@ -996,10 +1052,10 @@
                 .then(function (response) {
 //                       TODO::validation
                     $('#q_service').empty().append(response.data.success.services);
-                    $('#sub_ex').empty().append("Total (Excl) $ : " + response.data.success.total);
-                    $('#total_tax').empty().append(response.data.success.total_tax);
-                    $('#sub_in').empty().append("Total (Incl) $ : " + response.data.success.total);
-                    $('#total_amount').empty().append("<b>Total (Incl) $ :</b>  " + response.data.success.total);
+                    $('#sub_ex').empty().append("Total (Excl) " + this.currency + " : " + response.data.success.exc_total);
+                    $('#total_tax').empty().append("Tax " + this.currency + " : " + response.data.success.total_tax);
+                    $('#sub_in').empty().append("Total (Incl) " + this.currency + " : " + response.data.success.inc_total);
+                    $('#total_amount').empty().append("<b>Total (Incl) " + this.currency + " :</b>  " + response.data.success.inc_total);
                     $('#service').empty();
                     this.data['service'] = {};
                 })
