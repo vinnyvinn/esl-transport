@@ -8,7 +8,7 @@ class Stage extends Model
 {
 
     protected $dateFormat = 'Y-m-d H:i:s';
-    protected $fillable = ['name','description'];
+    protected $fillable = ['name','service','description'];
 
     public function sComments()
     {

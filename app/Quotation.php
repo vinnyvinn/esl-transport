@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Quotation extends Model
 {
     protected $dateFormat = 'Y-m-d H:i:s';
-    protected $fillable = [ 'lead_id','user_id','vessel_id','status'];
+    protected $fillable = [ 'lead_id','user_id','service_type_id','vessel_id','status'];
 
     public function vessel()
     {
@@ -50,5 +50,10 @@ class Quotation extends Model
     public function remarks()
     {
         return $this->hasMany(Remarks::class, 'quotation_id','id');
+    }
+
+    public function logs()
+    {
+        return $this->hasMany(QuotationLog::class,'quotation_id','id');
     }
 }

@@ -17,9 +17,9 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <div class="card">
+                <div class="card card-outline-primary">
                     <div class="card-header">
-                        <h4 class="card-title">Accepted PDAs</h4>
+                        <h4 class="card-title text-white">Active FDAs</h4>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -46,20 +46,76 @@
                                 </thead>
                                 <tbody id="customers">
                                 @foreach($dms as $dm)
-                                    <tr>
-                                        <td>{{ $dm->bl_number }}</td>
-                                        <td>{{ ucwords($dm->customer->Name) }}</td>
-                                        <td>{{ strtoupper($dm->vessel->name) }}</td>
-                                        <td>{{ ucwords($dm->vessel->port_of_discharge ) }}, {{ ucwords($dm->vessel->country_of_discharge ) }}</td>
-                                        <td>{{ ucwords($dm->vessel->port_of_loading ) }}, {{ ucwords($dm->vessel->country_of_loading ) }}</td>
-                                        <td>{{ $dm->cargo->sum('weight')}}</td>
-{{--                                        <td>{{ $dm->stage }}</td>--}}
-                                        <td>{{ \Carbon\Carbon::parse($dm->created_at)->format('d-M-y') }}</td>
-                                        <td class="text-nowrap">
+                                    @if($dm->status == 0)
+                                        <tr>
+                                            <td>{{ $dm->bl_number }}</td>
+                                            <td>{{ ucwords($dm->customer->Name) }}</td>
+                                            <td>{{ strtoupper($dm->vessel->name) }}</td>
+                                            <td>{{ ucwords($dm->vessel->port_of_discharge ) }}, {{ ucwords($dm->vessel->country_of_discharge ) }}</td>
+                                            <td>{{ ucwords($dm->vessel->port_of_loading ) }}, {{ ucwords($dm->vessel->country_of_loading ) }}</td>
+                                            <td>{{ $dm->cargo->sum('weight')}}</td>
+                                            {{--                                        <td>{{ $dm->stage }}</td>--}}
+                                            <td>{{ \Carbon\Carbon::parse($dm->created_at)->format('d-M-y') }}</td>
+                                            <td class="text-nowrap">
                                                 <a href=" {{ url('dms/edit/'. $dm->id) }}" class="btn btn-sm btn-primary"><i class="fa fa-check"></i></a>
 
-                                        </td>
-                                    </tr>
+                                            </td>
+                                        </tr>
+                                        @endif
+                                @endforeach
+                                </tbody>
+                            </table>
+                            <div class="footable pagination">
+                                {{ $dms->links() }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card card-outline-success">
+                    <div class="card-header">
+                        <h4 class="card-title text-white">Completed FDAs</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    Search : <input type="text" id="search_lead">
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Number</th>
+                                    <th>Customer</th>
+                                    <th>Vessel Name</th>
+                                    <th>Port Of Discharge</th>
+                                    <th>Port Of Loading</th>
+                                    <th>Cargo Weight</th>
+                                    <th>Created</th>
+                                    <th class="text-nowrap">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody id="customers">
+                                @foreach($dms as $dm)
+                                    @if($dm->status == 1)
+                                        <tr>
+                                            <td>{{ $dm->bl_number }}</td>
+                                            <td>{{ ucwords($dm->customer->Name) }}</td>
+                                            <td>{{ strtoupper($dm->vessel->name) }}</td>
+                                            <td>{{ ucwords($dm->vessel->port_of_discharge ) }}, {{ ucwords($dm->vessel->country_of_discharge ) }}</td>
+                                            <td>{{ ucwords($dm->vessel->port_of_loading ) }}, {{ ucwords($dm->vessel->country_of_loading ) }}</td>
+                                            <td>{{ $dm->cargo->sum('weight')}}</td>
+                                            {{--                                        <td>{{ $dm->stage }}</td>--}}
+                                            <td>{{ \Carbon\Carbon::parse($dm->created_at)->format('d-M-y') }}</td>
+                                            <td class="text-nowrap">
+                                                <a href=" {{ url('dms/edit/'. $dm->id) }}" class="btn btn-sm btn-primary"><i class="fa fa-check"></i></a>
+
+                                            </td>
+                                        </tr>
+                                        @endif
                                 @endforeach
                                 </tbody>
                             </table>

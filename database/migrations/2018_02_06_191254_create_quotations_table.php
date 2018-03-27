@@ -18,6 +18,7 @@ class CreateQuotationsTable extends Migration
             $table->integer('user_id');
             $table->integer('lead_id');
             $table->integer('vessel_id');
+            $table->integer('service_type_id')->nullable();
             $table->string('status');
             $table->timestamps();
         });

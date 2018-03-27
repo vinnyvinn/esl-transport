@@ -38,9 +38,9 @@
                                     <th>Contact Person</th>
                                     <th>Phone</th>
                                     <th>Email</th>
-                                    <th>Address</th>
+                                    {{--<th>Address</th>--}}
                                     <th>Telephone</th>
-                                    <th>Physical Location</th>
+                                    {{--<th>Physical Location</th>--}}
                                     <th>Created</th>
                                     <th class="text-right">Action</th>
                                 </tr>
@@ -52,9 +52,9 @@
                                         <td>{{ ucfirst($lead->contact_person) }}</td>
                                         <td>{{ $lead->phone }}</td>
                                         <td>{{ $lead->email }}</td>
-                                        <td>{{ $lead->address }}</td>
+{{--                                        <td>{{ $lead->address }}</td>--}}
                                         <td>{{ $lead->telephone }}</td>
-                                        <td>{{ $lead->location }}</td>
+{{--                                        <td>{{ $lead->location }}</td>--}}
                                         <td>{{ \Carbon\Carbon::parse($lead->created_at)->format('d-M-y') }}</td>
                                         <td class="text-right">
                                             <form action="{{ route('leads.destroy', $lead->id) }}" method="post">

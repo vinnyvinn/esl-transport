@@ -16,16 +16,17 @@ class CreateBillOfLandingsTable extends Migration
         Schema::create('bill_of_landings', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('vessel_id');
-            $table->integer('voyage_id');
-            $table->integer('quote_id');
-            $table->integer('Client_id');
-            $table->integer('cargo_id');
-            $table->integer('consignee_id');
+            $table->integer('voyage_id')->nullable();
+            $table->integer('quote_id')->nullable();
+            $table->integer('service_type_id')->nullable();
+            $table->integer('Client_id')->nullable();
+            $table->integer('cargo_id')->nullable();
+            $table->integer('consignee_id')->nullable();
             $table->string('code_name')->nullable();
             $table->string('stage')->nullable();
-            $table->string('bl_number');
-            $table->dateTime('laytime_start');
-            $table->string('time_allowed');
+            $table->string('bl_number')->nullable();
+            $table->dateTime('laytime_start')->nullable();
+            $table->string('time_allowed')->nullable();
             $table->string('seal_number')->nullable();
             $table->string('berth_number')->nullable();
             $table->string('place_of_receipt')->nullable();

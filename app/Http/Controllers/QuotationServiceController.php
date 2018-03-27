@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Quotation;
 use App\QuotationService;
 use Carbon\Carbon;
 use Esl\helpers\Constants;
 use Esl\Repository\QuotationServiceRepo;
+use Esl\Repository\SaveInstanceRepo;
 use Illuminate\Http\Request;
 
 class QuotationServiceController extends Controller
@@ -31,21 +33,31 @@ class QuotationServiceController extends Controller
             ]);
         }
 
+        $quote = Quotation::with(['lead','parties','cargos.goodType','consignee',
+            'vessel','voyage','services.tariff','remarks.user'])->findOrFail($data['quotation']);
+        SaveInstanceRepo::init()->Quotation($data['quotation'],$quote->toArray());
+
         return Response(['success' => $this->quotationServices($data['quotation'])]);
 
     }
 
     public function deleteQuotationService(Request $request)
     {
-        QuotationService::findOrFail($request->service_id)->delete();
+        $service = QuotationService::findOrFail($request->service_id);
+        $service->delete();
+
+        $quote = Quotation::with(['lead','parties','cargos.goodType','consignee',
+            'vessel','voyage','services.tariff','remarks.user'])->findOrFail($service->quotation_id);
+        SaveInstanceRepo::init()->Quotation($service->quotation_id,$quote->toArray());
+
         return Response(['success' => $this->quotationServices($request->quotation_id)]);
     }
 
     public function updateService(Request $request)
     {
         $tax = json_decode($request->tax);
-        QuotationService::findOrFail($request->service_id)
-        ->update([
+        $service = QuotationService::findOrFail($request->service_id);
+        $service->update([
             'tax_code' => $tax->Code,
             'tax_description' => $tax->Description,
             'tax_id' => $tax->idTaxRate,
@@ -57,8 +69,9 @@ class QuotationServiceController extends Controller
             'tax' => (($tax->TaxRate) * ($request->rate * $request->units) / 100),
             'total' => ((($tax->TaxRate) * ($request->rate * $request->units) / 100) + ($request->rate * $request->units))
         ]);
-
-
+        $quote = Quotation::with(['lead','parties','cargos.goodType','consignee',
+            'vessel','voyage','services.tariff','remarks.user'])->findOrFail($service->quotation_id);
+        SaveInstanceRepo::init()->Quotation($service->quotation_id,$quote->toArray());
 
         return Response(['success' => 'done']);
     }
@@ -68,11 +81,13 @@ class QuotationServiceController extends Controller
         $result = QuotationServiceRepo::init()->getQuotationServices($id);
 
         $output = "";
-        foreach ($result['services'] as $item){
-            $output .= '<tr>'.
-                '<td>'. ucwords($item->description).'</td>'.
-                '<td class="text-right">'.$item->grt_loa.'</td>'.
-                '<td class="text-right">'.$item->rate.'</td>'.
+        foreach ($result['services'] as $item) {
+            $output .= '<tr>' .
+                '<td>' . ucwords($item->description) . '</td>';
+                if ($item->grt_loa != null){
+                    $output = $output . '<td class="text-right">' . $item->grt_loa . '</td>';
+                }
+            $output = $output .'<td class="text-right">'.$item->rate.'</td>'.
                 '<td class="text-right">'.$item->units.'</td>'.
                 '<td class="text-right">'.$item->tax.'</td>'.
                 '<td class="text-right">'.number_format($item->total).'</td>'.

@@ -28,6 +28,14 @@
                                         <label for="name">Name</label>
                                         <input type="text" required id="name" name="name" class="form-control" placeholder="Name">
                                     </div>
+                                    <div class="form-group"><label for="service">Category</label>
+                                        <select name="service" id="service" class="form-control select2">
+                                            <option value="">Select</option>
+                                            <option value="0">General</option>
+                                            @foreach(\App\ExtraServiceType::all() as $value)
+                                                <option value="{{$value->id}}">{{$value->name}}</option>
+                                                @endforeach
+                                        </select></div>
                                 </div>
 
                                     <div class="col-sm-6">
@@ -37,7 +45,7 @@
                                         </div>
                                         <div class="form-group">
                                             <br>
-                                            <input class="btn btn-primary" type="submit" value="Save">
+                                            <input class="btn pull-right btn-primary" type="submit" value="Save">
                                         </div>
                                     </div>
                             </div>

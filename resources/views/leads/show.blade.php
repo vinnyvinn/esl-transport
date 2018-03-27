@@ -35,9 +35,31 @@
                             </tr>
                         </table>
                         @if(count($quotations->quotation)<1)
-                        <div class="col-sm-8">
-                            <a href="{{ url('/customer-request/'.$lead->id.'/'.\Esl\helpers\Constants::LEAD_CUSTOMER) }}" class="btn btn-primary">Generate Quotation</a>
-                        </div>
+                            <div class="row">
+                                    <div class="col-sm-6">
+                                        <a href="{{ url('/customer-request/'.$lead->id.'/'.\Esl\helpers\Constants::LEAD_CUSTOMER) }}" class="btn btn-primary">Gen. Quotation</a>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <form action="{{url('/customer-request/'.$lead->id.'/000')}}" method="get">
+                                            <div class="row">
+                                                <div class="col-sm-8">
+                                                    <div class="form-group">
+                                                        <select name="type" width="100%" id="type" class="select2 form-control">
+                                                            <option value="">Select Service to Quote</option>
+                                                            @foreach(\App\ExtraServiceType::all()->sortBy('name') as $value)
+                                                                <option value="{{$value->id}}">{{$value->name}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <button class="btn btn-primary pull-right">Specific Quotation</button>
+                                                </div>
+                                            </div>
+                                        </form>
+{{--                                        <a href="{{ url('/customer-request/'.$lead->id.'/'.\Esl\helpers\Constants::LEAD_CUSTOMER) }}" class="btn btn-primary">Generate Quotation</a>--}}
+                                    </div>
+                            </div>
                             @endif
                     </div>
                 </div>

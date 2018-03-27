@@ -16,8 +16,6 @@ class BillOfLandingController extends Controller
     public function edit($id)
     {
         $bl = BillOfLanding::with(['vessel','quote.services','customer','cargo'])->findOrFail($id);
-
-dd($bl);
     }
 
     public function test()

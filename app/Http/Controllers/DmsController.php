@@ -25,7 +25,7 @@ class DmsController extends Controller
     public function edit($id)
     {
         $dms = BillOfLanding::with(['vessel.vDocs','sof','quote.services',
-            'quote.voyage','customer','cargo','consignee'])->findOrFail($id);
+            'quote.voyage','customer','quote.cargos','quote.logs','consignee'])->findOrFail($id);
 
         $dmsComponents = DmsComponent::with(['scomponent.stage'])->where('bill_of_landing_id',$id)->get();
         $checklist = $dmsComponents->map(function ($value) {
@@ -56,13 +56,25 @@ class DmsController extends Controller
             }
         }
 
+        if ($dms->service_type_id != null){
+            $update = false;
+            if ($dms->code_name == null || $dms->seal_number == null || $dms->berth_number == null){
+                $update = true;
+            }
+            return view('dms.other-edit')
+                ->withDms($dms)
+                ->withStageids($stageids)
+                ->withChecklist($checklist->groupBy('title'))
+                ->withUpdate($update)
+                ->withStages(Stage::with(['components'])->where('service',$dms->service_type_id)->get());
+        }
 
         return view('dms.edit')
             ->withDms($dms)
             ->withStageids($stageids)
             ->withChecklist($checklist->groupBy('title'))
             ->withUpdate($update)
-            ->withStages(Stage::with(['components'])->get());
+            ->withStages(Stage::with(['components'])->where('service',0)->get());
     }
 
     public function store(Request $request)
@@ -168,6 +180,16 @@ class DmsController extends Controller
             '</tr>']);
     }
 
+    public function complete($id)
+    {
+        $dms = BillOfLanding::findOrFail($id);
+        $dms->status= 1;
+        $dms->save();
+
+        NotificationRepo::create()->success('Project completed successfully');
+        return redirect()->back();
+    }
+
     public function updateDms(Request $request)
     {
         $data = $request->all();
@@ -183,9 +205,9 @@ class DmsController extends Controller
 
     public function generateLayTime($id)
     {
-        $dms = BillOfLanding::with(['sof','cargo','vessel','customer','quote.voyage'])->findOrFail($id);
+        $dms = BillOfLanding::with(['sof','cargo','vessel','customer','quote.cargos','quote.voyage'])->findOrFail($id);
 
-        $port_stay = ceil($dms->cargo->first()->weight/$dms->cargo->first()->discharge_rate);
+        $port_stay = ceil($dms->quote->cargos->first()->weight/$dms->quote->cargos->first()->discharge_rate);
 
         $laytime = [];
         $lowerpart['timeallowed'] = $this->getTimeDeatils(($port_stay * 24 * 60 * 60));
@@ -210,7 +232,7 @@ class DmsController extends Controller
             [
                 'vesselname' => $dms->vessel->name,
                 'bl' => $dms->bl_number,
-                'supplier' => $dms->cargo->first()->shipper,
+                'supplier' => $dms->quote->cargos->first()->shipper,
                 'arrive' => Carbon::parse($dms->quote->voyage->vessel_arrived)->format('d-M-y'),
                 'weight' => $dms->vessel->grt,
                 'rate' => $dms->discharge_rate,

@@ -17,6 +17,15 @@
                 <li> <a class="has-arrow waves-effect waves-dark" href="{{ url('/other-services') }}" aria-expanded="false">
                         <i class="mdi mdi-gauge"></i><span class="hide-menu">Extra Services</span></a>
                 </li>
+                <li> <a class="has-arrow waves-effect waves-dark" href="{{ url('/all-pdas') }}" aria-expanded="false">
+                        <i class="mdi mdi-gauge"></i><span class="hide-menu">PDAs</span></a>
+                </li>
+                <li> <a class="has-arrow waves-effect waves-dark" href="{{ url('/dms') }}" aria-expanded="false">
+                        <i class="mdi mdi-gauge"></i><span class="hide-menu">FDAs</span></a>
+                </li>
+                <li> <a class="has-arrow waves-effect waves-dark" href="{{ url('/reports') }}" aria-expanded="false">
+                        <i class="mdi mdi-gauge"></i><span class="hide-menu">Reports</span></a>
+                </li>
 
                 <li> <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
                         <i class="mdi mdi-account"></i><span class="hide-menu">HODs</span></a>

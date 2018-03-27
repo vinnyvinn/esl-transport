@@ -71,7 +71,9 @@ class CustomersRepo
 
     private function deleteLead($id)
     {
-        Lead::findOrFail($id)->update(['status'=>1]);
+        $lead = Lead::findOrFail($id);
+        $lead->status = 1;
+        $lead->save();
 
         return true;
     }

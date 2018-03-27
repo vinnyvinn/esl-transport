@@ -23,7 +23,8 @@
                     <div class="card-body">
                         <!-- Row -->
                         <div class="row">
-                            <a href="{{ url('/leads') }}" class="btn btn-primary">Initiate Quotation</a>
+                            <h4>Generate Quotation</h4>
+                            <a href="{{ url('/leads') }}" class="btn btn-primary">Quotation</a>
                         </div>
                     </div>
                 </div>
@@ -64,24 +65,11 @@
                     <div class="card-body">
                         <!-- Row -->
                         <div class="row">
-                            <form action="" method="get">
-                                {{ csrf_field() }}
-                                <div class="row">
-                                    <div class="col-sm-8">
-                                        <div class="form-group">
-                                            <select name="type" width="100%" id="type" class="select2 form-control">
-                                                <option value="">Select Service to Quote</option>
-                                                @foreach(\App\ExtraServiceType::all()->sortBy('name') as $value)
-                                                    <option value="{{$value->id}}">{{$value->name}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <button class="btn btn-sm btn-primary pull-right">Generate</button>
-                                    </div>
-                                </div>
-                            </form>
+                            <div class="col-8"><h2 class="">{{ count(\App\BillOfLanding::where('status', 1)->get()) }} <i class="ti-angle-up font-14 text-success"></i></h2>
+                                <h6>FDA</h6></div>
+                            <div class="col-4 align-self-center text-right p-l-0">
+                                <div id="sparklinedash"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -141,7 +129,7 @@
                             @foreach($v_notifications as $notification)
                                 <li>
                                     <div class="bg-light-info"><i class="fa fa-bell-o"></i></div> You have 4 pending tasks.
-                                    <a href="{{ url('/notifications/'.$notification->id) }}" class="btn btn-xs btn-primary"><i class="fa fa-eye"></i></a> <span class="text-muted"> 1 mins</span>
+                                    <a href="{{ url('/notifications/'.$notification->id) }}" class="btn btn-xs btn-primary"><i class="fa fa-eye"></i></a> <span class="text-muted"> {{ \Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}</span>
                                 </li>
                                 @endforeach
                         </ul>

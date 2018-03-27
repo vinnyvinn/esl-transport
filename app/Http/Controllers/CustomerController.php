@@ -222,6 +222,32 @@ class CustomerController extends Controller
         return Response(['success' => ['redirect' => url('/quotation/'.$quote->id)]]);
     }
 
+    public function oVesselDetails(Request $request)
+    {
+        $vessels = Vessel::where('name', $request->name)
+            ->where('lead_id', $request->lead_id)->get();
+        if (!$vessels->isEmpty()){
+            $vessel = $vessels->last();
+            $vessel->update($request->all());
+
+            NotificationRepo::create()->success('updated successfully');
+            return Response(['success' => ['vessel_name' => $vessel->name,
+                'grt' => ($vessel->grt + $vessel->consignee_good), 'loa' => $vessel->loa,
+                'port' => $vessel->port_of_loading]]);
+        }
+
+        $vessel = Vessel::create($request->all());
+
+        $quote = Quotation::create(['user_id'=>Auth::user()->id,
+            'service_type_id' => $request->type,
+            'lead_id' => $request->lead_id, 'vessel_id' => $vessel->id,
+            'status' => Constants::LEAD_QUOTATION_PENDING]);
+
+        NotificationRepo::create()->success('Quotation generated successfully');
+
+        return Response(['success' => ['redirect' => url('/quotation/'.$quote->id)]]);
+    }
+
     public function cargoDetails(Request $request)
     {
         $data = $request->all();

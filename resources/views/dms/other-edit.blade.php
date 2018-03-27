@@ -37,54 +37,54 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="code_name">Code Name</label>
-                                                            <input type="text" required id="code_name" name="code_name" class="form-control">
+                                                            <input type="text" id="code_name" name="code_name" class="form-control">
                                                         </div>
-                                                        <div class="form-group">
-                                                            <label for="seal_number">Seal Number</label>
-                                                            <input type="text" required id="seal_number" name="seal_number" class="form-control">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="berth_number">Berth Number</label>
-                                                            <input type="text" required id="berth_number" name="berth_number" class="form-control">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="laytime_start">Lay Time Start</label>
-                                                            <input type="text" required id="laytime_start" name="laytime_start" class="datepicker form-control">
-                                                        </div>
+                                                        {{--<div class="form-group">--}}
+                                                            {{--<label for="laytime_start">Lay Time Start</label>--}}
+                                                            {{--<input type="text" required id="laytime_start" name="laytime_start" class="datepicker form-control">--}}
+                                                        {{--</div>--}}
                                                     </div>
                                                     <div class="col-sm-6">
                                                         <div class="form-group">
-                                                            <label for="date_of_loading">Date of Loading</label>
-                                                            <input type="text" required id="date_of_loading" name="date_of_loading" class="datepicker form-control">
+                                                            <label for="seal_number">Seal Number</label>
+                                                            <input type="text" id="seal_number" name="seal_number" class="form-control">
                                                         </div>
                                                         <div class="form-group">
-                                                            <label for="place_of_receipt">Place of Receipt</label>
-                                                            <input type="text" required id="place_of_receipt" name="place_of_receipt" class="form-control">
+                                                            <label for="berth_number">Berth Number</label>
+                                                            <input type="text" id="berth_number" name="berth_number" class="form-control">
                                                         </div>
+                                                        {{--<div class="form-group">--}}
+                                                            {{--<label for="date_of_loading">Date of Loading</label>--}}
+                                                            {{--<input type="text" id="date_of_loading" name="date_of_loading" class="datepicker form-control">--}}
+                                                        {{--</div>--}}
+                                                        {{--<div class="form-group">--}}
+                                                            {{--<label for="place_of_receipt">Place of Receipt</label>--}}
+                                                            {{--<input type="text" required id="place_of_receipt" name="place_of_receipt" class="form-control">--}}
+                                                        {{--</div>--}}
                                                         <input type="hidden" name="dms_id" value="{{ $dms->id }}">
-                                                        <div class="form-group">
-                                                            <label for="time_allowed">Time Allowed</label>
-                                                            <div class="row">
-                                                                <div class="col-sm-12">
-                                                                    <div class="row">
-                                                                        <div class="col-sm-6">
-                                                                            <div class="form-group"><label for="days">Number of Days</label>
-                                                                                <input type="text" name="days" id="days" class="form-control">
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-sm-6">
-                                                                            <div class="form-group"><label for="hours">Number of Hours</label>
-                                                                                <input type="text" name="hours" id="hours" class="form-control">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="number_of_crane">Number of Cranes </label>
-                                                            <input type="text" required id="number_of_crane" name="number_of_crane" class="form-control" placeholder="Number of Cranes">
-                                                        </div>
+                                                        {{--<div class="form-group">--}}
+                                                            {{--<label for="time_allowed">Time Allowed</label>--}}
+                                                            {{--<div class="row">--}}
+                                                                {{--<div class="col-sm-12">--}}
+                                                                    {{--<div class="row">--}}
+                                                                        {{--<div class="col-sm-6">--}}
+                                                                            {{--<div class="form-group"><label for="days">Number of Days</label>--}}
+                                                                                {{--<input type="text" name="days" id="days" class="form-control">--}}
+                                                                            {{--</div>--}}
+                                                                        {{--</div>--}}
+                                                                        {{--<div class="col-sm-6">--}}
+                                                                            {{--<div class="form-group"><label for="hours">Number of Hours</label>--}}
+                                                                                {{--<input type="text" name="hours" id="hours" class="form-control">--}}
+                                                                            {{--</div>--}}
+                                                                        {{--</div>--}}
+                                                                    {{--</div>--}}
+                                                                {{--</div>--}}
+                                                            {{--</div>--}}
+                                                        {{--</div>--}}
+                                                        {{--<div class="form-group">--}}
+                                                            {{--<label for="number_of_crane">Number of Cranes </label>--}}
+                                                            {{--<input type="text" required id="number_of_crane" name="number_of_crane" class="form-control" placeholder="Number of Cranes">--}}
+                                                        {{--</div>--}}
                                                         <div class="form-group">
                                                             <br>
                                                             <input class="btn pull-right btn-primary" type="submit" value="Update">
@@ -105,14 +105,14 @@
                                             </a> </li>
                                         <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#home" role="tab">
                                                 <span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Vessel Details</span></a> </li>
-                                        <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#profile" role="tab">
-                                                <span class="hidden-sm-up"><i class="ti-user"></i></span> <span class="hidden-xs-down">Cargo</span></a> </li>
-                                        <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#messages" role="tab">
-                                                <span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">Voyage Details</span></a> </li>
+                                        {{--<li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#profile" role="tab">--}}
+                                                {{--<span class="hidden-sm-up"><i class="ti-user"></i></span> <span class="hidden-xs-down">Cargo</span></a> </li>--}}
+                                        {{--<li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#messages" role="tab">--}}
+                                                {{--<span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">Voyage Details</span></a> </li>--}}
                                          <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#agency" role="tab">
                                                 <span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">Actions</span></a> </li>
-                                        <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#sof" role="tab">
-                                                <span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">SOF</span></a> </li>
+                                        {{--<li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#sof" role="tab">--}}
+                                                {{--<span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">SOF</span></a> </li>--}}
                                         <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#checklist1" role="tab">
                                                 <span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">Checklist Details</span></a> </li>
                                         <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#history" role="tab">
@@ -197,16 +197,16 @@
                                                         <td><strong>Call Sign : </strong> {{ $dms->vessel->call_sign }}</td>
                                                         <td><strong>IMO Number : </strong> {{ $dms->vessel->imo_number }}</td>
                                                     </tr>
-                                                    <tr>
-                                                        <td><strong>Cargo Discharge Rate : </strong> {{ $dms->quote->cargos->first()->discharge_rate }} MT / WWD</td>
-                                                        <td><strong>Lay Time Start : </strong> {{ \Carbon\Carbon::parse($dms->laytime_start)->format('d-M-y') }}</td>
-                                                        <td><strong>DWT : </strong> {{ $dms->vessel->dwt }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><strong>LOA : </strong> {{ $dms->vessel->loa }}</td>
-                                                        <td><strong>GRT : </strong> {{ $dms->vessel->grt }}</td>
-                                                        <td><strong>Consignee Cargo : </strong> {{ $dms->quote->cargos->first()->weight }}</td>
-                                                    </tr>
+                                                    {{--<tr>--}}
+                                                        {{--<td><strong>Cargo Discharge Rate : </strong> {{ $dms->cargo->first()->discharge_rate }} MT / WWD</td>--}}
+                                                        {{--<td><strong>Lay Time Start : </strong> {{ \Carbon\Carbon::parse($dms->laytime_start)->format('d-M-y') }}</td>--}}
+                                                        {{--<td><strong>DWT : </strong> {{ $dms->vessel->dwt }}</td>--}}
+                                                    {{--</tr>--}}
+                                                    {{--<tr>--}}
+                                                        {{--<td><strong>LOA : </strong> {{ $dms->vessel->loa }}</td>--}}
+                                                        {{--<td><strong>GRT : </strong> {{ $dms->vessel->grt }}</td>--}}
+                                                        {{--<td><strong>Consignee Cargo : </strong> {{ $dms->cargo->first()->weight }}</td>--}}
+                                                    {{--</tr>--}}
                                                     <tr>
                                                         <td><strong>NRT : </strong> {{ $dms->vessel->nrt }}</td>
                                                         <td><strong>Chargeable GRT : </strong> {{ $dms->vessel->grt }}</td>
@@ -215,7 +215,7 @@
                                                     <tr>
                                                         <td><strong>Port of Discharge: </strong> {{ $dms->vessel->port_of_discharge }}, {{ $dms->vessel->country_of_discharge }}</td>
                                                         <td><strong>Place of Receipt: </strong> {{ $dms->place_of_receipt }}</td>
-                                                        <td><strong>Date of Loading : </strong> {{ \Carbon\Carbon::parse($dms->date_of_loading)->format('d-M-y') }}</td>
+                                                        {{--<td><strong>Date of Loading : </strong> {{ \Carbon\Carbon::parse($dms->date_of_loading)->format('d-M-y') }}</td>--}}
                                                     </tr>
                                                 </table>
                                                 <div class="modal fade bs-example-modal-lgvessel" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
@@ -256,56 +256,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="tab-pane  p-20" id="profile" role="tabpanel">
-                                            <table class="table table-striped">
-                                                <thead>
-                                                <tr>
-                                                    <th>Name</th>
-                                                    <th>Cargo Type</th>
-                                                    <th>Discharge Rate</th>
-                                                    <th>Port Stay</th>
-                                                    <th>Shipping Type</th>
-                                                    <th>Package</th>
-                                                    <th>Weight</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                @foreach($dms->quote->cargos as $cargo)
-                                                    <tr>
-                                                        <td>{{ ucwords($cargo->name) }}</td>
-                                                        <td>{{ ucfirst($cargo->goodType->name )}}</td>
-                                                        <td>{{ $cargo->discharge_rate }}</td>
-                                                        <td>{{ ceil($cargo->weight/$cargo->discharge_rate) }} Days</td>
-                                                        <td>{{ ucwords($cargo->shipping_type) }}</td>
-                                                        <td>{{ $cargo->package }}</td>
-                                                        <td>{{ $cargo->weight }}</td>
-                                                    </tr>
-                                                @endforeach
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <div class="tab-pane p-20" id="messages" role="tabpanel">
-                                            <div class="row">
-                                                    <table class="table table-stripped">
-                                                        <tbody>
-                                                        <tr>
-                                                            <td><strong>Name : </strong>{{ ucwords($dms->quote->voyage->name )}}</td>
-                                                            <td><strong>External Voyage NO : </strong> {{ strtoupper($dms->quote->voyage->voyage_no) }}</td>
-                                                            <td><strong>Internal Voyage Code : </strong> {{ strtoupper($dms->quote->voyage->internal_voyage_no) }}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><strong>Final Destination : </strong>{{ ucwords($dms->quote->voyage->final_destination )}}</td>
-                                                            <td><strong>ETA : </strong> {{ \Carbon\Carbon::parse($dms->quote->voyage->eta)->format('d-M-y') }}</td>
-                                                            <td><strong>Vessel Arrived : </strong> {{ \Carbon\Carbon::parse($dms->quote->voyage->vessel_arrived)->format('d-M-y')}}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><strong>Service Code : </strong> {{ strtoupper($dms->quote->voyage->service_code) }}</td>
-                                                        </tr>
-
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                        </div>
                                         <div class="tab-pane p-20" id="agency" role="tabpanel">
                                             <h3 class="text-center">Generate Files</h3>
                                             <hr>
@@ -343,42 +293,42 @@
 
                                             </div>
                                         </div>
-                                        <div class="tab-pane p-20" id="sof" role="tabpanel">
-                                            <h3 class="text-center">Statement Of Facts</h3>
-                                            <div class="card">
-                                                <div class="card-header">
-                                                        <div class="pull-right">
-                                                            <a href="{{ url('/generate/laytime/'.$dms->id) }}" class="btn btn-success">Generate Laytime</a>
-                                                            <button class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg"><i class="fa fa-plus"></i></button>
-                                                        </div>
+                                        {{--<div class="tab-pane p-20" id="sof" role="tabpanel">--}}
+                                            {{--<h3 class="text-center">Statement Of Facts</h3>--}}
+                                            {{--<div class="card">--}}
+                                                {{--<div class="card-header">--}}
+                                                        {{--<div class="pull-right">--}}
+                                                            {{--<a href="{{ url('/generate/laytime/'.$dms->id) }}" class="btn btn-success">Generate Laytime</a>--}}
+                                                            {{--<button class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg"><i class="fa fa-plus"></i></button>--}}
+                                                        {{--</div>--}}
 
-                                                </div>
-                                                <div class="card-body">
-                                                    <table class="table table-boarded">
-                                                        <thead>
-                                                        <tr>
-                                                            <th>Date</th>
-                                                            <th>From</th>
-                                                            <th>To</th>
-                                                            <th>Crane</th>
-                                                            <th>Remarks</th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody id="sof_list">
-                                                        @foreach($dms->sof as $sof)
-                                                            <tr>
-                                                        <td>{{\Carbon\Carbon::parse($sof->created_at)->format('d-M-y')}}</td>
-                                                        <td> {{\Carbon\Carbon::parse($sof->from)->format('H:i') }} HRS</td>
-                                                        <td> {{\Carbon\Carbon::parse($sof->to)->format('H:i') }} HRS</td>
-                                                        <td> {{ $sof->crane_working}}</td>
-                                                        <td> {{ucfirst($sof->remarks)}}</td>
-                                                        </tr>
-                                                            @endforeach
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
+                                                {{--</div>--}}
+                                                {{--<div class="card-body">--}}
+                                                    {{--<table class="table table-boarded">--}}
+                                                        {{--<thead>--}}
+                                                        {{--<tr>--}}
+                                                            {{--<th>Date</th>--}}
+                                                            {{--<th>From</th>--}}
+                                                            {{--<th>To</th>--}}
+                                                            {{--<th>Crane</th>--}}
+                                                            {{--<th>Remarks</th>--}}
+                                                        {{--</tr>--}}
+                                                        {{--</thead>--}}
+                                                        {{--<tbody id="sof_list">--}}
+                                                        {{--@foreach($dms->sof as $sof)--}}
+                                                            {{--<tr>--}}
+                                                        {{--<td>{{\Carbon\Carbon::parse($sof->created_at)->format('d-M-y')}}</td>--}}
+                                                        {{--<td> {{\Carbon\Carbon::parse($sof->from)->format('H:i') }} HRS</td>--}}
+                                                        {{--<td> {{\Carbon\Carbon::parse($sof->to)->format('H:i') }} HRS</td>--}}
+                                                        {{--<td> {{ $sof->crane_working}}</td>--}}
+                                                        {{--<td> {{ucfirst($sof->remarks)}}</td>--}}
+                                                        {{--</tr>--}}
+                                                            {{--@endforeach--}}
+                                                        {{--</tbody>--}}
+                                                    {{--</table>--}}
+                                                {{--</div>--}}
+                                            {{--</div>--}}
+                                        {{--</div>--}}
 {{--                                        @foreach($stages as $stage)--}}
                                             <div class="tab-pane p-20" id="checklist1" role="tabpanel">
                                                 @foreach($checklist as $key => $values)
@@ -419,95 +369,102 @@
                                             </div>
                                         {{--@endforeach--}}
                                         <div class="tab-pane p-20" id="history" role="tabpanel">
-
-                                                <table class="table table-responsive table-bordered">
-                                                    <thead>
+                                            <h4>Quotation History</h4>
+                                            <hr>
+                                            <table class="table table-responsive table-stripped">
+                                                <thead>
+                                                <tr>
+                                                    <th><b>Date</b></th>
+                                                    <th><b>Project Name</b></th>
+                                                    <th class="text-right"><b>Action</b></th>
+                                                </tr>
+                                                </thead>
+                                                @foreach($dms->quote->logs as $key => $values)
+                                                    <tbody>
                                                     <tr>
-                                                        <th><b>Date</b></th>
-                                                        <th><b>Type</b></th>
-                                                        <th><b>Data</b></th>
-                                                        <th><b>Sub checklist</b></th>
-                                                        <th><b>Date Added</b></th>
+                                                        <td>{{\Carbon\Carbon::parse($values->created_at)->format('d-M-y')}}</td>
+                                                        <td>{{json_decode($values->details)->vessel->name}}</td>
+                                                        <td class="text-right">
+                                                            <a target="_blank" href="{{ url('quotation/preview/'.$dms->quote_id)}}" class="btn btn-sm btn-primary"><i class="fa fa-eye"></i></a>
+                                                        </td>
                                                     </tr>
-                                                    </thead>
-                                                    @foreach($dms->quote->logs as $key => $values)
+                                                    </tbody>
 
-                                                        <tbody>
-                                                        <tr>
-                                                        </tr>
-                                                        </tbody>
-
-                                                    @endforeach
-                                                </table>
+                                                @endforeach
+                                            </table>
                                         </div>
                                     </div>
-                                    <a href="{{ url('/dms/complete/'.$dms->id) }}" class="btn pull-right btn-warning text-white mytooltip">
-                                        Complete Project <span class="tooltip-content3">
+                                    @if($dms->status == 0)
+                                        <a href="{{ url('/dms/complete/'.$dms->id) }}" class="btn pull-right btn-warning text-white mytooltip">
+                                            Complete Project <span class="tooltip-content3">
                                                 Are you sure??.</span></a>
+                                        @endif
                                 </div>
                             </div>
-                            @foreach($stages as $stage)
-                                @if(!in_array($stage->id,$stageids))
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h4 class="card-title">{{ ucwords($stage->name) }}</h4>
-                                        <form action="{{ url('/dms/store/') }}" method="post" enctype="multipart/form-data">
-                                            {{ csrf_field() }}
-                                            <table class="table table-stripped">
-                                                <tbody>
-                                                @foreach($stage->components as $component)
-                                                    <tr>
-                                                        <div class="row">
-                                                            <div class="col-sm-4">
-                                                                {{ ucfirst($component->name) }}
-                                                            </div>
-                                                            <input type="hidden" name="stage_component_id[]" value="{{$component->id}}">
-                                                            <input type="hidden" name="dms_id" value="{{$dms->id}}">
-                                                            <div class="col-sm-6 form-group">
-                                                                <input name="{{  $component->type == 'file' ? 'doc_links' : 'text_value'}}[{{$component->id}}][]" class="form-control" {{ $component->required == true ? 'required' : '' }} type="{{ $component->type == 'file' ? 'file' : 'text' }}" multiple {{ $component->type == 'file' ? 'multiple' : '' }} >
-                                                            </div>
-                                                            @if($component->components != null )
-                                                                <div class="col-sm-2">
-                                                                    <i class="btn btn-success model_img img-responsive fa fa-check" data-toggle="modal" data-target="#responsive-modal{{$component->id}}">Sub checklist</i>
-                                                                    <!-- sample modal content -->
-                                                                    <div id="responsive-modal{{$component->id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-                                                                        <div class="modal-dialog">
-                                                                            <div class="modal-content">
-                                                                                <div class="modal-header">
-                                                                                    <h4 class="modal-title">{{ ucwords($stage->name)  }} Sub checklist</h4>
-                                                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                                                                </div>
-                                                                                <div class="modal-body">
-                                                                                    <div class="col-sm-12">
-                                                                                        <ul class="icheck-list">
-                                                                                            @foreach(json_decode($component->components) as $item)
-                                                                                                <div class="form-group">
-                                                                                                    <input type="checkbox" name="checklist[{{$component->id}}][{{$item}}][]" class="check" id="{{$item}}">
-                                                                                                    <label for="{{$item}}">{{ $item }}</label>
+                            @if($dms->status == 0)
+                                    @foreach($stages as $stage)
+                                        @if(!in_array($stage->id,$stageids))
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h4 class="card-title">{{ ucwords($stage->name) }}</h4>
+                                                    <form action="{{ url('/dms/store/') }}" method="post" enctype="multipart/form-data">
+                                                        {{ csrf_field() }}
+                                                        <table class="table table-stripped">
+                                                            <tbody>
+                                                            @foreach($stage->components as $component)
+                                                                <tr>
+                                                                    <div class="row">
+                                                                        <div class="col-sm-4">
+                                                                            {{ ucfirst($component->name) }}
+                                                                        </div>
+                                                                        <input type="hidden" name="stage_component_id[]" value="{{$component->id}}">
+                                                                        <input type="hidden" name="dms_id" value="{{$dms->id}}">
+                                                                        <div class="col-sm-6 form-group">
+                                                                            <input name="{{  $component->type == 'file' ? 'doc_links' : 'text_value'}}[{{$component->id}}][]" class="form-control" {{ $component->required == true ? 'required' : '' }} type="{{ $component->type == 'file' ? 'file' : 'text' }}" multiple {{ $component->type == 'file' ? 'multiple' : '' }} >
+                                                                        </div>
+                                                                        @if($component->components != null )
+                                                                            <div class="col-sm-2">
+                                                                                <i class="btn btn-success model_img img-responsive fa fa-check" data-toggle="modal" data-target="#responsive-modal{{$component->id}}">Sub checklist</i>
+                                                                                <!-- sample modal content -->
+                                                                                <div id="responsive-modal{{$component->id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                                                                    <div class="modal-dialog">
+                                                                                        <div class="modal-content">
+                                                                                            <div class="modal-header">
+                                                                                                <h4 class="modal-title">{{ ucwords($stage->name)  }} Sub checklist</h4>
+                                                                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                                                            </div>
+                                                                                            <div class="modal-body">
+                                                                                                <div class="col-sm-12">
+                                                                                                    <ul class="icheck-list">
+                                                                                                        @foreach(json_decode($component->components) as $item)
+                                                                                                            <div class="form-group">
+                                                                                                                <input type="checkbox" name="checklist[{{$component->id}}][{{$item}}][]" class="check" id="{{$item}}">
+                                                                                                                <label for="{{$item}}">{{ $item }}</label>
+                                                                                                            </div>
+                                                                                                        @endforeach
+                                                                                                    </ul>
                                                                                                 </div>
-                                                                                            @endforeach
-                                                                                        </ul>
+                                                                                            </div>
+                                                                                            <div class="modal-footer">
+                                                                                                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                                                                                            </div>
+                                                                                        </div>
                                                                                     </div>
-                                                                                  </div>
-                                                                                <div class="modal-footer">
-                                                                                    <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
                                                                                 </div>
                                                                             </div>
-                                                                        </div>
+                                                                        @endif
                                                                     </div>
-                                                                </div>
-                                                            @endif
-                                                        </div>
-                                                    </tr>
-                                                @endforeach
-                                                </tbody>
-                                            </table>
-                                            <button class="btn btn-primary pull-right">Save</button>
-                                        </form>
-                                    </div>
-                                </div>
-                                    @endif
-                            @endforeach
+                                                                </tr>
+                                                            @endforeach
+                                                            </tbody>
+                                                        </table>
+                                                        <button class="btn btn-primary pull-right">Save</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                @endif
                                 @endif
                         </div>
                     </div>

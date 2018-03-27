@@ -27,6 +27,7 @@
                                 <thead>
                                 <tr>
                                     <th>Name</th>
+                                    <th>Type</th>
                                     <th>Description</th>
                                     <th>Created</th>
                                     <th class="text-right">Action</th>
@@ -36,6 +37,7 @@
                                 @foreach($stages as $stage)
                                     <tr>
                                         <td>{{ ucwords($stage->name) }}</td>
+                                        <td>{{ ucfirst($stage->service ==0 ? 'General' : \App\ExtraServiceType::findOrFail($stage->service)->name) }}</td>
                                         <td>{{ ucfirst($stage->description) }}</td>
                                         <td>{{ \Carbon\Carbon::parse($stage->created_at)->format('d-M-y') }}</td>
                                         <td class="text-right">

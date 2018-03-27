@@ -18,11 +18,11 @@ class CreateVesselsTable extends Migration
             $table->integer('lead_id');
             $table->string('name');
             $table->string('imo_number')->nullable();
-            $table->string('country');
+            $table->string('country')->nullable();
             $table->string('call_sign')->nullable();
-            $table->string('loa');
-            $table->string('grt');
-            $table->string('eta');
+            $table->string('loa')->nullable();
+            $table->string('grt')->nullable();
+            $table->string('eta')->nullable();
             $table->string('nrt')->nullable();
             $table->string('dwt')->nullable();
             $table->string('country_of_discharge')->nullable();

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\BillOfLanding;
+use App\ExtraService;
 use App\GoodType;
 use App\Quotation;
 use App\ServiceTax;
@@ -22,6 +23,14 @@ class QuotationController extends Controller
     {
         $quote = Quotation::with(['lead','parties','cargos.goodType','consignee',
             'vessel','voyage','services.tariff','remarks.user'])->findOrFail($id);
+
+        if ($quote->service_type_id != null){
+
+            return view('quotation.other-service')
+                ->withQuotation($quote)
+                ->withTaxs(ServiceTax::all()->sortBy('Description'))
+                ->withServices(ExtraService::all()->sortBy('name'));
+        }
 
         return view('quotation.show')
             ->withQuotation($quote)
@@ -45,6 +54,13 @@ class QuotationController extends Controller
     {
         $quote = Quotation::with(['lead','cargos.goodType','vessel','services.tariff','remarks.user'])->findOrFail($id);
 
+        if ($quote->service_type_id != null) {
+            return view('quotation.other-service-view')
+                ->withQuotation($quote)
+                ->withTaxs(ServiceTax::all()->sortBy('Description'))
+                ->withServices(ExtraService::all()->sortBy('name'));
+        }
+
         return view('quotation.view')
             ->withQuotation($quote)
             ->withGoodtypes(GoodType::all())
@@ -55,6 +71,11 @@ class QuotationController extends Controller
     public function previewQuotation($id)
     {
         $quote = Quotation::with(['lead','cargos.goodType','vessel','services.tariff','remarks.user'])->findOrFail($id);
+
+        if ($quote->service_type_id != null) {
+            return view('quotation.other-preview')
+                ->withQuotation($quote);
+        }
 
         return view('quotation.preview')
             ->withQuotation($quote);
@@ -145,24 +166,26 @@ class QuotationController extends Controller
         $quotation = Quotation::with(['user','consignee','lead','parties','cargos.goodType',
             'vessel','voyage','services.tariff','remarks.user'])->findOrFail($id);
 
-        if ($quotation->consignee == null){
-            NotificationRepo::create()->error('No Consignee details added');
-            return redirect()->back();
-        }
+        if ($quotation->service_type_id == null){
+            if ($quotation->consignee == null){
+                NotificationRepo::create()->error('No Consignee details added');
+                return redirect()->back();
+            }
 
-        if ($quotation->voyage == null){
-            NotificationRepo::create()->error('No Voyage details added');
-            return redirect()->back();
-        }
+            if ($quotation->voyage == null){
+                NotificationRepo::create()->error('No Voyage details added');
+                return redirect()->back();
+            }
 
-        if (count($quotation->services) < 1){
-            NotificationRepo::create()->error('No Services added');
-            return redirect()->back();
-        }
+            if (count($quotation->services) < 1){
+                NotificationRepo::create()->error('No Services added');
+                return redirect()->back();
+            }
 
-        if (count($quotation->cargos) < 1){
-            NotificationRepo::create()->error('No Cargo added');
-            return redirect()->back();
+            if (count($quotation->cargos) < 1){
+                NotificationRepo::create()->error('No Cargo added');
+                return redirect()->back();
+            }
         }
 
         QuotationRepo::make()->changeStatus($id,
@@ -179,13 +202,14 @@ class QuotationController extends Controller
         $bl = BillOfLanding::create([
             'vessel_id' =>$quotation->vessel_id,
             'quote_id' => $quotation->id,
-            'voyage_id' => $quotation->id,
-            'consignee_id' => $quotation->consignee->id,
+            'service_type_id' => $quotation->service_type_id != null ? $quotation->service_type_id : null,
+            'voyage_id' => $quotation->service_type_id != null ? 0 : $quotation->id,
+            'consignee_id' => $quotation->service_type_id != null ? 0 : $quotation->consignee->id,
             'Client_id' => $customer->DCLink,
             'laytime_start' => Carbon::now(),
             'time_allowed' => 0,
 //            'cargo_id' => $quotation->cargos->first()->id,
-            'cargo_id' => 1,
+            'cargo_id' => 0,
             'stage' => 'Pre-arrival docs',
             'status' => 0,
             'sof_status' => 0,
@@ -193,5 +217,12 @@ class QuotationController extends Controller
         ]);
 
         return redirect('/dms/edit/'.$bl->id);
+    }
+
+    public function allPdas()
+    {
+        return view('quotation.pdas')
+            ->withPdas(Quotation::with(['lead','parties','cargos.goodType','consignee',
+                'vessel','voyage','services.tariff','remarks.user'])->get()->sortBy('created_at'));
     }
 }

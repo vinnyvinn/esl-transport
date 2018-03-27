@@ -158,7 +158,7 @@
                             @foreach($v_notifications as $notification)
                                 <li>
                                     <div class="bg-light-info"><i class="fa fa-bell-o"></i></div>{{ ucfirst($notification->title) }}.
-                                    <a href="{{ url('/notifications/'.$notification->id) }}" class="btn btn-xs btn-primary"><i class="fa fa-eye"></i></a> <span class="text-muted"> 1 mins</span>
+                                    <a href="{{ url('/notifications/'.$notification->id) }}" class="btn btn-xs btn-primary"><i class="fa fa-eye"></i></a> <span class="text-muted"> {{ \Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}</span>
                                 </li>
                             @endforeach
                         </ul>

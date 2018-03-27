@@ -20,7 +20,7 @@ class LeadController extends Controller
     {
 //        dd(Constants::COUNTRY_LIST);
         return view('leads.index')
-            ->withLeads(Lead::simplePaginate(25));
+            ->withLeads(Lead::where('status',0)->simplePaginate(25));
     }
 
     /**
@@ -42,8 +42,8 @@ class LeadController extends Controller
      */
     public function store(Request $request)
     {
-        Lead::create($request->all());
-        return redirect('/leads');
+        $lead = Lead::create($request->all());
+        return redirect('/leads/'.$lead->id);
     }
 
     /**
@@ -93,7 +93,8 @@ class LeadController extends Controller
      */
     public function destroy(Lead $lead)
     {
-        $lead->delete();
+        $lead->status = 1;
+        $lead->save();
         return redirect('/leads');
     }
 
@@ -109,9 +110,9 @@ class LeadController extends Controller
                 '<td>'.ucfirst($item->contact_person).'</td>'.
                 '<td>'.$item->phone.'</td>'.
                 '<td>'.$item->email.'</td>'.
-                '<td>'.$item->address.'</td>'.
+//                '<td>'.$item->address.'</td>'.
                 '<td>'.$item->telephone.'</td>'.
-                '<td>'.$item->location.'</td>'.
+//                '<td>'.$item->location.'</td>'.
                 '<td>'.Carbon::parse($item->created_at)->format('d-M-y').'</td>'.
                 '<td>'.
 '<form action="'.route('leads.destroy', $item->id).'" method="post">'.
