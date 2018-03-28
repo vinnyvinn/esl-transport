@@ -34,7 +34,7 @@
                     <div style="margin: 0px !important;">
                         <hr style="   border: 1px solid #000000; !important;">
                         <h4><strong>Shipper</strong></h4>
-                        <p>{!!   str_replace(',','<br>',$dms->cargo->first()->shipper) !!}</p>
+                        <p>{!!   str_replace(',','<br>',$dms->quote->cargos->first()->shipper) !!}</p>
                     </div>
                     <div>
                         <hr style="   border: 1px solid #000000; !important;">
@@ -45,7 +45,7 @@
                     <div>
                         <hr style="   border: 1px solid #000000; !important;">
                         <h4><strong>Notifying Address</strong></h4>
-                        <p>{!!   str_replace(',','<br>',$dms->cargo->first()->notifying_address) !!}</p>
+                        <p>{!!   str_replace(',','<br>',$dms->quote->cargos->first()->notifying_address) !!}</p>
                     </div>
                     <div>
                         <hr style="   border: 1px solid #000000; !important;">

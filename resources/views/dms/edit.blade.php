@@ -419,26 +419,31 @@
                                             </div>
                                         {{--@endforeach--}}
                                         <div class="tab-pane p-20" id="history" role="tabpanel">
-
-                                                <table class="table table-responsive table-bordered">
-                                                    <thead>
+                                            <h4>Quotation History</h4>
+                                            <hr>
+                                            <table class="table table-responsive table-stripped">
+                                                <thead>
+                                                <tr>
+                                                    <th><b>Date</b></th>
+                                                    <th><b>Project Name</b></th>
+                                                    <th><b>Project Amount</b></th>
+                                                    <th class="text-right"><b>Action</b></th>
+                                                </tr>
+                                                </thead>
+                                                @foreach($dms->quote->logs as $key => $values)
+                                                <tbody>
                                                     <tr>
-                                                        <th><b>Date</b></th>
-                                                        <th><b>Type</b></th>
-                                                        <th><b>Data</b></th>
-                                                        <th><b>Sub checklist</b></th>
-                                                        <th><b>Date Added</b></th>
+                                                        <td>{{\Carbon\Carbon::parse($values->created_at)->format('d-M-y H:m:s')}}</td>
+                                                        <td>{{json_decode($values->details)->vessel->name}}</td>
+                                                        <td>{{ json_decode($values->details)->lead->currency }}, {{collect(json_decode($values->details)->services)->sum('total')}}</td>
+                                                        <td class="text-right">
+                                                            <a target="_blank" href="{{ url('quotation/preview/'.$dms->quote_id)}}" class="btn btn-sm btn-primary"><i class="fa fa-eye"></i></a>
+                                                        </td>
                                                     </tr>
-                                                    </thead>
-                                                    @foreach($dms->quote->logs as $key => $values)
+                                                    </tbody>
 
-                                                        <tbody>
-                                                        <tr>
-                                                        </tr>
-                                                        </tbody>
-
-                                                    @endforeach
-                                                </table>
+                                                @endforeach
+                                            </table>
                                         </div>
                                     </div>
                                     <a href="{{ url('/dms/complete/'.$dms->id) }}" class="btn pull-right btn-warning text-white mytooltip">

@@ -50,27 +50,27 @@ E191"}.glyphicon-sound-6-1:before{content:"\E192"}.glyphicon-sound-7-1:before{co
                             <strong> Voyage No. {{  strtoupper($dms->vessel->name) }}</strong>
                 </td>
                 <td width="33%">
-                            <strong> Nationality of Vessel {{  strtoupper($dms->vessel->name) }}</strong>
+                            <strong> Nationality of Vessel {{  strtoupper($dms->vessel->country) }}</strong>
                 </td>
             </tr>
             <tr>
                 <td width="33%">
-                            <strong> Port of Loading {{  strtoupper($dms->vessel->name) }}</strong>
+                            <strong> Port of Loading {{  strtoupper($dms->vessel->port_of_loading) }}</strong>
                 </td>
                 <td width="33%">
-                            <strong> E.T.A {{  strtoupper($dms->vessel->name) }}</strong>
+                            <strong> E.T.A {{  \Carbon\Carbon::parse(strtoupper($dms->vessel->eta)) }}</strong>
                 </td>
                 <td width="33%">
-                            <strong> Transhipment Port {{  strtoupper($dms->vessel->name) }}</strong>
+                            <strong> Transhipment Port {{  strtoupper($dms->vessel->port_of_discharge) }}</strong>
                 </td>
             </tr>
             <tr>
                 <td colspan="2">
-                            <strong> Port of Discharge {{  strtoupper($dms->vessel->name) }}</strong>
+                            <strong> Port of Discharge {{  strtoupper($dms->vessel->port_of_discharge) }}</strong>
                 </td>
 
                 <td>
-                            <strong> Place of Delivery : {{  strtoupper($dms->vessel->name) }}</strong>
+                            <strong> Place of Delivery : {{  strtoupper($dms->vessel->port_of_discharge) }}</strong>
                 </td>
             </tr>
             </tbody>
@@ -89,7 +89,7 @@ E191"}.glyphicon-sound-6-1:before{content:"\E192"}.glyphicon-sound-7-1:before{co
             </tr>
             </thead>
             <tbody>
-            @foreach($dms->cargo as $cargo)
+            @foreach($dms->quote->cargos as $cargo)
                 <tr>
                     <td>{{ strtoupper($dms->bl_number)  }}</td>
                     <td>

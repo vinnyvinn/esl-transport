@@ -484,12 +484,12 @@
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="eta"> ETA</label>
-                                                                <input type="datetime-local" id="eta"  name="eta" class="form-control datepicker">
+                                                                <input type="text" id="eta"  name="eta" class="form-control datepicker">
                                                             </div>
                                                             <div class="form-group">
 
                                                                 <label for="vessel_arrived"> Vessel Arrived(ATA)</label>
-                                                                <input type="datetime-local" id="vessel_arrived"  name="vessel_arrived" class="form-control datepicker">
+                                                                <input type="text" id="vessel_arrived"  name="vessel_arrived" class="form-control datepicker">
                                                             </div>
                                                             <div class="form-group">
                                                                 <br>

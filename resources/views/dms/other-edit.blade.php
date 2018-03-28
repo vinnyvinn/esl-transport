@@ -376,6 +376,7 @@
                                                 <tr>
                                                     <th><b>Date</b></th>
                                                     <th><b>Project Name</b></th>
+                                                    <th><b>Project Amount</b></th>
                                                     <th class="text-right"><b>Action</b></th>
                                                 </tr>
                                                 </thead>
@@ -384,14 +385,14 @@
                                                     <tr>
                                                         <td>{{\Carbon\Carbon::parse($values->created_at)->format('d-M-y')}}</td>
                                                         <td>{{json_decode($values->details)->vessel->name}}</td>
+                                                        <td>{{ json_decode($values->details)->lead->currency }}, {{collect(json_decode($values->details)->services)->sum('total')}}</td>
                                                         <td class="text-right">
                                                             <a target="_blank" href="{{ url('quotation/preview/'.$dms->quote_id)}}" class="btn btn-sm btn-primary"><i class="fa fa-eye"></i></a>
                                                         </td>
                                                     </tr>
                                                     </tbody>
 
-                                                @endforeach
-                                            </table>
+                                            @endforeach
                                         </div>
                                     </div>
                                     @if($dms->status == 0)

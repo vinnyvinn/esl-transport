@@ -76,7 +76,7 @@
                     <tr>
                         <td>{{ strtoupper($dms->vessel->name) }}</td>
                         <td>{{ strtoupper($dms->quote->voyage->name) }}</td>
-                        <td>{{ strtoupper($dms->cargo->first()->manifest_number) }}</td>
+                        <td>{{ strtoupper($dms->quote->cargos->first()->manifest_number) }}</td>
                         <td>{{ strtoupper(\Carbon\Carbon::parse($dms->vessel->eta)->format('d-M-y')) }}</td>
                     </tr>
                     </tbody>
