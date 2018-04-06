@@ -17,6 +17,11 @@
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/colors/blue.css') }}" id="theme" rel="stylesheet">
     <link href="{{ asset('assets/plugins/wizard/steps.css') }}" rel="stylesheet">
+    <style>
+        .slect2{
+            width: 100% !important;
+        }
+    </style>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
 

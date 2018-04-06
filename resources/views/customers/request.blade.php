@@ -134,11 +134,11 @@
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="loa">Length Over All </label>
-                                                                <input type="text" id="loa" name="loa" required class="form-control" placeholder="Length Over All">
+                                                                <input type="number" id="loa" name="loa" required class="form-control" placeholder="Length Over All">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="grt">Gross Tonnage  GRT</label>
-                                                                <input type="text" id="grt" name="grt" required class="form-control" placeholder="Gross Tonnage ">
+                                                                <input type="number" id="grt" name="grt" required class="form-control" placeholder="Gross Tonnage ">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="nrt"> Net Tonnage</label>

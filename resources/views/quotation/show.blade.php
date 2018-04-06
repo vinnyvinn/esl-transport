@@ -128,7 +128,7 @@
                                                                                     <input type="text" required id="name" name="name" value="{{ $quotation->vessel->name }}" class="form-control" placeholder="Name">
                                                                                 </div>
                                                                                 <div class="form-group">
-                                                                                    <label for="call_sign">Call Sign</label>
+                                                                                    <label for="call_sign">HS Code</label>
                                                                                     <input type="text"  id="call_sign" name="call_sign" value="{{ $quotation->vessel->call_sign }}" class="form-control" placeholder="Call Sign">
                                                                                 </div>
                                                                                 <div class="form-group">
@@ -137,7 +137,14 @@
                                                                                 </div>
                                                                                 <div class="form-group">
                                                                                     <label for="country">Country </label>
-                                                                                    <input type="text" required id="country" value="{{ $quotation->vessel->country }}" name="country" class="form-control" placeholder="Country">
+
+                                                                                    <select style="width: 100% !important;" required name="country" id="country"
+                                                                                            class="select2 form-control">
+                                                                                        <option value="">Select Country</option>
+                                                                                        @foreach(\Esl\helpers\Constants::COUNTRY_LIST as $value)
+                                                                                            <option value="{{$value}}">{{$value}}</option>
+                                                                                        @endforeach
+                                                                                    </select>
                                                                                 </div>
                                                                                 <div class="form-group">
                                                                                     <label for="port_of_discharge"> Port of Loading</label>
@@ -157,10 +164,10 @@
                                                                                     <label for="grt">Gross Tonnage  GRT</label>
                                                                                     <input type="number" id="grt" name="grt" value="{{ $quotation->vessel->grt }}" required class="form-control" placeholder="Gross Tonnage ">
                                                                                 </div>
-                                                                                <div class="form-group">
-                                                                                    <label for="consignee_good"> Consignee Goods GT </label>
-                                                                                    <input type="number" id="consignee_good" value="{{ $quotation->vessel->consignee_good }}" required name="consignee_good" class="form-control" placeholder="Net Tonnage">
-                                                                                </div>
+                                                                                {{--<div class="form-group">--}}
+                                                                                    {{--<label for="consignee_good"> Consignee Goods GT </label>--}}
+                                                                                    {{--<input type="number" id="consignee_good" value="{{ $quotation->vessel->consignee_good }}" required name="consignee_good" class="form-control" placeholder="Net Tonnage">--}}
+                                                                                {{--</div>--}}
                                                                                 <div class="form-group">
                                                                                     <label for="nrt"> Net Tonnage</label>
                                                                                     <input type="number" id="nrt" name="nrt"  value="{{ $quotation->vessel->nrt }}" class="form-control" placeholder="Consignee Goods">
@@ -277,10 +284,10 @@
                                                                                 <label for="shipper">Shipper Details</label>
                                                                                 <textarea name="shipper" class="form-control" id="shipper" placeholder="Shipper Details"></textarea>
                                                                             </div>
-                                                                            <div class="form-group">
-                                                                                <label for="shipping_line">Shipping Lines</label>
-                                                                                <textarea name="shipping_line" class="form-control" id="shipping_line" placeholder="Shipping Lines"></textarea>
-                                                                            </div>
+                                                                            {{--<div class="form-group">--}}
+                                                                                {{--<label for="shipping_line">Shipping Lines</label>--}}
+                                                                                {{--<textarea name="shipping_line" class="form-control" id="shipping_line" placeholder="Shipping Lines"></textarea>--}}
+                                                                            {{--</div>--}}
                                                                             <div class="form-group">
                                                                                 <label for="notifying_address">Notifying Address</label>
                                                                                 <textarea name="notifying_address" class="form-control" id="notifying_address" placeholder="Notifying Address"></textarea>
