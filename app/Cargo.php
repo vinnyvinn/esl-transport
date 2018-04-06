@@ -2,11 +2,11 @@
 
 namespace App;
 
+use Esl\Repository\ESLModel;
 use Illuminate\Database\Eloquent\Model;
 
-class Cargo extends Model
+class Cargo extends ESLModel
 {
-    protected $dateFormat = 'Y-m-d H:i:s';
     protected $fillable = ['name','lead_id','quotation_id','good_type_id','manifest_number','type','seal_no',
         'container_id','case_qty','t_net_weight',
         't_gross_weight','shipping_line','discharge_rate',

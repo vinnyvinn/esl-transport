@@ -2,10 +2,10 @@
 
 namespace App;
 
+use Esl\Repository\ESLModel;
 use Illuminate\Database\Eloquent\Model;
 
-class GoodType extends Model
+class GoodType extends ESLModel
 {
-    protected $dateFormat = 'Y-m-d H:i:s';
     protected  $fillable = ['name','description','uom'];
 }

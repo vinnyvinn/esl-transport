@@ -2,11 +2,11 @@
 
 namespace App;
 
+use Esl\Repository\ESLModel;
 use Illuminate\Database\Eloquent\Model;
 
-class Remarks extends Model
+class Remarks extends ESLModel
 {
-    protected $dateFormat = 'Y-m-d H:i:s';
     protected $fillable = ['user_id','remark_to','quotation_id','remark'];
 
     public function user()

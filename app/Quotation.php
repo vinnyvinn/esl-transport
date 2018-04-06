@@ -2,11 +2,11 @@
 
 namespace App;
 
+use Esl\Repository\ESLModel;
 use Illuminate\Database\Eloquent\Model;
 
-class Quotation extends Model
+class Quotation extends ESLModel
 {
-    protected $dateFormat = 'Y-m-d H:i:s';
     protected $fillable = [ 'lead_id','user_id','service_type_id','vessel_id','status'];
 
     public function vessel()

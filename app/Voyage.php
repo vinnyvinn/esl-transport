@@ -2,11 +2,11 @@
 
 namespace App;
 
+use Esl\Repository\ESLModel;
 use Illuminate\Database\Eloquent\Model;
 
-class Voyage extends Model
+class Voyage extends ESLModel
 {
-    protected $dateFormat = 'Y-m-d H:i:s';
     protected $fillable = ['quotation_id','name','voyage_no','internal_voyage_no','service_code','final_destination',
         'eta','vessel_arrived','time_allowed','laytime_start'];
 }

@@ -2,10 +2,10 @@
 
 namespace App;
 
+use Esl\Repository\ESLModel;
 use Illuminate\Database\Eloquent\Model;
 
-class Notification extends Model
+class Notification extends ESLModel
 {
-    protected $dateFormat = 'Y-m-d H:i:s';
     protected $fillable = ['title','text','link','user_id','status','department_id'];
 }

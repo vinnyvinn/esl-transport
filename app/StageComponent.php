@@ -2,11 +2,11 @@
 
 namespace App;
 
+use Esl\Repository\ESLModel;
 use Illuminate\Database\Eloquent\Model;
 
-class StageComponent extends Model
+class StageComponent extends ESLModel
 {
-    protected $dateFormat = 'Y-m-d H:i:s';
     protected  $fillable = ['stage_id','name','type','required','description','components'];
 
     public function stage()

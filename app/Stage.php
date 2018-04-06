@@ -2,12 +2,12 @@
 
 namespace App;
 
+use Esl\Repository\ESLModel;
 use Illuminate\Database\Eloquent\Model;
 
-class Stage extends Model
+class Stage extends ESLModel
 {
 
-    protected $dateFormat = 'Y-m-d H:i:s';
     protected $fillable = ['name','service','description'];
 
     public function sComments()
