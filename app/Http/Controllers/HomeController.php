@@ -24,7 +24,8 @@ class HomeController extends Controller
      */
     public function dashboard()
     {
+
         return view('dashboard.dashboard')
-            ->withLeads(Lead::simplePaginate(25));
+            ->withLeads(Lead::all());
     }
 }

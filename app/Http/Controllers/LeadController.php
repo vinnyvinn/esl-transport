@@ -20,7 +20,7 @@ class LeadController extends Controller
     {
 //        dd(Constants::COUNTRY_LIST);
         return view('leads.index')
-            ->withLeads(Lead::where('status',0)->simplePaginate(25));
+            ->withLeads(Lead::where('status',0)->get());
     }
 
     /**
@@ -42,6 +42,7 @@ class LeadController extends Controller
      */
     public function store(Request $request)
     {
+
         $lead = Lead::create($request->all());
         return redirect('/leads/'.$lead->id);
     }

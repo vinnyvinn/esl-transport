@@ -23,7 +23,7 @@
                 <li> <a class="has-arrow waves-effect waves-dark" href="{{ url('/dms') }}" aria-expanded="false">
                         <i class="mdi mdi-gauge"></i><span class="hide-menu">FDAs</span></a>
                 </li>
-                <li> <a class="has-arrow waves-effect waves-dark" href="{{ url('/reports') }}" aria-expanded="false">
+                <li style="display:none;"> <a class="has-arrow waves-effect waves-dark" href="{{ url('/reports') }}" aria-expanded="false">
                         <i class="mdi mdi-gauge"></i><span class="hide-menu">Reports</span></a>
                 </li>
 

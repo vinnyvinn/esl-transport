@@ -33,12 +33,12 @@
                         <div class="table-responsive">
                             <table class="table table-striped">
                                 <thead>
-                                <tr>
-                                    <th>Number</th>
+                                {{--<tr>--}}
+                                    {{--<th>Number</th>--}}
                                     <th>Customer</th>
-                                    <th>Vessel Name</th>
-                                    <th>Port Of Discharge</th>
-                                    <th>Port Of Loading</th>
+                                    {{--<th>Vessel Name</th>--}}
+                                    {{--<th>Port Of Discharge</th>--}}
+                                    {{--<th>Port Of Loading</th>--}}
                                     <th>Cargo Weight</th>
                                     <th>Created</th>
                                     <th class="text-nowrap">Action</th>
@@ -48,11 +48,11 @@
                                 @foreach($dms as $dm)
                                     @if($dm->status == 0)
                                         <tr>
-                                            <td>{{ $dm->bl_number }}</td>
+                                            {{--<td>{{ $dm->bl_number }}</td>--}}
                                             <td>{{ ucwords($dm->customer->Name) }}</td>
-                                            <td>{{ strtoupper($dm->vessel->name) }}</td>
-                                            <td>{{ ucwords($dm->vessel->port_of_discharge ) }}, {{ ucwords($dm->vessel->country_of_discharge ) }}</td>
-                                            <td>{{ ucwords($dm->vessel->port_of_loading ) }}, {{ ucwords($dm->vessel->country_of_loading ) }}</td>
+                                            {{--<td>{{ strtoupper($dm->vessel->name) }}</td>--}}
+                                            {{--<td>{{ ucwords($dm->vessel->port_of_discharge ) }}, {{ ucwords($dm->vessel->country_of_discharge ) }}</td>--}}
+                                            {{--<td>{{ ucwords($dm->vessel->port_of_loading ) }}, {{ ucwords($dm->vessel->country_of_loading ) }}</td>--}}
                                             <td>{{ $dm->cargo->sum('weight')}}</td>
                                             {{--                                        <td>{{ $dm->stage }}</td>--}}
                                             <td>{{ \Carbon\Carbon::parse($dm->created_at)->format('d-M-y') }}</td>
@@ -65,9 +65,7 @@
                                 @endforeach
                                 </tbody>
                             </table>
-                            <div class="footable pagination">
-                                {{ $dms->links() }}
-                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -88,11 +86,11 @@
                             <table class="table table-striped">
                                 <thead>
                                 <tr>
-                                    <th>Number</th>
+                                    {{--<th>Number</th>--}}
                                     <th>Customer</th>
-                                    <th>Vessel Name</th>
-                                    <th>Port Of Discharge</th>
-                                    <th>Port Of Loading</th>
+                                    {{--<th>Vessel Name</th>--}}
+                                    {{--<th>Port Of Discharge</th>--}}
+                                    {{--<th>Port Of Loading</th>--}}
                                     <th>Cargo Weight</th>
                                     <th>Created</th>
                                     <th class="text-nowrap">Action</th>
@@ -102,11 +100,11 @@
                                 @foreach($dms as $dm)
                                     @if($dm->status == 1)
                                         <tr>
-                                            <td>{{ $dm->bl_number }}</td>
+                                            {{--<td>{{ $dm->bl_number }}</td>--}}
                                             <td>{{ ucwords($dm->customer->Name) }}</td>
-                                            <td>{{ strtoupper($dm->vessel->name) }}</td>
-                                            <td>{{ ucwords($dm->vessel->port_of_discharge ) }}, {{ ucwords($dm->vessel->country_of_discharge ) }}</td>
-                                            <td>{{ ucwords($dm->vessel->port_of_loading ) }}, {{ ucwords($dm->vessel->country_of_loading ) }}</td>
+                                            {{--<td>{{ strtoupper($dm->vessel->name) }}</td>--}}
+                                            {{--<td>{{ ucwords($dm->vessel->port_of_discharge ) }}, {{ ucwords($dm->vessel->country_of_discharge ) }}</td>--}}
+                                            {{--<td>{{ ucwords($dm->vessel->port_of_loading ) }}, {{ ucwords($dm->vessel->country_of_loading ) }}</td>--}}
                                             <td>{{ $dm->cargo->sum('weight')}}</td>
                                             {{--                                        <td>{{ $dm->stage }}</td>--}}
                                             <td>{{ \Carbon\Carbon::parse($dm->created_at)->format('d-M-y') }}</td>
@@ -119,9 +117,7 @@
                                 @endforeach
                                 </tbody>
                             </table>
-                            <div class="footable pagination">
-                                {{ $dms->links() }}
-                            </div>
+
                         </div>
                     </div>
                 </div>

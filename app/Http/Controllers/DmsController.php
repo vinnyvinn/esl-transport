@@ -16,7 +16,7 @@ class DmsController extends Controller
 {
     public function index()
     {
-        $bl = BillOfLanding::with(['vessel','quote.services','customer','cargo'])->simplePaginate(25);
+        $bl = BillOfLanding::with(['vessel','quote.services','customer','cargo'])->get();
 
         return view('dms.index')
             ->withDms($bl);

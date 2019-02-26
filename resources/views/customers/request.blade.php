@@ -72,7 +72,8 @@
                                     <div class="tab-content tabcontent-border">
                                         <div class="tab-pane active" id="home" role="tabpanel">
                                             <div class="p-20">
-                                                <form class="form-material m-t-40" onsubmit="event.preventDefault();submitForm(this, '/vessel-details','redirect');" action="" id="vessel">
+                                                <form class="form-material m-t-40" action="{{url('/vessel-details')}}" id="vessel" method="POST">
+                                                    {{csrf_field()}}
                                                     <div class="row">
                                                         <div class="col-sm-6">
                                                             <div class="form-group">

@@ -22,15 +22,9 @@
                         <h4 class="card-title text-white">Pending PDAs</h4>
                     </div>
                     <div class="card-body">
-                        {{--<div class="row">--}}
-                            {{--<div class="col-sm-6">--}}
-                                {{--<div class="form-group">--}}
-                                    {{--Search : <input type="text" id="search_lead">--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
+
                         <div class="table-responsive">
-                            <table class="table table-striped">
+                            <table class="table table-striped dataTable">
                                 <thead>
                                 <tr>
                                     <th>Customer</th>
@@ -76,15 +70,9 @@
                         <h4 class="card-title text-white">Approved PDAs</h4>
                     </div>
                     <div class="card-body">
-                        {{--<div class="row">--}}
-                        {{--<div class="col-sm-6">--}}
-                        {{--<div class="form-group">--}}
-                        {{--Search : <input type="text" id="search_lead">--}}
-                        {{--</div>--}}
-                        {{--</div>--}}
-                        {{--</div>--}}
+
                         <div class="table-responsive">
-                            <table class="table table-striped">
+                            <table class="table table-striped dataTable">
                                 <thead>
                                 <tr>
                                     <th>Customer</th>
@@ -102,8 +90,9 @@
                                 <tbody id="customers">
                                 @foreach($pdas as $pda)
                                     @if($pda->status == \Esl\helpers\Constants::LEAD_QUOTATION_APPROVED)
+                                        @if($pda->lead !==null)
                                         <tr>
-                                            <td>{{ ucwords($pda->lead->name) }}</td>
+                                            <td>{{ ucwords($pda->lead ? $pda->lead->name :'') }}</td>
                                             <td>{{ strtoupper($pda->lead->contact_person) }}</td>
                                             <td>{{ strtoupper($pda->lead->phone) }}</td>
                                             <td>{{ strtoupper($pda->lead->email) }}</td>
@@ -118,6 +107,8 @@
 
                                             </td>
                                         </tr>
+
+                                            @endif
                                     @endif
                                 @endforeach
                                 </tbody>
@@ -130,15 +121,9 @@
                         <h4 class="card-title text-white">Requested PDAs</h4>
                     </div>
                     <div class="card-body">
-                        {{--<div class="row">--}}
-                        {{--<div class="col-sm-6">--}}
-                        {{--<div class="form-group">--}}
-                        {{--Search : <input type="text" id="search_lead">--}}
-                        {{--</div>--}}
-                        {{--</div>--}}
-                        {{--</div>--}}
+
                         <div class="table-responsive">
-                            <table class="table table-striped">
+                            <table class="table table-striped dataTable">
                                 <thead>
                                 <tr>
                                     <th>Customer</th>
@@ -156,6 +141,7 @@
                                 <tbody id="customers">
                                 @foreach($pdas as $pda)
                                     @if($pda->status == \Esl\helpers\Constants::LEAD_QUOTATION_REQUEST)
+                                        @if($pda->lead !==null)
                                         <tr>
                                             <td>{{ ucwords($pda->lead->name) }}</td>
                                             <td>{{ strtoupper($pda->lead->contact_person) }}</td>
@@ -172,6 +158,7 @@
 
                                             </td>
                                         </tr>
+                                            @endif
                                     @endif
                                 @endforeach
                                 </tbody>
@@ -184,15 +171,9 @@
                         <h4 class="card-title">Waiting PDAs</h4>
                     </div>
                     <div class="card-body">
-                        {{--<div class="row">--}}
-                        {{--<div class="col-sm-6">--}}
-                        {{--<div class="form-group">--}}
-                        {{--Search : <input type="text" id="search_lead">--}}
-                        {{--</div>--}}
-                        {{--</div>--}}
-                        {{--</div>--}}
+
                         <div class="table-responsive">
-                            <table class="table table-striped">
+                            <table class="table table-striped dataTable">
                                 <thead>
                                 <tr>
                                     <th>Customer</th>
@@ -208,8 +189,10 @@
                                 </tr>
                                 </thead>
                                 <tbody id="customers">
+
                                 @foreach($pdas as $pda)
                                     @if($pda->status == \Esl\helpers\Constants::LEAD_QUOTATION_WAITING)
+                                        @if($pda->lead !==null)
                                         <tr>
                                             <td>{{ ucwords($pda->lead->name) }}</td>
                                             <td>{{ strtoupper($pda->lead->contact_person) }}</td>
@@ -226,6 +209,7 @@
 
                                             </td>
                                         </tr>
+                                            @endif
                                     @endif
                                 @endforeach
                                 </tbody>
@@ -238,15 +222,9 @@
                         <h4 class="card-title text-white">Accepted PDAs</h4>
                     </div>
                     <div class="card-body">
-                        {{--<div class="row">--}}
-                        {{--<div class="col-sm-6">--}}
-                        {{--<div class="form-group">--}}
-                        {{--Search : <input type="text" id="search_lead">--}}
-                        {{--</div>--}}
-                        {{--</div>--}}
-                        {{--</div>--}}
+
                         <div class="table-responsive">
-                            <table class="table table-striped">
+                            <table class="table table-striped dataTable dataTable">
                                 <thead>
                                 <tr>
                                     <th>Customer</th>
@@ -264,6 +242,7 @@
                                 <tbody id="customers">
                                 @foreach($pdas as $pda)
                                     @if($pda->status == \Esl\helpers\Constants::LEAD_QUOTATION_ACCEPTED)
+                                        @if($pda->lead !==null)
                                         <tr>
                                             <td>{{ ucwords($pda->lead->name) }}</td>
                                             <td>{{ strtoupper($pda->lead->contact_person) }}</td>
@@ -281,6 +260,7 @@
                                             </td>
                                         </tr>
                                     @endif
+                                        @endif
                                 @endforeach
                                 </tbody>
                             </table>
@@ -292,15 +272,9 @@
                         <h4 class="card-title text-white">Disapproved PDAs</h4>
                     </div>
                     <div class="card-body">
-                        {{--<div class="row">--}}
-                        {{--<div class="col-sm-6">--}}
-                        {{--<div class="form-group">--}}
-                        {{--Search : <input type="text" id="search_lead">--}}
-                        {{--</div>--}}
-                        {{--</div>--}}
-                        {{--</div>--}}
+
                         <div class="table-responsive">
-                            <table class="table table-striped">
+                            <table class="table table-striped dataTable">
                                 <thead>
                                 <tr>
                                     <th>Customer</th>
@@ -318,6 +292,7 @@
                                 <tbody id="customers">
                                 @foreach($pdas as $pda)
                                     @if($pda->status == \Esl\helpers\Constants::LEAD_QUOTATION_DECLINED)
+                                        @if($pda->lead !==null)
                                         <tr>
                                             <td>{{ ucwords($pda->lead->name) }}</td>
                                             <td>{{ strtoupper($pda->lead->contact_person) }}</td>
@@ -334,6 +309,7 @@
 
                                             </td>
                                         </tr>
+                                            @endif
                                     @endif
                                 @endforeach
                                 </tbody>
@@ -346,15 +322,9 @@
                         <h4 class="card-title text-white">Rejected PDAs</h4>
                     </div>
                     <div class="card-body">
-                        {{--<div class="row">--}}
-                        {{--<div class="col-sm-6">--}}
-                        {{--<div class="form-group">--}}
-                        {{--Search : <input type="text" id="search_lead">--}}
-                        {{--</div>--}}
-                        {{--</div>--}}
-                        {{--</div>--}}
+
                         <div class="table-responsive">
-                            <table class="table table-striped">
+                            <table class="table table-striped dataTable">
                                 <thead>
                                 <tr>
                                     <th>Customer</th>
@@ -372,6 +342,7 @@
                                 <tbody id="customers">
                                 @foreach($pdas as $pda)
                                     @if($pda->status == \Esl\helpers\Constants::LEAD_QUOTATION_DECLINED_CUSTOMER)
+                                        @if($pda->lead !==null)
                                         <tr>
                                             <td>{{ ucwords($pda->lead->name) }}</td>
                                             <td>{{ strtoupper($pda->lead->contact_person) }}</td>
@@ -388,6 +359,7 @@
 
                                             </td>
                                         </tr>
+                                            @endif
                                     @endif
                                 @endforeach
                                 </tbody>
@@ -400,15 +372,9 @@
                         <h4 class="card-title text-white">Won PDAs</h4>
                     </div>
                     <div class="card-body">
-                        {{--<div class="row">--}}
-                        {{--<div class="col-sm-6">--}}
-                        {{--<div class="form-group">--}}
-                        {{--Search : <input type="text" id="search_lead">--}}
-                        {{--</div>--}}
-                        {{--</div>--}}
-                        {{--</div>--}}
+
                         <div class="table-responsive">
-                            <table class="table table-striped">
+                            <table class="table table-striped dataTable">
                                 <thead>
                                 <tr>
                                     <th>Customer</th>
@@ -426,6 +392,7 @@
                                 <tbody id="customers">
                                 @foreach($pdas as $pda)
                                     @if($pda->status == \Esl\helpers\Constants::LEAD_QUOTATION_CONVERTED)
+                                        @if($pda->lead !==null)
                                         <tr>
                                             <td>{{ ucwords($pda->lead->name) }}</td>
                                             <td>{{ strtoupper($pda->lead->contact_person) }}</td>
@@ -442,6 +409,7 @@
 
                                             {{--</td>--}}
                                         </tr>
+                                            @endif
                                     @endif
                                 @endforeach
                                 </tbody>

@@ -221,8 +221,8 @@ class QuotationController extends Controller
 
     public function allPdas()
     {
+
         return view('quotation.pdas')
-            ->withPdas(Quotation::with(['lead','parties','cargos.goodType','consignee',
-                'vessel','voyage','services.tariff','remarks.user'])->get()->sortBy('created_at'));
+            ->withPdas(Quotation::get()->sortBy('created_at'));
     }
 }

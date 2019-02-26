@@ -17,6 +17,7 @@
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/colors/blue.css') }}" id="theme" rel="stylesheet">
     <link href="{{ asset('assets/plugins/wizard/steps.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{asset('css/dataTables.bootstrap.min.css')}}">
     <style>
         .slect2{
             width: 100% !important;
@@ -65,9 +66,13 @@
 {{--<script src="{{ asset('js/datepicker.js') }}"></script>--}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+<script src="{{asset('js/jquery.dataTables.min.js')}}"></script>
+<script src="{{asset('js/dataTables.bootstrap4.min.js')}}"></script>
 @include('sweet::alert')
 <script>
+
     $(document).ready(function(){
+        $('.dataTable').dataTable();
         var date_input=$('.datepicker'); //our date input has the name "date"
         var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
         var options={
@@ -83,6 +88,7 @@
 
 
     function submitForm(form, formUrl, redirectUrl = 'current'){
+        return alert(form);
         var formId = form.id;
         var vessel = $('#'+formId);
 

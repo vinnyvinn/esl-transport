@@ -128,6 +128,7 @@
                                         </thead>
                                         <tbody id="customers">
                                         @foreach($quotations as $quotation)
+                                            @if($quotation->lead !==null)
                                             <tr>
                                                 <td>{{ ucwords($quotation->lead->name) }}</td>
                                                 <td>{{ ucfirst($quotation->lead->contact_person) }}</td>
@@ -138,6 +139,7 @@
                                                     <a href=" {{ url('quotation/view/'. $quotation->id) }}" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
                                                 </td>
                                             </tr>
+                                            @endif
                                         @endforeach
                                         </tbody>
                                     </table>

@@ -199,6 +199,7 @@ class CustomerController extends Controller
 
     public function vesselDetails(Request $request)
     {
+
         $vessels = Vessel::where('name', $request->name)
             ->where('lead_id', $request->lead_id)->get();
         if (!$vessels->isEmpty()){

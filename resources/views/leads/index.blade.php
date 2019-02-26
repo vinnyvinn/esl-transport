@@ -22,16 +22,10 @@
                         <h4 class="card-title">Leads <a href="{{ route('leads.create') }}" class="btn btn-primary pull-right">Add Lead</a></h4>
                     </div>
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    Search : <input type="text" id="search_lead">
-                                </div>
-                            </div>
-                        </div>
+
                         <hr>
                         <div class="table-responsive">
-                            <table class="table table-striped">
+                            <table class="table table-striped dataTable table-bordered">
                                 <thead>
                                 <tr>
                                     <th>Name</th>
@@ -69,9 +63,7 @@
                                 @endforeach
                                 </tbody>
                             </table>
-                            <div class="footable pagination">
-                                {{ $leads->links() }}
-                            </div>
+
                         </div>
                     </div>
                 </div>

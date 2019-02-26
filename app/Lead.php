@@ -7,8 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Lead extends ESLModel
 {
-    protected  $fillable = ['name','contact_person','phone','currency',
-        'email','telephone','address','location'];
+     protected $guarded = [];
 
     public function quotation()
     {
