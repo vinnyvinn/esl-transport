@@ -22,6 +22,10 @@ class Cargo extends ESLModel
     {
         return $this->hasOne(GoodType::class, 'id','good_type_id');
     }
+
+    public function cargoTypes(){
+        return $this->hasMany(CargoTypes::class,'cargo_type','id');
+    }
 }
 
 

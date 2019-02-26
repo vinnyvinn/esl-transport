@@ -82,7 +82,7 @@
                                                     <div class="col-sm-6">
                                                         <div class="form-group">
                                                             <label for="name">Vessel Name</label>
-                                                            <input type="text" required id="vessel_name" name="name" class="form-control" placeholder="Name">
+                                                            <input type="text" required id="name" name="name" class="form-control" placeholder="Name">
                                                         </div>
                                                         <input type="hidden" name="lead_id" value="{{ $customer->id }}">
                                                         <div class="form-group">
@@ -140,7 +140,7 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="grt">Gross Tonnage  GRT</label>
-                                                            <input type="number" id="grt" name="grt" required class="form-control" placeholder="Gross Tonnage ">
+                                                            <input type="number" id="grt" name="grt" class="form-control" placeholder="Gross Tonnage ">
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="nrt"> Net Tonnage</label>
@@ -217,7 +217,7 @@
                                                 <div class="col">
                                                     <div class="form-group">
                                                         <label for="country_of_loading">Container</label>
-                                                        <select name="container_id" id="country_of_loading" style="width:100%" class="select2 form-control">
+                                                        <select name="container_id" id="container_id" style="width:100%" class="select2 form-control">
                                                                     <option value="">Select Container</option>
                                                                 </select>
                                                     </div>
