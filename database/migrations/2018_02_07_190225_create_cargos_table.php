@@ -22,9 +22,9 @@ class CreateCargosTable extends Migration
             $table->string('manifest_number');
             $table->string('shipping_type');
             $table->string('description')->nullable();
-            $table->string('type')->nullable();
+            $table->integer('type')->nullable()->unsigned();
             $table->string('seal_no')->nullallable();
-            $table->string('container_id')->nullable();
+            $table->integer('container_id')->nullable()->unsigned();
             $table->string('case_qty')->nullable();
             $table->string('t_net_weight')->nullable();
             $table->string('t_gross_weight')->nullable();

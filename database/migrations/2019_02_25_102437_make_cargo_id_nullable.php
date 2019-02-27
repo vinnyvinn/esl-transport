@@ -14,7 +14,7 @@ class MakeCargoIdNullable extends Migration
     public function up()
     {
         Schema::table('quotations', function (Blueprint $table) {
-            $table->integer('cargo_id')->nullable()->change();
+            $table->integer('cargo_id')->nullable();
         });
     }
 

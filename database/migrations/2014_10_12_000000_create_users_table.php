@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('lname')->default('Demo');
             $table->integer('department_id')->default(1);
             $table->string('email')->unique();
-            $table->string('password');
+            $table->string('password',255);
             $table->text('permissions')->nullable();
             $table->rememberToken();
             $table->timestamps();

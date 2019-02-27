@@ -33,7 +33,7 @@ Route::post('/update-cargo-details', 'CustomerController@updateCargoDetails');
 Route::post('/delete-cargo', 'CustomerController@deleteCargo');
 Route::post('/quotation-service', 'QuotationServiceController@addQuotationService');
 Route::post('/quotation-service-delete', 'QuotationServiceController@deleteQuotationService');
-Route::get('/quotation/{id}', 'QuotationController@showQuotation');
+Route::get('/quotation/{id}', 'QuotationController@showQuotation')->name('show-quotation');
 Route::get('/all-pdas', 'QuotationController@allPdas');
 Route::get('/pdas/{status}', 'QuotationController@pdaStatus');
 Route::get('/quotation/view/{id}', 'QuotationController@viewQuotation');

@@ -201,7 +201,12 @@
                                                 <div class="col">
                                                     <div class="form-group">
                                                         <label for="type">Type</label>
-                                                        <input type="text" required id="type" name="type" class="form-control" placeholder="Type">
+                                                        <select name="type" id="type" style="width:100%" class="select2 form-control">
+                                                            <option value="">Select Type</option>
+                                                            @foreach(\App\CargoTypes::all() as $value)
+                                                                <option value="{{$value->id}}">{{$value->name}}</option>
+                                                            @endforeach
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="col">
@@ -218,8 +223,11 @@
                                                     <div class="form-group">
                                                         <label for="country_of_loading">Container</label>
                                                         <select name="container_id" id="container_id" style="width:100%" class="select2 form-control">
-                                                                    <option value="">Select Container</option>
-                                                                </select>
+                                                            <option value="">Select Container</option>
+                                                            @foreach(\App\Container::all() as $value)
+                                                                <option value="{{$value->id}}">{{$value->name}}</option>
+                                                            @endforeach
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="col">

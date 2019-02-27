@@ -14,8 +14,8 @@ class AddVesselIdCargoIdLeadIdToQuotation extends Migration
     public function up()
     {
         Schema::table('quotations', function (Blueprint $table) {
-            $table->integer('vessel_id')->nullable();
-            $table->integer('lead_id')->nullable();
+            $table->integer('vessel_id')->nullable()->change();
+            $table->integer('lead_id')->nullable()->change();
         });
     }
 

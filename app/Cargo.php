@@ -15,7 +15,7 @@ class Cargo extends ESLModel
 
     public function quotation()
     {
-        return $this->hasOne(Quotation::class, 'id', 'quotation_id');
+        return $this->belongsTo(Quotation::class, 'quotation_id', 'id');
     }
 
     public function goodType()
@@ -24,7 +24,11 @@ class Cargo extends ESLModel
     }
 
     public function cargoTypes(){
-        return $this->hasMany(CargoTypes::class,'cargo_type','id');
+        return $this->belongsTo(CargoTypes::class,'type','id');
+    }
+
+    public function container(){
+        return $this->belongsTo(Container::class,'container_id','id');
     }
 }
 

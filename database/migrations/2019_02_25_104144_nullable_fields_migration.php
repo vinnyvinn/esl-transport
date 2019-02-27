@@ -14,10 +14,10 @@ class NullableFieldsMigration extends Migration
     public function up()
     {
         Schema::table('quotations', function (Blueprint $table) {
-            $table->string('inputCur')->nullable()->change();
-            $table->string('DCLink')->nullable()->change();
-            $table->string('doc_ids')->nullable()->change();
-            $table->string('type')->nullable()->change();
+            $table->string('inputCur')->nullable();
+            $table->string('DCLink')->nullable();
+            $table->string('doc_ids')->nullable();
+            $table->string('type')->nullable();
             $table->string('status')->nullable()->change();
 
         });

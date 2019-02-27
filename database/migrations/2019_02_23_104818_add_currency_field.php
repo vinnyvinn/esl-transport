@@ -14,7 +14,7 @@ class AddCurrencyField extends Migration
     public function up()
     {
         Schema::table('leads', function (Blueprint $table) {
-            $table->string('currency')->default('USD');
+            $table->string('currency')->default('USD')->change();
         });
     }
 

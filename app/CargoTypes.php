@@ -9,6 +9,6 @@ class CargoTypes extends Model
     protected $fillable = ['name', 'description'];
 
     public function cargo(){
-        return $this->belongsTo(Cargo::class,'cargo_type','id');
+        return $this->hasMany(Cargo::class,'type','id');
     }
 }

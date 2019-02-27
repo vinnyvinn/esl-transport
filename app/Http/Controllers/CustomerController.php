@@ -202,32 +202,34 @@ class CustomerController extends Controller
             ->where('lead_id', $request->lead_id)->get();
         if (!$vessels->isEmpty()) {
             $vessel = $vessels->last();
-            $vessel->update($request->all());
+            $vessel->update($request->all());// update if vessel exists
+        } else {
+            $vessel = Vessel::create($request->all());//create a new vessel
+        }
 
-            // NotificationRepo::create()->success('updated successfully');
-            // return Response(['success' => ['vessel_name' => $vessel->name,
-            //     'grt' => ($vessel->grt + $vessel->consignee_good), 'loa' => $vessel->loa,
-            //     'port' => $vessel->port_of_loading]]);
-        }else{
-            $vessel = Vessel::create($request->all());
-        }        
+        $quote = new Quotation();
+        $quote->user_id = Auth::user()->id;
+        $quote->lead_id = $request->lead_id;
+        $quote->vessel_id = $vessel->id;
+        $quote->status = Constants::LEAD_QUOTATION_PENDING;
+        $quote->save();// save quotation
 
-        $quote = Quotation::create(['user_id' => Auth::user()->id,
-            'lead_id' => $request->lead_id, 'vessel_id' => $vessel->id,
-            'status' => Constants::LEAD_QUOTATION_PENDING]);
+        $data = $request->all();
 
-        $cargo = new Cargo($request->all());
+        $cargo = new Cargo($data);
+        $voyage = new Voyage($data);
 
-        $quote->cargos()->save($cargo);
+        $quote->cargos()->save($cargo);//save quote cargo details
+        $quote->voyage()->save($voyage);// save voyage details
 
-        NotificationRepo::create()->success('Quotation generated successfully');
-
-        return Response(['success' => ['redirect' => url('/quotation/' . $quote->id)]]);
+        // NotificationRepo::create()->success('Quotation generated successfully');
+        // return Response(['success' => ['redirect' => url('/quotation/' . $quote->id)]]);
+        return redirect()->route('show-quotation',['id'=>$quote->id]);
     }
 
     public function oVesselDetails(Request $request)
     {
-       
+
         $vessels = Vessel::where('name', $request->name)
             ->where('lead_id', $request->lead_id)->get();
         if (!$vessels->isEmpty()) {
@@ -235,7 +237,7 @@ class CustomerController extends Controller
             $vessel->update($request->all());
 
             NotificationRepo::create()->success('updated successfully');
-           
+
             return Response(['success' => ['vessel_name' => $vessel->name,
                 'grt' => ($vessel->grt + $vessel->consignee_good), 'loa' => $vessel->loa,
                 'port' => $vessel->port_of_loading]]);

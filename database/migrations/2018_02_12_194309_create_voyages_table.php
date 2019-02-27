@@ -18,11 +18,11 @@ class CreateVoyagesTable extends Migration
             $table->integer('quotation_id');
             $table->string('voyage_no');
             $table->string('internal_voyage_no');
-            $table->string('name');
+            $table->string('voyage_name');
             $table->string('service_code');
             $table->string('final_destination');
             $table->dateTime('eta');
-            $table->dateTime('vessel_arrived');
+            $table->boolean('vessel_arrived')->default(0);
             $table->timestamps();
         });
     }

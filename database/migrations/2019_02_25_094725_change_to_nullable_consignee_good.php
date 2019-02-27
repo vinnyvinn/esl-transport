@@ -14,7 +14,7 @@ class ChangeToNullableConsigneeGood extends Migration
     public function up()
     {
         Schema::table('vessels', function (Blueprint $table) {
-            $table->string('consignee_good')->nullable()->change();
+            $table->string('consignee_good')->nullable();
         });
     }
 
