@@ -15,10 +15,10 @@ class CreateConsigneesTable extends Migration
     {
         Schema::create('consignees', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('quotation_id');
-            $table->string('name');
-            $table->string('email');
-            $table->text('details');
+            $table->string('consignee_name');
+            $table->string('consignee_address');
+            $table->string('consignee_telephone');
+            $table->string('consignee_email',255);
             $table->timestamps();
         });
     }

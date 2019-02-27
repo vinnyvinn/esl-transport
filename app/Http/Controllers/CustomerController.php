@@ -211,6 +211,7 @@ class CustomerController extends Controller
         $quote->user_id = Auth::user()->id;
         $quote->lead_id = $request->lead_id;
         $quote->vessel_id = $vessel->id;
+        $quote->consignee_id = $request->consignee_id;
         $quote->status = Constants::LEAD_QUOTATION_PENDING;
         $quote->save();// save quotation
 

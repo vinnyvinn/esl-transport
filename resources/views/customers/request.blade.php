@@ -320,32 +320,19 @@
                                             <div class="form-row">
                                                 <div class="col">
                                                     <div class="form-group">
-                                                        <label for="consignee_name">Consignee Name</label>
-                                                        <input type="text" required id="consignee_name" name="consignee_name" class="form-control" placeholder="Consignee Name">
+                                                        <label for="consignee_id">Consignee Name</label>
+                                                        <select name="consignee_id" id="container_id" style="width:100%" class="select2 form-control">
+                                                            <option value="">Select Consignee</option>
+                                                            @foreach(\App\Consignee::all() as $value)
+                                                                <option value="{{$value->id}}">{{$value->consignee_name}} - {{$value->consignee_address}}</option>
+                                                            @endforeach
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="col">
-                                                        <label for="consignee_address">Consignee address</label>
-                                                    <div class="form-group">
-                                                        <input type="text" required id="consignee_address" name="consignee_address" class="form-control" placeholder="Consignee address">
-                                                    </div>
                                                 </div>
                                             </div>
 
-                                            <div class="form-row">
-                                                <div class="col">
-                                                    <div class="form-group">
-                                                        <label for="consignee_email">Consignee Email</label>
-                                                        <input type="email" required id="consignee_email" name="consignee_email" class="form-control" placeholder="Consignee Email">
-                                                    </div>
-                                                </div>
-                                                <div class="col">
-                                                        <label for="consignee_telephone">Consignee Telephone</label>
-                                                    <div class="form-group">
-                                                        <input type="text" required id="consignee_telephone" name="consignee_telephone" class="form-control" placeholder="Consignee Telephone">
-                                                    </div>
-                                                </div>
-                                            </div>
                                             <div style="text-align:right">
                                                 <input class="btn" type="button"
                                                 style="margin-left:30px;" value="Back">

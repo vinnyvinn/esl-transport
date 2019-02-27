@@ -40,7 +40,7 @@ class Quotation extends ESLModel
 
     public function consignee()
     {
-        return $this->hasOne(Consignee::class,'quotation_id','id');
+        return $this->belongsTo(Consignee::class,'consignee_id','id');
     }
     public function parties()
     {
