@@ -22,7 +22,7 @@ class CreateVoyagesTable extends Migration
             $table->string('service_code');
             $table->string('final_destination');
             $table->dateTime('eta');
-            $table->boolean('vessel_arrived')->default(0);
+            $table->dateTime('vessel_arrived')->nullable();
             $table->timestamps();
         });
     }

@@ -23,16 +23,15 @@ class QuotationController extends Controller
     {
         $quote = Quotation::findOrFail($id);
 
-        dd($quote->with(['lead','vessel']));
+        // $quote->with(['lead','vessel','cargos','voyage','consignee']);
         // $quote = Quotation::with(['lead','parties','cargos.goodType','consignee',
         //     'vessel','voyage','services.tariff','remarks.user'])->findOrFail($id);
         $quote = Quotation::with(['lead','parties','cargos.goodType','consignee',
             'vessel','voyage','services.tariff','remarks.user'])->findOrFail($id);
 
-        dd($quote);
+        // dd($quote);
 
         if ($quote->service_type_id != null){
-
             return view('quotation.other-service')
                 ->withQuotation($quote)
                 ->withTaxs(ServiceTax::all()->sortBy('Description'))
