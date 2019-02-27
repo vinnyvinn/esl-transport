@@ -11,7 +11,8 @@ class Cargo extends ESLModel
         'container_id','case_qty','t_net_weight',
         't_gross_weight','shipping_line','discharge_rate',
         'port_stay','shipping_type','description','package','weight',
-        'total_package','shipper','notifying_address','remarks'];
+        'total_package','shipper','notifying_address','remarks','consignee_name','consignee_telephone',
+    'consignee_email','consignee_address'];
 
     public function quotation()
     {

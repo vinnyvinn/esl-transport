@@ -316,6 +316,36 @@
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <div class="form-row">
+                                                <div class="col">
+                                                    <div class="form-group">
+                                                        <label for="consignee_name">Consignee Name</label>
+                                                        <input type="text" required id="consignee_name" name="consignee_name" class="form-control" placeholder="Consignee Name">
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                        <label for="consignee_address">Consignee address</label>
+                                                    <div class="form-group">
+                                                        <input type="text" required id="consignee_address" name="consignee_address" class="form-control" placeholder="Consignee address">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-row">
+                                                <div class="col">
+                                                    <div class="form-group">
+                                                        <label for="consignee_email">Consignee Email</label>
+                                                        <input type="email" required id="consignee_email" name="consignee_email" class="form-control" placeholder="Consignee Email">
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                        <label for="consignee_telephone">Consignee Telephone</label>
+                                                    <div class="form-group">
+                                                        <input type="text" required id="consignee_telephone" name="consignee_telephone" class="form-control" placeholder="Consignee Telephone">
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div style="text-align:right">
                                                 <input class="btn" type="button"
                                                 style="margin-left:30px;" value="Back">
@@ -332,7 +362,7 @@
                                             <div class="form-row">
                                                 <div class="col">
                                                     <div class="form-group">
-                                                        <label for="name">Voyage No.</label>
+                                                        <label for="name">External Voyage No.</label>
                                                         <input type="text" required id="voyage_no" name="voyage_no" class="form-control" placeholder="Voyage No.">
                                                     </div>
                                                 </div>
@@ -348,7 +378,7 @@
                                             <div class="form-row">
                                                 <div class="col">
                                                     <div class="form-group">
-                                                        <label for="voyage_name">Name</label>
+                                                        <label for="voyage_name">Voyage Name</label>
                                                         <input type="text" required id="voyage_name" name="voyage_name" class="form-control" placeholder="Name">
                                                     </div>
                                                 </div>
@@ -365,7 +395,7 @@
                                                 <div class="col">
                                                     <div class="form-group">
                                                         <label for="final_destination">Final Destination</label>
-                                                        <input type="text" required id="final_destination" name="final_destination" class="form-control" placeholder="Final DEstination">
+                                                        <input type="text" required id="final_destination" name="final_destination" class="form-control" placeholder="Final Destination">
                                                     </div>
                                                 </div>
                                                 <div class="col">
