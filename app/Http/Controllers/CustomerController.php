@@ -9,6 +9,7 @@ use App\Quotation;
 use App\Vessel;
 use App\Voyage;
 use Carbon\Carbon;
+use Validator;
 use Esl\helpers\Constants;
 use Esl\Repository\CustomersRepo;
 use Esl\Repository\NotificationRepo;
@@ -295,11 +296,22 @@ class CustomerController extends Controller
         return Response(['success' => ['url' => url('/')]]);
     }
 
-    public function consigneeDetails(Request $request)
+    public function consigneeDetails(Request $request,$id)
     {
-        Consignee::create($request->all());
-        NotificationRepo::create()->success('Consignee details added successfully');
-        return Response(['success' => ['redirect' => url('/quotation/' . $request->quotation_id)]]);
+
+        $quotation = Quotation::findOrFail($id);
+        $quotation->consignee_id = $request->consignee_id;
+        $updateSuccess = $quotation->save();
+
+        if($updateSuccess){
+            NotificationRepo::create()->success('Consignee details added successfully');
+        }else{
+            NotificationRepo::create()->error('Unable to add consignee. Try again Later');
+        }
+
+        return redirect()->back();
+       
+        // return Response(['success' => ['redirect' => url('/quotation/' . $request->quotation_id)]]);
 
     }
 }

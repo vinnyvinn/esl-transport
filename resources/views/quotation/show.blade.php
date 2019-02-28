@@ -239,14 +239,14 @@
                                                                                 </select>
                                                                         </div>
                                                                         <div class="form-group">
-                                                                                <label for="shipping_type">Shipping Type</label>
-                                                                                <select name="shipping_type" id="shipping_type" style="width:100%" class="select2 form-control">
+                                                                            <label for="shipping_type">Shipping Type</label>
+                                                                            <select name="shipping_type" id="shipping_type" style="width:100%" class="select2 form-control">
                                                                                     <option value="">Select Shipping Types</option>
                                                                                     @foreach(\App\ShippingTypes::all() as $value)
                                                                                         <option value="{{$value->id}}">{{$value->shipping_type_name}}</option>
                                                                                     @endforeach
                                                                                 </select>
-                                                                            </div>             
+                                                                        </div>
                                                                         <div class="form-group">
                                                                             <label for="description">Cargo Description</label>
                                                                             <textarea name="description" class="form-control" id="description" placeholder="Cargo Description"></textarea>
@@ -588,10 +588,12 @@
                                     <div class="tab-pane p-20" id="consignee" role="tabpanel">
                                         <h3 class="text-center">Consignee Details</h3>
                                         @if($quotation->consignee == null)
-                                        <form class="form-material m-t-40" onsubmit="event.preventDefault();submitForm(this, '/consignee-details','redirect');" action=""
-                                            id="consig">
+                                        <example-component />
+                                        <form class="form-material m-t-40" method="POST" action={{ route('add-quotation-consignee',['id'=>$quotation->id])}}>
+                                            {{ csrf_field() }}
                                             <div class="row">
                                                 <div class="col-sm-12 col-md-6">
+                                                    <example-component></example-component>
                                                     <div class="row">
                                                         <div class="col-sm-12">
                                                             <div class="form-group">

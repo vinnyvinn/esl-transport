@@ -26,7 +26,7 @@ Route::post('/search-customer', 'CustomerController@ajaxSearch');
 Route::post('/vessel-details', 'CustomerController@vesselDetails');
 Route::post('/others-vessel-details', 'CustomerController@oVesselDetails');
 Route::post('/voyage-details', 'CustomerController@voyageDetails');
-Route::post('/consignee-details', 'CustomerController@consigneeDetails');
+Route::post('/consignee-details/{id}', 'CustomerController@consigneeDetails')->name('add-quotation-consignee');
 Route::post('/update-vessel-details', 'CustomerController@updateVesselDetails');
 Route::post('/cargo-details', 'CustomerController@cargoDetails');
 Route::post('/update-cargo-details', 'CustomerController@updateCargoDetails');
