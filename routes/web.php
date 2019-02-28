@@ -28,7 +28,7 @@ Route::post('/others-vessel-details', 'CustomerController@oVesselDetails');
 Route::post('/voyage-details/{id}', 'CustomerController@voyageDetails')->name('add-quotation-voyage');
 Route::post('/consignee-details/{id}', 'CustomerController@consigneeDetails')->name('add-quotation-consignee');
 Route::post('/update-vessel-details', 'CustomerController@updateVesselDetails');
-Route::post('/cargo-details', 'CustomerController@cargoDetails');
+Route::post('/cargo-details/{id}', 'CustomerController@cargoDetails')->name('add_cargo-to-quotation');
 Route::post('/update-cargo-details', 'CustomerController@updateCargoDetails');
 Route::post('/delete-cargo', 'CustomerController@deleteCargo');
 Route::post('/quotation-service', 'QuotationServiceController@addQuotationService');

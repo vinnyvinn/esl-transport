@@ -26,7 +26,7 @@ class QuotationController extends Controller
         // $quote->with(['lead','vessel','cargos','voyage','consignee']);
         // $quote = Quotation::with(['lead','parties','cargos.goodType','consignee',
         //     'vessel','voyage','services.tariff','remarks.user'])->findOrFail($id);
-        $quote = Quotation::with(['lead','parties','cargos.goodType','consignee',
+        $quote = Quotation::with(['lead','parties','cargos','cargos.goodType','consignee',
             'vessel','voyage','services.tariff','remarks.user'])->findOrFail($id);
 
         // dd($quote);

@@ -257,16 +257,17 @@ class CustomerController extends Controller
         return Response(['success' => ['redirect' => url('/quotation/' . $quote->id)]]);
     }
 
-    public function cargoDetails(Request $request)
+    public function cargoDetails(Request $request, $id)
     {
-        $data = $request->all();
-        $data['manifest_number'] = count(Cargo::all()) . '/' . Date('Y');
-        $data['seal_no'] = count(Cargo::all()) . '/' . Date('Y');
-        Cargo::create($data);
-
+        $quotation = Quotation::findOrFail($id);
+        $cargo = new Cargo($request->all());
+        // $data['manifest_number'] = count(Cargo::all()) . '/' . Date('Y');
+        // $data['seal_no'] = count(Cargo::all()) . '/' . Date('Y');
+        $quotation->cargos()->save($cargo);
         NotificationRepo::create()->success('Cargo details added successfully');
 
-        return Response(['success' => ['url' => url('/')]]);
+        // return Response(['success' => ['url' => url('/')]]);
+        return redirect()->back();
     }
 
     public function voyageDetails(Request $request, $id)

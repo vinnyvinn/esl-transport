@@ -15,7 +15,7 @@ class CreateCargosTable extends Migration
     {
         Schema::create('cargos', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('cargo_name');
             $table->integer('lead_id');
             $table->integer('quotation_id');
             $table->integer('good_type_id');
