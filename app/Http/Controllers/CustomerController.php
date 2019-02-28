@@ -269,17 +269,34 @@ class CustomerController extends Controller
         return Response(['success' => ['url' => url('/')]]);
     }
 
-    public function voyageDetails(Request $request)
+    public function voyageDetails(Request $request, $id)
     {
-        $data = $request->all();
+        $quotation = Quotation::findOrFail($id);
 
-        $data['eta'] = Carbon::parse($request->eta);
-        $data['vessel_arrived'] = Carbon::parse($request->vessel_arrived);
-        Voyage::create($data);
+        $validatedData = $request->validate([
+            'voyage_name' => 'required',
+            'voyage_no' => 'required',
+            'internal_voyage_no' => 'required',
+            'service_code' => 'required',
+            'eta' => 'required',
+            'final_destination' => 'required'
+        ]);
+
+        $voyage = new Voyage();
+        $voyage->voyage_name = $request->voyage_name;
+        $voyage->voyage_no = $request->voyage_name;
+        $voyage->internal_voyage_no = $request->internal_voyage_no;
+        $voyage->service_code = $request->service_code;
+        $voyage->eta = $request->eta;
+        $voyage->final_destination = $request->final_destination;
+
+        $quotation->voyage()->save($voyage);
 
         NotificationRepo::create()->success('Voyage details added successfully');
 
-        return Response(['success' => ['redirect' => url('/quotation/' . $request->quotation_id)]]);
+        return redirect()->back();
+
+        // return Response(['success' => ['redirect' => url('/quotation/' . $request->quotation_id)]]);
     }
 
     public function updateCargoDetails(Request $request)
@@ -298,8 +315,12 @@ class CustomerController extends Controller
 
     public function consigneeDetails(Request $request,$id)
     {
-
         $quotation = Quotation::findOrFail($id);
+
+        $validatedData = $request->validate([
+            'consignee_id' => 'required'
+        ]);
+
         $quotation->consignee_id = $request->consignee_id;
         $updateSuccess = $quotation->save();
 

@@ -78,6 +78,18 @@
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="card-title">Customer Request Details</h4>
+
+                                @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                                @endif
+
+
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#home" role="tab"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Vessel Details</span></a>                                        </li>
                                     <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#profile" role="tab"><span class="hidden-sm-up"><i class="ti-user"></i></span> <span class="hidden-xs-down">Cargo Details</span></a>                                        </li>
@@ -500,49 +512,60 @@
                                     <div class="tab-pane p-20" id="messages" role="tabpanel">
                                         <h3 class="text-center">Voyage Details</h3>
                                         @if($quotation->voyage == null)
-                                        <form class="form-material m-t-40" onsubmit="event.preventDefault();submitForm(this, '/voyage-details','redirect');" action=""
-                                            id="voyage">
-                                            <div class="row">
-                                                <div class="col-sm-6">
+                                        <form class="form-material m-t-40" method="POST" action="{{ route('add-quotation-voyage',['id'=>$quotation->id])}}" id="voyage">
+                                            {{ csrf_field()}}
+                                            <div class="form-row">
+                                                <div class="col">
                                                     <div class="form-group">
-                                                        <input type="hidden" name="quotation_id" value="{{ $quotation->id }}">
-                                                        <label for="name">Voyage Name</label>
-                                                        <input type="text" required id="name" name="name" class="form-control" placeholder="Name">
+                                                        <label for="voyage_name">Voyage Name</label>
+                                                        <input type="text" required id="voyage_name" name="voyage_name" class="form-control" placeholder="Name">
                                                     </div>
+                                                </div>
+                                                <div class="col">
                                                     <div class="form-group">
                                                         <label for="voyage_no">External Voyage Number</label>
                                                         <input type="text" required id="voyage_no" name="voyage_no" class="form-control" placeholder="Voyage Number">
                                                     </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-row">
+                                                <div class="col">
                                                     <div class="form-group">
                                                         <label for="internal_voyage_no">Internal Voyage No</label>
                                                         <input type="text" id="internal_voyage_no" name="internal_voyage_no" class="form-control" placeholder="Internal Voyage No">
                                                     </div>
+                                                </div>
+                                                <div class="col">
                                                     <div class="form-group">
                                                         <label for="service_code">Service Code</label>
                                                         <input type="text" id="service_code" name="service_code" class="form-control" placeholder="Service Code">
                                                     </div>
-
-
                                                 </div>
-                                                <div class="col-sm-6">
+                                            </div>
+
+                                            <div class="form-row">
+                                                <div class="col">
                                                     <div class="form-group">
                                                         <label for="final_destination">Final Destination </label>
                                                         <input type="text" id="final_destination" name="final_destination" class="form-control" placeholder="Final Destination">
                                                     </div>
+                                                </div>
+                                                <div class="col">
                                                     <div class="form-group">
                                                         <label for="eta"> ETA</label>
-                                                        <input type="text" id="eta" name="eta" class="form-control datepicker">
+                                                        <input type="text" id="eta" name="eta" class="form-control datepicker" placeholder="ETA">
                                                     </div>
-                                                    <div class="form-group">
+                                                </div>
+                                            </div>
 
-                                                        <label for="vessel_arrived"> Vessel Arrived(ATA)</label>
-                                                        <input type="text" id="vessel_arrived" name="vessel_arrived" class="form-control datepicker">
-                                                    </div>
+                                            <div class="form-row">
+                                                <div class="col">
                                                     <div class="form-group">
-                                                        <br>
                                                         <input class="btn pull-right btn-primary" type="submit" value="Save">
                                                     </div>
                                                 </div>
+
                                             </div>
                                         </form>
                                         @else
@@ -589,8 +612,7 @@
                                         <h3 class="text-center">Consignee Details</h3>
                                         @if($quotation->consignee == null)
                                         <example-component />
-                                        <form class="form-material m-t-40" method="POST" action={{ route('add-quotation-consignee',['id'=>$quotation->id])}}>
-                                            {{ csrf_field() }}
+                                        <form class="form-material m-t-40" method="POST" action={{ route( 'add-quotation-consignee',[ 'id'=>$quotation->id])}}> {{ csrf_field() }}
                                             <div class="row">
                                                 <div class="col-sm-12 col-md-6">
                                                     <example-component></example-component>
