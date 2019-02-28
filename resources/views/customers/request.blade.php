@@ -211,10 +211,16 @@
                                                 </div>
                                                 <div class="col">
 
-                                                    <div class="form-group">
-                                                        <label for="shipping_type">Shipping Type</label>
-                                                        <input type="text" required id="shipping_type" name="shipping_type" class="form-control" placeholder="Shipping Type">
-                                                    </div>
+                                                        <div class="form-group">
+                                                                <label for="shipping_type">Shipping Type</label>
+                                                                <select name="shipping_type" id="shipping_type" style="width:100%" class="select2 form-control">
+                                                                    <option value="">Select Shipping Types</option>
+                                                                    @foreach(\App\ShippingTypes::all() as $value)
+                                                                        <option value="{{$value->id}}">{{$value->shipping_type_name}}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+
                                                 </div>
                                             </div>
 
@@ -321,7 +327,7 @@
                                                 <div class="col">
                                                     <div class="form-group">
                                                         <label for="consignee_id">Consignee Name</label>
-                                                        <select name="consignee_id" id="container_id" style="width:100%" class="select2 form-control">
+                                                        <select name="consignee_id" id="consignee_id" style="width:100%" class="select2 form-control">
                                                             <option value="">Select Consignee</option>
                                                             @foreach(\App\Consignee::all() as $value)
                                                                 <option value="{{$value->id}}">{{$value->consignee_name}} - {{$value->consignee_address}}</option>

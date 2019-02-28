@@ -31,6 +31,10 @@ class Cargo extends ESLModel
     public function container(){
         return $this->belongsTo(Container::class,'container_id','id');
     }
+
+    public function shippingTypes(){
+        return $this->belongsTo(ShippingTypes::class,'shipping_type','id');
+    }
 }
 
 

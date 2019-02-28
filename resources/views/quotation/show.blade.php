@@ -239,13 +239,14 @@
                                                                                 </select>
                                                                         </div>
                                                                         <div class="form-group">
-                                                                            <label for="shipping_type">Shipping Type</label>
-                                                                            <select name="shipping_type" id="shipping_type" required class="form-control">
+                                                                                <label for="shipping_type">Shipping Type</label>
+                                                                                <select name="shipping_type" id="shipping_type" style="width:100%" class="select2 form-control">
                                                                                     <option value="">Select Shipping Types</option>
-                                                                                    <option value="internal">ESL</option>
-                                                                                    <option value="external">External Company</option>
+                                                                                    @foreach(\App\ShippingTypes::all() as $value)
+                                                                                        <option value="{{$value->id}}">{{$value->shipping_type_name}}</option>
+                                                                                    @endforeach
                                                                                 </select>
-                                                                        </div>
+                                                                            </div>             
                                                                         <div class="form-group">
                                                                             <label for="description">Cargo Description</label>
                                                                             <textarea name="description" class="form-control" id="description" placeholder="Cargo Description"></textarea>
@@ -572,11 +573,9 @@
                                                     </tr>
                                                     <tr>
                                                         <td colspan=3>
-                                                            <strong>Vessel Arrived:</strong> 
-                                                            @if(!$quotation->voyage->vessel_arrived)
+                                                            <strong>Vessel Arrived:</strong> @if(!$quotation->voyage->vessel_arrived)
                                                             Arrives about {{ \Carbon\Carbon::parse($quotation->voyage->eta)->diffForHumans()
-                                                            }}
-                                                            @else {{ \Carbon\Carbon::parse($quotation->voyage->vessel_arrived)->format('d-M-y')
+                                                            }} @else {{ \Carbon\Carbon::parse($quotation->voyage->vessel_arrived)->format('d-M-y')
                                                             }} @endif
                                                         </td>
                                                     </tr>
@@ -592,27 +591,26 @@
                                         <form class="form-material m-t-40" onsubmit="event.preventDefault();submitForm(this, '/consignee-details','redirect');" action=""
                                             id="consig">
                                             <div class="row">
-                                                <div class="col-sm-6">
-                                                    <div class="form-group">
-                                                        <input type="hidden" name="quotation_id" value="{{ $quotation->id }}">
-                                                        <label for="name">Consignee Name</label>
-                                                        <input type="text" required id="name" name="name" class="form-control" placeholder="Name">
+                                                <div class="col-sm-12 col-md-6">
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="form-group">
+                                                                <label for="consignee_id">Select Consignee</label>
+                                                                <select name="consignee_id" id="consignee_id" style="width:100%" class="select2 form-control">
+                                                                                    <option value="">Select Consignee</option>
+                                                                                    @foreach(\App\Consignee::all() as $value)
+                                                                                        <option value="{{$value->id}}">{{$value->consignee_name}} - {{$value->consignee_address}}</option>
+                                                                                    @endforeach
+                                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12">
+                                                            <div class="form-group">
+                                                                <input class="btn pull-right btn-primary" type="submit" value="Save">
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <div class="form-group">
-                                                        <label for="email">Consignee Email</label>
-                                                        <input type="email" required id="email" name="email" class="form-control" placeholder="Email">
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-12">
-                                                    <div class="form-group">
-                                                        <label for="details">Consignee Details</label>
-                                                        <textarea name="details" id="details" cols="30" rows="5" class="form-control"></textarea>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <input class="btn pull-right btn-primary" type="submit" value="Save">
-                                                    </div>
+
                                                 </div>
                                             </div>
                                         </form>

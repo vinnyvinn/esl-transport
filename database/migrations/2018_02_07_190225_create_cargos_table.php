@@ -20,7 +20,7 @@ class CreateCargosTable extends Migration
             $table->integer('quotation_id');
             $table->integer('good_type_id');
             $table->string('manifest_number');
-            $table->string('shipping_type');
+            $table->integer('shipping_type')->unsigned();
             $table->string('description')->nullable();
             $table->integer('type')->nullable()->unsigned();
             $table->string('seal_no')->nullallable();
