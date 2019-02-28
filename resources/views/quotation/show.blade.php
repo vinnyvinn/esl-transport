@@ -124,7 +124,7 @@
                                             </table>
                                             <div style="text-align:right">
                                                 <button data-toggle="modal" data-target=".bs-example-modal-lgvessel" class="btn btn-primary">
-                                                            Edit Detail
+                                                            Edit Vessel Details
                                                         </button>
                                             </div>
 
@@ -141,7 +141,7 @@
                                                                 {{ csrf_field() }}
 
                                                                 <input type="hidden" name="lead_id" value="{{ $quotation->lead_id }}">
-                                                                    @include('includes.vessel_form')
+    @include('includes.vessel_form')
                                                                 <div style="text-align:right">
                                                                     <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
                                                                     <input class="btn  btn-primary" type="submit" value="Update">
@@ -227,7 +227,7 @@
                                                             <div class="modal-dialog modal-lg">
                                                                 <div class="modal-content">
                                                                     <div class="modal-header">
-                                                                        <h4 class="modal-title" id="myLargeModalLabel">Edit Cargo</h4>
+                                                                        <h4 class="modal-title" id="myLargeModalLabel">Edit Cargo Details</h4>
                                                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                                                     </div>
                                                                     <div class="modal-body">
@@ -352,6 +352,28 @@
                                                     </tbody>
                                                 </table>
                                             </div>
+                                            <div style="text-align:right">
+                                                <button data-toggle="modal" data-target=".voyage-modal" class="btn btn-primary">
+                                                                Edit Voyage Details
+                                                            </button>
+                                            </div>
+
+                                        <div class="modal fade voyage-modal" tabindex="-1" role="dialog" aria-labelledby="voyageEditModal" aria-hidden="true" style="display: none;">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" id="voyageEditModal">Edit Voyage Details</h4>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                            
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                        </div>
+
                                             @endif
                                         </div>
                                         <div class="tab-pane p-20" id="consignee" role="tabpanel">
@@ -401,6 +423,27 @@
                                                     </tbody>
                                                 </table>
                                             </div>
+
+                                            <div style="text-align:right">
+                                                    <button data-toggle="modal" data-target=".consignee-modal" class="btn btn-primary">
+                                                                    Edit Consignee Details
+                                                                </button>
+                                                </div>
+
+                                                <div class="modal fade consignee-modal" tabindex="-1" role="dialog" aria-labelledby="consigneeEditModal" aria-hidden="true" style="display: none;">
+                                                        <div class="modal-dialog modal-lg">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h4 class="modal-title" id="consigneeEditModal">Edit Consignee Details</h4>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                                </div>
+                                                                <div class="modal-body"> 
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                </div>
                                             @endif
                                         </div>
                                         </div>
