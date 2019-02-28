@@ -300,11 +300,12 @@ class CustomerController extends Controller
         // return Response(['success' => ['redirect' => url('/quotation/' . $request->quotation_id)]]);
     }
 
-    public function updateCargoDetails(Request $request)
+    public function updateCargoDetails(Request $request, $id)
     {
-        Cargo::findOrFail($request->cargo_id)->update($request->all());
+        Cargo::findOrFail($id)->update($request->all());
         NotificationRepo::create()->success('Cargo details updated successfully');
-        return Response(['success' => ['url' => url('/')]]);
+        return redirect()->back();
+        // return Response(['success' => ['url' => url('/')]]);
     }
 
     public function deleteCargo(Request $request)

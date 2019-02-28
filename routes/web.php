@@ -29,7 +29,7 @@ Route::post('/voyage-details/{id}', 'CustomerController@voyageDetails')->name('a
 Route::post('/consignee-details/{id}', 'CustomerController@consigneeDetails')->name('add-quotation-consignee');
 Route::post('/update-vessel-details', 'CustomerController@updateVesselDetails');
 Route::post('/cargo-details/{id}', 'CustomerController@cargoDetails')->name('add_cargo-to-quotation');
-Route::post('/update-cargo-details', 'CustomerController@updateCargoDetails');
+Route::post('/update-cargo-details/{id}', 'CustomerController@updateCargoDetails')->name('update-quotation-cargo-details');
 Route::post('/delete-cargo', 'CustomerController@deleteCargo');
 Route::post('/quotation-service', 'QuotationServiceController@addQuotationService');
 Route::post('/quotation-service-delete', 'QuotationServiceController@deleteQuotationService');

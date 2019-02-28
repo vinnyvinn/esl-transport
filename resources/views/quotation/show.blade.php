@@ -236,15 +236,13 @@
 
                                                                 {{ csrf_field()}}
                                                                 <input type="hidden" name="lead_id" value="{{ $cargo->lead_id }}">
-                                                                @include('includes.cargos_form')
+    @include('includes.cargos_form')
                                                                 <div style="text-align:right">
+                                                                    <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
                                                                     <input class="btn  btn-primary" type="submit" value="Submit">
                                                                 </div>
                                                             </form>
                                                         </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
                                                     </div>
                                                 </div>
                                                 <!-- /.modal-content -->
@@ -263,18 +261,18 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach($quotation->cargos as $cargo)
+                                                @foreach($quotation->cargos as $cargoMod)
                                                 <tr>
-                                                    <td>{{ ucwords($cargo->cargo_name) }}</td>
-                                                    <td>{{ ucfirst($cargo->goodType->name )}}</td>
-                                                    <td>{{ ucwords($cargo->shipping_type) }}</td>
-                                                    <td>{{ $cargo->package }}</td>
-                                                    <td>{{ $cargo->weight }}</td>
+                                                    <td>{{ ucwords($cargoMod->cargo_name) }}</td>
+                                                    <td>{{ ucfirst($cargoMod->goodType->name )}}</td>
+                                                    <td>{{ ucwords($cargoMod->shipping_type) }}</td>
+                                                    <td>{{ $cargoMod->package }}</td>
+                                                    <td>{{ $cargoMod->weight }}</td>
                                                     <td>
-                                                        <button data-toggle="modal" data-target=".bs-example-modal-lg{{$cargo->id}}" class="btn btn-xs btn-primary">
+                                                        <button data-toggle="modal" data-target=".bs-example-modal-lg{{$cargoMod->id}}" class="btn btn-xs btn-primary">
                                                                     <i class="fa fa-pencil"></i>
                                                                 </button>
-                                                        <div class="modal fade bs-example-modal-lg{{$cargo->id}}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+                                                        <div class="modal fade bs-example-modal-lg{{$cargoMod->id}}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
                                                             aria-hidden="true" style="display: none;">
                                                             <div class="modal-dialog modal-lg">
                                                                 <div class="modal-content">
@@ -284,114 +282,18 @@
                                                                     </div>
                                                                     <div class="modal-body">
                                                                         <div class="col-12">
-                                                                            <form class="form-material m-t-40" onsubmit="event.preventDefault(); submitForm(this,'/update-cargo-details')" method="post"
-                                                                                id="cargo{{$cargo->id}}">
-                                                                                <div class="row">
-                                                                                    <div class="col-sm-6">
-                                                                                        <div class="form-group">
-                                                                                            <label for="name">Cargo Name</label>
-                                                                                            <input type="text" required value="{{ $cargo->cargo_name }}" id="name" name="name" class="form-control" placeholder="Name">
-                                                                                        </div>
-                                                                                        <div class="form-group">
-                                                                                            <label for="good_type_id">Cargo Type</label>
-                                                                                            <select name="good_type_id" id="good_type_id" required class="form-control">
-                                                                                                        <option value="">Select Cargo Types</option>
-                                                                                                        @foreach($goodtypes as $goodtype)
-                                                                                                            <option {{ $cargo->good_type_id == $goodtype->id ? 'selected' : '' }} value="{{ $goodtype->id}}">{{ ucwords($goodtype->name) }}</option>
-                                                                                                        @endforeach
-                                                                                                    </select>
-                                                                                        </div>
-                                                                                        <div class="form-group">
-                                                                                            <label for="shipping_type">Shipping Type</label>
-                                                                                            <select name="shipping_type" id="shipping_type" required class="form-control">
-                                                                                                        <option value="">Select Shipping Types</option>
-                                                                                                        <option {{ $cargo->shipping_type == 'internal' ? 'selected' : '' }}value="internal">ESL</option>
-                                                                                                        <option {{ $cargo->shipping_type == 'external' ? 'selected' : '' }}value="external">External Company</option>
-                                                                                                    </select>
-                                                                                        </div>
-                                                                                        <div class="form-group">
-                                                                                            <label for="description">Cargo Description</label>
-                                                                                            <textarea name="description" class="form-control" id="description" placeholder="Cargo Description">{{ $cargo->description }}</textarea>
-                                                                                        </div>
-                                                                                        {{--
-                                                                                        <div class="form-group">--}} {{--
-                                                                                            <label for="t_net_weight">Total Net Weight</label>--}}
-                                                                                            {{--
-                                                                                            <input type="number" value="{{ $cargo->t_net_weight }}" id="t_net_weight" name="t_net_weight" required class="form-control"
-                                                                                                placeholder="Total Net Weight">--}}
-                                                                                            {{--
-                                                                                        </div>--}} {{--
-                                                                                        <div class="form-group">--}} {{--
-                                                                                            <label for="t_gross_weight">Total Gross Weight</label>--}}
-                                                                                            {{--
-                                                                                            <input type="number" value="{{ $cargo->t_gross_weight }}" id="t_gross_weight" name="t_gross_weight" required class="form-control"
-                                                                                                placeholder="Total Gross Weight">--}}
-                                                                                            {{--
-                                                                                        </div>--}}
-                                                                                        <div class="form-group">
-                                                                                            <label for="type">Type</label>
-                                                                                            <input type="text" id="type" value="{{ $cargo->type }}" name="type" required class="form-control" placeholder="Type">
-                                                                                        </div>
-                                                                                        <div class="form-group">
-                                                                                            <label for="seal_no">Seal Number</label>
-                                                                                            <input type="text" id="seal_no" value="{{ $cargo->seal_no }}" name="seal_no" class="form-control" placeholder="Seal Number">
-                                                                                        </div>
-                                                                                        <div class="form-group">
-                                                                                            <label for="container_id">Container ID</label>
-                                                                                            <input type="text" id="container_id" value="{{ $cargo->container_id }}" name="container_id" class="form-control" placeholder="Container ID">
-                                                                                        </div>
-
-                                                                                    </div>
-                                                                                    <div class="col-sm-6">
-
-                                                                                        {{--
-                                                                                        <div class="form-group">--}} {{--
-                                                                                            <label for="case_qty">Case Qty</label>--}}
-                                                                                            {{--
-                                                                                            <input type="text" id="case_qty" value="{{ $cargo->case_qty }}" name="case_qty" required class="form-control" placeholder="Case Qty">--}}
-                                                                                            {{--
-                                                                                        </div>--}}
-                                                                                        <div class="form-group">
-                                                                                            <label for="package">Number of Package</label>
-                                                                                            <input type="text" id="package" value="{{ $cargo->package }}" name="package" required class="form-control" placeholder="Number of Package">
-                                                                                        </div>
-                                                                                        <div class="form-group">
-                                                                                            <label for="weight">Gross Weight (GRT)</label>
-                                                                                            <input type="number" id="weight" value="{{ $cargo->weight }}" name="weight" required class="form-control" placeholder="Gross Weight (GT)">
-                                                                                        </div>
-                                                                                        <div class="form-group">
-                                                                                            <label for="discharge_rate">Discharge Rate</label>
-                                                                                            <input type="number" id="discharge_rate" value="{{ $cargo->discharge_rate }}" name="discharge_rate" required class="form-control"
-                                                                                                placeholder="Discharge Rate">
-                                                                                        </div>
-                                                                                        <div class="form-group">
-                                                                                            <label for="total_package">Total Number of Package in Words</label>
-                                                                                            <textarea name="total_package" class="form-control" id="total_package" placeholder="Total Number of Package in Words">{{ $cargo->total_package }}</textarea>
-                                                                                        </div>
-                                                                                        <div class="form-group">
-                                                                                            <label for="shipper">Shipper Details</label>
-                                                                                            <textarea name="shipper" class="form-control" id="shipper" required placeholder="Shipper Details">{{ $cargo->shipper }}</textarea>
-                                                                                        </div>
-                                                                                        <div class="form-group">
-                                                                                            <label for="notifying_address">Notifying Address</label>
-                                                                                            <textarea name="notifying_address" class="form-control" required id="notifying_address" placeholder="Notifying Address">{{ $cargo->notifying_address }}</textarea>
-                                                                                        </div>
-                                                                                        <div class="form-group">
-                                                                                            <label for="remarks">Remarks</label>
-                                                                                            <textarea name="remarks" class="form-control" id="remarks" placeholder="Remarks">{{ $cargo->remarks }}</textarea>
-                                                                                        </div>
-                                                                                        <div class="form-group">
-                                                                                            <br>
-                                                                                            <input class="btn btn-block btn-primary" type="submit" value="Update">
-                                                                                        </div>
-                                                                                    </div>
+                                                                            <form class="form-material m-t-40" method="POST" action="{{ route('update-quotation-cargo-details',['id'=>$cargoMod->id])}}">
+                                                                                {{ csrf_field() }}
+                                                                                <div class="form-row">
+                                                                                    <div class="col">         
+                                                                                     @include('includes.cargos_form')
+                                                                                <div style="text-align:right">
+                                                                                    <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                                                                                    <input class="btn  btn-primary" type="submit" value="Submit">
                                                                                 </div>
                                                                             </form>
 
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
                                                                     </div>
                                                                 </div>
                                                             </div>
