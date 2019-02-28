@@ -30,7 +30,7 @@ Route::post('/consignee-details/{id}', 'CustomerController@consigneeDetails')->n
 Route::post('/update-vessel-details', 'CustomerController@updateVesselDetails');
 Route::post('/cargo-details/{id}', 'CustomerController@cargoDetails')->name('add_cargo-to-quotation');
 Route::post('/update-cargo-details/{id}', 'CustomerController@updateCargoDetails')->name('update-quotation-cargo-details');
-Route::post('/delete-cargo', 'CustomerController@deleteCargo');
+Route::post('/delete-cargo/{id}', 'CustomerController@deleteCargo')->name('delete-quotation-cargo');
 Route::post('/quotation-service', 'QuotationServiceController@addQuotationService');
 Route::post('/quotation-service-delete', 'QuotationServiceController@deleteQuotationService');
 Route::get('/quotation/{id}', 'QuotationController@showQuotation')->name('show-quotation');

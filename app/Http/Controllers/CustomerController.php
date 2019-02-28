@@ -308,11 +308,13 @@ class CustomerController extends Controller
         // return Response(['success' => ['url' => url('/')]]);
     }
 
-    public function deleteCargo(Request $request)
+    public function deleteCargo(Request $request,$id)
     {
-        Cargo::findOrFail($request->item_id)->delete();
+        $cargo = Cargo::findOrFail($id);
+        $cargo->delete();
         NotificationRepo::create()->success('Cargo details deleted successfully');
-        return Response(['success' => ['url' => url('/')]]);
+        return redirect()->back();
+        // return Response(['success' => ['url' => url('/')]]);
     }
 
     public function consigneeDetails(Request $request,$id)
