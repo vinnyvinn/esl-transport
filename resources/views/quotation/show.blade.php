@@ -120,99 +120,33 @@
                                                         }} , {{ $quotation->vessel->country_of_loading }}</td>
                                                     <td><strong>Port of Loading: </strong> {{ $quotation->vessel->port_of_loading
                                                         }} , {{ $quotation->vessel->country_of_loading }}</td>
-                                                    {{--
-                                                    <td><strong>Created On : </strong> {{ \Carbon\Carbon::parse($quotation->vessel->created_at)->format('d-M-y')
-                                                        }}
-                                                    </td> --}}
                                                 </tr>
                                             </table>
-                                            <button data-toggle="modal" data-target=".bs-example-modal-lgvessel" class="btn btn-primary">
-                                                    Edit Detail
-                                                </button>
+                                            <div style="text-align:right">
+                                                <button data-toggle="modal" data-target=".bs-example-modal-lgvessel" class="btn btn-primary">
+                                                            Edit Detail
+                                                        </button>
+                                            </div>
+
                                             <div class="modal fade bs-example-modal-lgvessel" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"
                                                 style="display: none;">
                                                 <div class="modal-dialog modal-lg">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title" id="myLargeModalLabel">Edit</h4>
+                                                            <h4 class="modal-title" id="myLargeModalLabel">Edit Vessel</h4>
                                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <div class="col-12">
-                                                                <form class="form-material m-t-40" onsubmit="event.preventDefault();submitForm(this, '{{ url('/update-vessel-details') }}');"
-                                                                    method="post" id="vessel">
-                                                                    <div class="row">
-                                                                        <div class="col-sm-6">
-                                                                            <div class="form-group">
-                                                                                <input type="hidden" value="{{$quotation->lead_id}}" name="lead_id">
-                                                                                <label for="name">Vessel Name</label>
-                                                                                <input type="text" required id="name" name="name" value="{{ $quotation->vessel->name }}" class="form-control" placeholder="Name">
-                                                                            </div>
-                                                                            <div class="form-group">
-                                                                                <label for="call_sign">HS Code</label>
-                                                                                <input type="text" id="call_sign" name="call_sign" value="{{ $quotation->vessel->call_sign }}" class="form-control" placeholder="Call Sign">
-                                                                            </div>
-                                                                            <div class="form-group">
-                                                                                <label for="imo_number">IMO Number </label>
-                                                                                <input type="text" id="imo_number" value="{{ $quotation->vessel->imo_number }}" name="imo_number" class="form-control" placeholder="IMO Number">
-                                                                            </div>
-                                                                            <div class="form-group">
-                                                                                <label for="country">Country </label>
+                                                            <form class="form-material m-t-40" method="POST" action="{{ route( 'update-quotation-vessel',[ 'id'=>$quotation->vessel->id])}}">
+                                                                {{ csrf_field() }}
 
-                                                                                <select style="width: 100% !important;" required name="country" id="country" class="select2 form-control">
-                                                                                        <option value="">Select Country</option>
-                                                                                        @foreach(\Esl\helpers\Constants::COUNTRY_LIST as $value)
-                                                                                            <option value="{{$value}}">{{$value}}</option>
-                                                                                        @endforeach
-                                                                                    </select>
-                                                                            </div>
-                                                                            <div class="form-group">
-                                                                                <label for="port_of_discharge"> Port of Loading</label>
-                                                                                <input type="text" id="port_of_discharge" value="{{ $quotation->vessel->port_of_discharge }}" required name="port_of_discharge"
-                                                                                    class="form-control" placeholder="Port">
-                                                                            </div>
-                                                                            <div class="form-group">
-                                                                                <label for="port_of_loading"> Port of Discharge</label>
-                                                                                <input type="text" id="port_of_loading" value="{{ $quotation->vessel->port_of_loading }}" required name="port_of_loading"
-                                                                                    class="form-control" placeholder="Port">
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-sm-6">
-                                                                            <div class="form-group">
-                                                                                <label for="loa">Length Over All </label>
-                                                                                <input type="number" id="loa" name="loa" value="{{ $quotation->vessel->loa }}" required class="form-control" placeholder="Lenth Over All">
-                                                                            </div>
-                                                                            <div class="form-group">
-                                                                                <label for="grt">Gross Tonnage  GRT</label>
-                                                                                <input type="number" id="grt" name="grt" value="{{ $quotation->vessel->grt }}" required class="form-control" placeholder="Gross Tonnage ">
-                                                                            </div>
-                                                                            {{--
-                                                                            <div class="form-group">--}} {{--
-                                                                                <label for="consignee_good"> Consignee Goods GT </label>--}}
-                                                                                {{--
-                                                                                <input type="number" id="consignee_good" value="{{ $quotation->vessel->consignee_good }}" required name="consignee_good"
-                                                                                    class="form-control" placeholder="Net Tonnage">--}}
-                                                                                {{--
-                                                                            </div>--}}
-                                                                            <div class="form-group">
-                                                                                <label for="nrt"> Net Tonnage</label>
-                                                                                <input type="number" id="nrt" name="nrt" value="{{ $quotation->vessel->nrt }}" class="form-control" placeholder="Consignee Goods">
-                                                                            </div>
-                                                                            <div class="form-group">
-                                                                                <label for="dwt"> Dead Weight - including provision</label>
-                                                                                <input type="number" id="dwt" name="dwt" value="{{ $quotation->vessel->dwt }}" class="form-control" placeholder="Dead Weight - including provision">
-                                                                            </div>
-                                                                            <div class="form-group">
-                                                                                <br>
-                                                                                <input class="btn btn-block btn-primary" type="submit" value="Update">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                                                                <input type="hidden" name="lead_id" value="{{ $quotation->lead_id }}">
+                                                                    @include('includes.vessel_form')
+                                                                <div style="text-align:right">
+                                                                    <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                                                                    <input class="btn  btn-primary" type="submit" value="Update">
+                                                                </div>
+                                                            </form>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -221,7 +155,9 @@
                                         </div>
                                     </div>
                                     <div class="tab-pane  p-20" id="profile" role="tabpanel">
-                                        <button class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lgcargo">Add Cargo</button>
+                                        <div style="text-align:right">
+                                            <button class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lgcargo">Add Cargo</button>
+                                        </div>
                                         <div class="modal fade bs-example-modal-lgcargo" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"
                                             style="display: none;">
                                             <div class="modal-dialog modal-lg">
@@ -252,24 +188,24 @@
                                         <table class="table table-striped">
                                             <thead>
                                                 <tr>
-                                                    <th>Name</th>
-                                                    <th>Good Type</th>
-                                                    <th>Shipping Type</th>
-                                                    <th>Package</th>
-                                                    <th>Weight</th>
-                                                    <th>Action</th>
+                                                    <th class="text-center">Name</th>
+                                                    <th class="text-center">Good Type</th>
+                                                    <th class="text-center">Shipping Type</th>
+                                                    <th class="text-center">Package</th>
+                                                    <th class="text-center">Weight</th>
+                                                    <th class="text-center">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 @foreach($quotation->cargos as $cargoMod)
                                                 <tr>
-                                                    <td>{{ ucwords($cargoMod->cargo_name) }}</td>
-                                                    <td>{{ ucfirst($cargoMod->goodType->name )}}</td>
-                                                    <td>{{ ucwords($cargoMod->shipping_type) }}</td>
-                                                    <td>{{ $cargoMod->package }}</td>
-                                                    <td>{{ $cargoMod->weight }}</td>
-                                                    <td>
-                                                        <div style="display:flex; flex-flow:row;justify-content:space-between">
+                                                    <td class="text-center">{{ ucwords($cargoMod->cargo_name) }}</td>
+                                                    <td class="text-center">{{ ucfirst($cargoMod->goodType->name )}}</td>
+                                                    <td class="text-center">{{ ucwords($cargoMod->shipping_type) }}</td>
+                                                    <td class="text-center">{{ $cargoMod->package }}</td>
+                                                    <td class="text-center">{{ $cargoMod->weight }}</td>
+                                                    <td class="text-center">
+                                                        <div style="display:flex; flex-flow:row;justify-content:space-around">
                                                             <div>
                                                                 <button data-toggle="modal" data-target=".bs-example-modal-lg{{$cargoMod->id}}" class="btn btn-xs btn-primary">
                                                                     <i class="fa fa-pencil"></i>
@@ -303,7 +239,7 @@
     @include('includes.cargos_form')
                                                                                         <div style="text-align:right">
                                                                                             <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
-                                                                                            <input class="btn  btn-primary" type="submit" value="Submit">
+                                                                                            <input class="btn  btn-primary" type="submit" value="Update">
                                                                                         </div>
                                                                             </form>
 

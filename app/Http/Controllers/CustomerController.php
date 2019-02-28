@@ -229,6 +229,12 @@ class CustomerController extends Controller
         return redirect()->route('show-quotation',['id'=>$quote->id]);
     }
 
+    public function updateVesselDetails(Request $request, $id){
+        $vessel = Vessel::findOrFail($id)->update($request->all());
+        NotificationRepo::create()->success('Vessel details updated successfully');
+        return redirect()->back();
+    }
+
     public function oVesselDetails(Request $request)
     {
 

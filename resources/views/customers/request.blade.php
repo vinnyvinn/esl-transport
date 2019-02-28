@@ -78,80 +78,7 @@
                                         <!-- first tab div end -->
                                         <div class="tab-pane active" id="home" role="tabpanel">
                                             <div class="p-20">
-                                                <div class="row">
-                                                    <div class="col-sm-6">
-                                                        <div class="form-group">
-                                                            <label for="name">Vessel Name</label>
-                                                            <input type="text" required id="name" name="name" class="form-control" placeholder="Name">
-                                                        </div>
-                                                        <input type="hidden" name="lead_id" value="{{ $customer->id }}">
-                                                        <div class="form-group">
-                                                            <label for="call_sign">Call Sign</label>
-                                                            <input type="text" id="call_sign" name="call_sign" class="form-control" placeholder="Call Sign">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="imo_number">IMO Number </label>
-                                                            <input type="text" id="imo_number" name="imo_number" class="form-control" placeholder="IMO Number">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="country">Country (Vessel Flag) </label>
-                                                            <select name="country" id="country" class="select2 form-control">
-                                                                    <option value="">Select Country</option>
-                                                                    @foreach(\Esl\helpers\Constants::COUNTRY_LIST as $value)
-                                                                        <option value="{{$value}}">{{$value}}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="eta"> ETA </label>
-                                                            <input type="text" id="eta" required name="eta" class="datepicker form-control" placeholder="ETA">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="country_of_discharge"> Country of Discharge</label>
-                                                            <select name="country_of_discharge" id="country_of_discharge" class="select2 form-control">
-                                                                    <option value="">Select Country</option>
-                                                                    @foreach(\Esl\helpers\Constants::COUNTRY_LIST as $value)
-                                                                        <option value="{{$value}}">{{$value}}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="port_of_discharge"> Port of Discharge</label>
-                                                            <input type="text" id="port_of_discharge" required name="port_of_discharge" class="form-control" placeholder="Port of Discharge">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <div class="form-group">
-                                                            <label for="country_of_loading"> Country of Loading</label>
-                                                            <select name="country_of_loading" id="country_of_loading" class="select2 form-control">
-                                                                    <option value="">Select Country</option>
-                                                                    @foreach(\Esl\helpers\Constants::COUNTRY_LIST as $value)
-                                                                        <option value="{{$value}}">{{$value}}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="port_of_loading"> Port of Loading</label>
-                                                            <input type="text" id="port_of_loading" required name="port_of_loading" class="form-control" placeholder="Port of Loading">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="loa">Length Over All </label>
-                                                            <input type="number" id="loa" name="loa" required class="form-control" placeholder="Length Over All">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="grt">Gross Tonnage  GRT</label>
-                                                            <input type="number" id="grt" name="grt" class="form-control" placeholder="Gross Tonnage ">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="nrt"> Net Tonnage</label>
-                                                            <input type="text" id="nrt" name="nrt" class="form-control" placeholder="Net Tonnage">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="dwt"> Dead Weight - including provision</label>
-                                                            <input type="text" id="dwt" name="dwt" class="form-control" placeholder="Dead Weight - including provision">
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                    @include('includes.vessel_form')
                                                 <div style="text-align:right">
                                                     <input class="btn btn-primary" type="button" value="Next">
                                                 </div>
@@ -162,7 +89,7 @@
                                         <!-- second tab begin -->
                                         <div class="tab-pane" id="cargo" role="tabpanel">
                                             <div class="p-20">
-    @include('includes.cargos_form')
+                                                @include('includes.cargos_form')
                                                 <div class="form-row">
                                                     <div class="col">
                                                         <div class="form-group">
