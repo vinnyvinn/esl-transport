@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\NotifyingParty;
+use Esl\Repository\NotificationRepo;
 use Illuminate\Http\Request;
 
 class NotifyingPartyController extends Controller
@@ -89,7 +90,20 @@ class NotifyingPartyController extends Controller
         $data['emails'] = json_encode(explode(',',$request->notifying));
         NotifyingParty::create($data);
 
-        return Response(['success' => ['redirect' => url('/quotation/'.$request->quotation_id)]]);
+        NotificationRepo::create()->success('Email notifications added successfully');
+        return redirect()->back();
 
+        // return Response(['success' => ['redirect' => url('/quotation/'.$request->quotation_id)]]);
+    }
+
+    public function updateNotifiee(Request $request, $id)
+    {
+        $nofiees = NotifyingParty::findOrFail($id);
+        $data=$request->all();
+        $data['emails'] = json_encode(explode(',',$request->notifying));
+        $nofiees->update($data);
+
+        NotificationRepo::create()->success('Email notifiees updated successfully');
+        return redirect()->back();
     }
 }

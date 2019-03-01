@@ -38,10 +38,6 @@ class Quotation extends ESLModel
         return $this->hasOne(Voyage::class,'quotation_id','id');
     }
 
-    public function consignee()
-    {
-        return $this->belongsTo(Consignee::class,'consignee_id','id');
-    }
     public function parties()
     {
         return $this->hasOne(NotifyingParty::class,'quotation_id','id');

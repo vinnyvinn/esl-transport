@@ -33,7 +33,7 @@ class QuotationServiceController extends Controller
             ]);
         }
 
-        $quote = Quotation::with(['lead','parties','cargos.goodType','consignee',
+        $quote = Quotation::with(['lead','parties','cargos.goodType',
             'vessel','voyage','services.tariff','remarks.user'])->findOrFail($data['quotation']);
         SaveInstanceRepo::init()->Quotation($data['quotation'],$quote->toArray());
 
@@ -46,7 +46,7 @@ class QuotationServiceController extends Controller
         $service = QuotationService::findOrFail($request->service_id);
         $service->delete();
 
-        $quote = Quotation::with(['lead','parties','cargos.goodType','consignee',
+        $quote = Quotation::with(['lead','parties','cargos.goodType',
             'vessel','voyage','services.tariff','remarks.user'])->findOrFail($service->quotation_id);
         SaveInstanceRepo::init()->Quotation($service->quotation_id,$quote->toArray());
 

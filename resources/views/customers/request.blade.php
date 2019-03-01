@@ -70,15 +70,18 @@
                                     <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#home" role="tab"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Vessel Details</span></a>                                        </li>
                                     <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#cargo" role="tab"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Cargo Details</span></a>                                        </li>
                                     <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#voyage" role="tab"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Voyage Details</span></a>                                        </li>
+                                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#tariffs" role="tab"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Tariff Services</span></a>                                        </li>
                                 </ul>
-                                <form class="form-material m-t-40" action="{{url('/vessel-details')}}" id="vessel" method="POST">
+                                <form class="form-material m-t-40" action="{{ route('add-lead-quotation')}}" id="lead-quotation" method="POST">
                                     {{csrf_field()}}
                                     <div class="tab-content tabcontent-border">
+
+                                        <input type="hidden" name="lead_id" value="{{ $customer->id }}">
 
                                         <!-- first tab div end -->
                                         <div class="tab-pane active" id="home" role="tabpanel">
                                             <div class="p-20">
-                                                    @include('includes.vessel_form')
+                                                @include('includes.vessel_form')
                                                 <div style="text-align:right">
                                                     <input class="btn btn-primary" type="button" value="Next">
                                                 </div>
@@ -90,21 +93,6 @@
                                         <div class="tab-pane" id="cargo" role="tabpanel">
                                             <div class="p-20">
                                                 @include('includes.cargos_form')
-                                                <div class="form-row">
-                                                    <div class="col">
-                                                        <div class="form-group">
-                                                            <label for="consignee_id">Consignee</label>
-                                                            <select name="consignee_id" id="consignee_id" style="width:100%" class="select2 form-control">
-                                                                <option value="">Select Consignee</option>
-                                                                @foreach(\App\Consignee::all() as $value)
-                                                                    <option value="{{$value->id}}">{{$value->consignee_name}} - {{$value->consignee_address}}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col">
-                                                    </div>
-                                                </div>
                                                 <div style="text-align:right">
                                                     <input class="btn" type="button" style="margin-left:30px;" value="Back">
                                                     <input class="btn btn-primary" type="button" value="Next">
@@ -114,76 +102,241 @@
                                         </div>
                                         <!-- second tab div end -->
 
-                                        <!-- last tab begin -->
+                                        <!-- third tab begin -->
                                         <div class="tab-pane" id="voyage" role="tabpanel">
                                             <div class="p-20">
-                                                <div class="form-row">
-                                                    <div class="col">
-                                                        <div class="form-group">
-                                                            <label for="name">External Voyage No.</label>
-                                                            <input type="text" required id="voyage_no" name="voyage_no" class="form-control" placeholder="Voyage No.">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col">
-                                                        <div class="form-group">
-                                                            <label for="name">Internal Voyage No.</label>
-                                                            <input type="text" required id="internal_voyage_no" name="internal_voyage_no" class="form-control" placeholder="Internal Voyage No.">
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-
-                                                <div class="form-row">
-                                                    <div class="col">
-                                                        <div class="form-group">
-                                                            <label for="voyage_name">Voyage Name</label>
-                                                            <input type="text" required id="voyage_name" name="voyage_name" class="form-control" placeholder="Name">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col">
-                                                        <div class="form-group">
-                                                            <label for="service_code">Service Code</label>
-                                                            <input type="text" required id="service_code" name="service_code" class="form-control" placeholder="Service Code">
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-
-                                                <div class="form-row">
-                                                    <div class="col">
-                                                        <div class="form-group">
-                                                            <label for="final_destination">Final Destination</label>
-                                                            <input type="text" required id="final_destination" name="final_destination" class="form-control" placeholder="Final Destination">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col">
-                                                        <div class="form-group">
-                                                            <label for="eta"> ETA </label>
-                                                            <input type="text" id="eta" required name="eta" class="datepicker form-control" placeholder="ETA">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
+                                                @include('includes.voyage_form')
                                                 <div style="text-align:right">
                                                     <input class="btn" type="button" style="margin-left:30px;" value="Back">
-                                                    <input class="btn  btn-primary" type="submit" value="Submit">
+                                                    <input class="btn btn-primary" type="button" value="Next">                                                    
                                                 </div>
 
                                             </div>
                                         </div>
                                         <!-- third tab end -->
 
-                                    </div>
-                                </form>
+                                        <!-- tarrifs tab begin -->
+                                        <div class="tab-pane" id="tariffs" role="tabpanel">
+                                                <div class="p-20">
+                                                    <h3>Add Tariff Services</h3>
+                                                    @include('includes.tarrifs_form')
+                                                    <div style="text-align:right">
+                                                        <input class="btn" type="button" style="margin-left:30px;" value="Back">
+                                                        <input class="btn  btn-primary" type="submit" value="Submit">
+                                                    </div>
+                                                </div>
+                                                <!-- padding div end -->
+                                            </div>
+                                    <!-- tarrifs tab end -->
                             </div>
+
                         </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+</div>
+</div>
 @endsection
  
 @section('scripts')
+
+<script>
+
+function addTariff() {
+var selected = document.getElementById("tariff");
+var selectedTariff = JSON.parse(selected.options[selected.selectedIndex].value);
+
+var sTax = document.getElementById("tax");
+var selectedTax = JSON.parse(sTax.options[sTax.selectedIndex].value);
+
+var units = $('#service_units').val();
+
+//            Calculation using grt/loa
+if(selectedTariff.unit_type === '{{ \Esl\helpers\Constants::TARIFF_UNIT_TYPE_GRT }}'){
+
+    var  grt_loa = Math.ceil(parseFloat(this.data.grt) / parseFloat(selectedTariff.unit_value));
+    var serviceUnit = units === "" ? 0 : units;
+    var newId = 'serv'+(Object.keys(this.data.service).length + 1);
+
+    var serviceData =  {
+        'id': newId,
+        'tariff_id' : selectedTariff.id,
+        'description' : selectedTariff.name,
+        'tax_code' : selectedTax.Code,
+        'tax_description' : selectedTax.Description,
+        'tax_id' : selectedTax.idTaxRate,
+        'tax_amount' : ((selectedTax.TaxRate * (parseFloat(grt_loa) * parseFloat(selectedTariff.rate )* parseFloat(serviceUnit))) / 100),
+        'grt_loa' : grt_loa,
+        'rate' : selectedTariff.rate,
+        'units' : serviceUnit,
+        'total' : ((parseFloat(grt_loa) * parseFloat(selectedTariff.rate )* parseFloat(serviceUnit)) + ((selectedTax.TaxRate * (parseFloat(grt_loa) * parseFloat(selectedTariff.rate )* parseFloat(serviceUnit))) / 100))
+    }
+
+    addService(serviceData);
+}
+
+else if(selectedTariff.unit_type === '{{ \Esl\helpers\Constants::TARIFF_UNIT_TYPE_LOA }}'){
+    var  grt_loa = Math.ceil(parseFloat(this.data.loa) / parseFloat(selectedTariff.unit_value));
+    var serviceUnit = units === "" ? 0 : units;
+    var newId = 'serv'+(Object.keys(this.data.service).length + 1);
+
+    var serviceData =  {
+        'id': newId,
+        'tariff_id' : selectedTariff.id,
+        'description' : selectedTariff.name,
+        'tax_code' : selectedTax.Code,
+        'tax_description' : selectedTax.Description,
+        'tax_id' : selectedTax.idTaxRate,
+        'tax_amount' : ((selectedTax.TaxRate * (parseFloat(grt_loa) * parseFloat(selectedTariff.rate )* parseFloat(serviceUnit))) / 100),
+        'grt_loa' : grt_loa,
+        'rate' : selectedTariff.rate,
+        'units' : serviceUnit,
+        'total' : (((selectedTax.TaxRate * (parseFloat(grt_loa) * parseFloat(selectedTariff.rate )* parseFloat(serviceUnit))) / 100) + (parseFloat(grt_loa) * parseFloat(selectedTariff.rate )* parseFloat(serviceUnit)))
+    }
+
+    addService(serviceData);
+}
+
+else if(selectedTariff.unit_type === '{{ \Esl\helpers\Constants::TARIFF_UNIT_TYPE_LUMPSUM }}'){
+    var  grt_loa = selectedTariff.unit_type;
+    var serviceUnit = units === "" ? 0 : units;
+    var newId = 'serv'+(Object.keys(this.data.service).length + 1);
+
+                console.log(this.data.port_stay);
+    var serviceData =  {
+        'id': newId,
+        'tariff_id' : selectedTariff.id,
+        'description' : selectedTariff.name,
+        'tax_code' : selectedTax.Code,
+        'tax_description' : selectedTax.Description,
+        'tax_id' : selectedTax.idTaxRate,
+        'tax_amount' : ((selectedTax.TaxRate * (parseFloat(selectedTariff.rate )* parseFloat(serviceUnit))) / 100),
+        'grt_loa' : grt_loa,
+        'rate' : selectedTariff.rate,
+        'units' : serviceUnit,
+        'total' : (((selectedTax.TaxRate * (parseFloat(selectedTariff.rate )* parseFloat(serviceUnit))) / 100) + (parseFloat(selectedTariff.rate )* parseFloat(serviceUnit)))
+    }
+
+    addService(serviceData);
+}
+
+else if(selectedTariff.unit_type === '{{ \Esl\helpers\Constants::TARIFF_UNIT_TYPE_PERDAY }}'){
+    var  grt_loa = selectedTariff.unit_type;
+    var serviceUnit = units === "" ? 0 : units;
+    var newId = 'serv'+(Object.keys(this.data.service).length + 1);
+
+    var serviceData =  {
+        'id': newId,
+        'tariff_id' : selectedTariff.id,
+        'description' : selectedTariff.name,
+        'tax_code' : selectedTax.Code,
+        'tax_description' : selectedTax.Description,
+        'tax_id' : selectedTax.idTaxRate,
+        'tax_amount' : ((selectedTax.TaxRate  * (parseFloat(selectedTariff.rate )* parseFloat(serviceUnit))) / 100),
+        'grt_loa' : grt_loa,
+        'rate' : selectedTariff.rate,
+        'units' : serviceUnit,
+        'total' : (((selectedTax.TaxRate  * (parseFloat(selectedTariff.rate )* parseFloat(serviceUnit))) / 100) + (parseFloat(selectedTariff.rate )* parseFloat(serviceUnit)))
+    }
+
+    addService(serviceData);
+}
+else {
+    var  grt_loa = selectedTariff.unit_type;
+    var serviceUnit = units === "" ? 0 : units;
+    var newId = 'serv'+(Object.keys(this.data.service).length + 1);
+
+    var serviceData =  {
+        'id': newId,
+        'tariff_id' : selectedTariff.id,
+        'description' : selectedTariff.name,
+        'tax_code' : selectedTax.Code,
+        'tax_description' : selectedTax.Description,
+        'tax_id' : selectedTax.idTaxRate,
+        'tax_amount' : ((selectedTax.TaxRate * (parseFloat(selectedTariff.rate )* parseFloat(serviceUnit))) / 100),
+        'grt_loa' : grt_loa,
+        'rate' : selectedTariff.rate,
+        'units' : serviceUnit,
+        'total' : (((selectedTax.TaxRate * (parseFloat(selectedTariff.rate )* parseFloat(serviceUnit))) / 100) + (parseFloat(selectedTariff.rate )* parseFloat(serviceUnit)))
+    }
+
+    addService(serviceData);
+}
+
+}
+
+function addService(data){
+$('#service').append('<tr id="' + data.id + '">' +
+    '<td>' + data.description + '</td>' +
+    '<td class="text-right">' + data.grt_loa + '</td>' +
+    '<td class="text-right">' + Number(data.rate).toFixed(2) + '</td>' +
+    '<td class="text-right">' + Number(data.units).toFixed(2) + '</td>' +
+    '<td class="text-right">' + data.tax_amount +' </td>' +
+    '<td class="text-right">' + Number(data.total).toFixed(2)+ '</td>' +
+    '<td class="text-right"><button onclick="deleteRow(this)" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></button></td>' +
+    '</tr>');
+this.data.service[data.id] = data;
+}
+
+function deleteRow(row) {
+var table_row = row.parentNode.parentNode;
+
+delete this.data.service[table_row.id];
+table_row.parentNode.removeChild(table_row);
+}
+
+function addServiceToQuotaion() {
+if(Object.keys(this.data.service).length < 1){
+    alert('Please add Services First');
+}
+else {
+    axios.post('{{ url('/quotation-service') }}', this.data)
+        .then(function (response) {
+//                       TODO::validation
+            $('#q_service').empty().append(response.data.success.services);
+            $('#sub_ex').empty().append("Total (Excl) " + this.currency + " : " + response.data.success.exc_total);
+            $('#total_tax').empty().append("Tax " + this.currency + " : " + response.data.success.total_tax);
+            $('#sub_in').empty().append("Total (Incl) " + this.currency + " : " + response.data.success.inc_total);
+            $('#total_amount').empty().append("<b>Total (Incl) " + this.currency + " :</b>  " + response.data.success.inc_total);
+            $('#service').empty();
+            this.data['service'] = {};
+        })
+        .catch(function (response) {
+            console.log(response);
+        });
+}
+}
+
+function deleteService(id) {
+axios.post('{{ url('/quotation-service-delete') }}', {
+    'service_id' : id,
+    'quotation_id' : this.data.quotation,
+    '_token' : '{{ csrf_token() }}'
+})
+    .then(function (response) {
+//                       TODO::validation
+        $('#q_service').empty().append(response.data.success.services);
+        $('#sub_ex').empty().append("Total (Excl) " + this.currency + " : " + response.data.success.exc_total);
+        $('#total_tax').empty().append("Tax " + this.currency + " : " + response.data.success.total_tax);
+        $('#sub_in').empty().append("Total (Incl) " + this.currency + " : " + response.data.success.inc_total);
+        $('#total_amount').empty().append("<b>Total (Incl) " + this.currency + " :</b>  " + response.data.success.inc_total);
+        $('#service').empty();
+        this.data['service'] = {};
+    })
+    .catch(function (response) {
+        console.log(response);
+    });
+}
+
+function perday(selected) {
+
+if(JSON.parse($('#'+selected.id).val()).unit_type === 'per day'){
+    $('#service_units').val(this.data.port_stay);
+}
+}
+    </script>
 @endsection

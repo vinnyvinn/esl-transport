@@ -13,4 +13,8 @@ class Remarks extends ESLModel
     {
         return $this->hasOne(User::class, 'id','user_id');
     }
+
+    public function remarks(){
+        return $this->belongsTo(Remarks::class,'quotation_id','id');
+    }
 }

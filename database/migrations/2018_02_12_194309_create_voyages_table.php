@@ -21,7 +21,7 @@ class CreateVoyagesTable extends Migration
             $table->string('voyage_name');
             $table->string('service_code');
             $table->string('final_destination');
-            $table->dateTime('eta');
+            $table->date('eta');
             $table->dateTime('vessel_arrived')->nullable();
             $table->timestamps();
         });

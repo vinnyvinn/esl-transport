@@ -23,9 +23,10 @@ Route::resource('/departments', 'DepartmentController');
 Route::post('/search-lead', 'LeadController@searchLeads');
 Route::post('/search-dms', 'DmsController@searchDms');
 Route::post('/search-customer', 'CustomerController@ajaxSearch');
-Route::post('/vessel-details', 'CustomerController@vesselDetails');
+Route::post('/lead-quotation', 'CustomerController@addLeadQuotation')->name('add-lead-quotation');
 Route::post('/others-vessel-details', 'CustomerController@oVesselDetails');
 Route::post('/voyage-details/{id}', 'CustomerController@voyageDetails')->name('add-quotation-voyage');
+Route::post('/update-voyage/{id}', 'CustomerController@updateVoyageDetails')->name('update-quotation-voyage');
 Route::post('/consignee-details/{id}', 'CustomerController@consigneeDetails')->name('add-quotation-consignee');
 Route::post('/update-vessel-details/{id}', 'CustomerController@updateVesselDetails')->name('update-quotation-vessel');
 Route::post('/cargo-details/{id}', 'CustomerController@cargoDetails')->name('add_cargo-to-quotation');
@@ -44,13 +45,16 @@ Route::get('/quotation/customer/declined/{id}', 'QuotationController@customerDec
 Route::get('/all-notifications', 'NotificationController@index');
 Route::get('/agency', 'AgencyController@index');
 Route::post('/agency/approve', 'AgencyApprovalController@approve');
-Route::post('/agency/remark', 'AgencyApprovalController@addRemark');
+Route::post('/agency/remark', 'AgencyApprovalController@addRemark')->name('add-quotation-remark');
+Route::post('/agency/remark/delete/{id}', 'AgencyApprovalController@deleteRemark')->name('delete-quotation-remark');
+Route::post('/agency/remark/update/{id}', 'AgencyApprovalController@updateRemark')->name('edit-quotation-remark');
 Route::post('/agency/disapprove', 'AgencyApprovalController@revision');
 Route::get('/notifications/{id}', 'NotificationController@show');
 Route::get('/quotation/request/{id}', 'QuotationController@requestQuotation');
 //Route::get('/quotation/{id}/pdf', 'QuotationController@pdfQuotation');
 Route::post('/update-service', 'QuotationServiceController@updateService');
-Route::post('/notifying', 'NotifyingPartyController@notifying');
+Route::post('/notifying', 'NotifyingPartyController@notifying')->name('add-quotation-notifee');
+Route::post('/update-notifiee/{id}', 'NotifyingPartyController@updateNotifiee')->name('update-quotation-notifee');
 
 //next stage
 Route::get('/quotation/convert/{id}', 'QuotationController@convertCustomer');

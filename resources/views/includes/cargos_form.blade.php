@@ -187,3 +187,37 @@
                 </div>
             </div>
         </div>
+
+        <div class="form-row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="consignee_name">Consignee Name</label>
+                    <input type="text" required id="consignee_name" name="consignee_name" class="form-control" 
+                    placeholder="Consignee Name" value="{{ $cargoMod->consignee_name or "" }}">
+                </div>
+            </div>
+            <div class="col">
+                    <label for="consignee_address">Consignee Address</label>
+                <div class="form-group">
+                    <input type="text" required id="consignee_address" name="consignee_address" class="form-control" 
+                    placeholder="Consignee Address" value="{{ $cargoMod->consignee_address or "" }}">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col">
+                    <label for="consignee_email">Consignee Email</label>
+                <div class="form-group">
+                    <input type="email" required id="consignee_email" name="consignee_email" class="form-control" 
+                    placeholder="Consignee Email" value="{{ $cargoMod->consignee_email or "" }}">
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="consignee_telephone">Consignee Telephone</label>
+                    <input type="text" required id="consignee_telephone" name="consignee_telephone" class="form-control" 
+                    placeholder="Consignee Telephone" value="{{ $cargoMod->consignee_telephone or "" }}">
+                </div>
+            </div>
+        </div>

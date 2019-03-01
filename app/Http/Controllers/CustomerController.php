@@ -196,7 +196,7 @@ class CustomerController extends Controller
         return Response(['output' => $output]);
     }
 
-    public function vesselDetails(Request $request)
+    public function addLeadQuotation(Request $request)
     {
         $vessel = null;
         $vessels = Vessel::where('name', $request->name)
@@ -212,7 +212,6 @@ class CustomerController extends Controller
         $quote->user_id = Auth::user()->id;
         $quote->lead_id = $request->lead_id;
         $quote->vessel_id = $vessel->id;
-        $quote->consignee_id = $request->consignee_id;
         $quote->status = Constants::LEAD_QUOTATION_PENDING;
         $quote->save();// save quotation
 
@@ -304,6 +303,14 @@ class CustomerController extends Controller
         return redirect()->back();
 
         // return Response(['success' => ['redirect' => url('/quotation/' . $request->quotation_id)]]);
+    }
+
+    public function updateVoyageDetails(Request $request, $id){
+
+        $voyage = Voyage::findOrFail($id);
+        $voyage->update($request->all());
+        NotificationRepo::create()->success('Voyage details updated successfully');
+        return redirect()->back();
     }
 
     public function updateCargoDetails(Request $request, $id)

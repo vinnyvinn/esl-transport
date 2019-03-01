@@ -91,10 +91,9 @@
 
 
                                 <ul class="nav nav-tabs" role="tablist">
-                                    <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#home" role="tab"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Vessel Details</span></a>                                        </li>
+                                    <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#home" role="tab"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Vessel Details</span></a></li>
                                     <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#profile" role="tab"><span class="hidden-sm-up"><i class="ti-user"></i></span> <span class="hidden-xs-down">Cargo Details</span></a>                                        </li>
-                                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#messages" role="tab"><span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">Voyage Details</span></a>                                        </li>
-                                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#consignee" role="tab"><span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">Consignee Details</span></a>                                        </li>
+                                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#messages" role="tab"><span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">Voyage Details</span></a></li>
                                 </ul>
                                 <div class="tab-content tabcontent-border">
                                     <div class="tab-pane active" id="home" role="tabpanel">
@@ -144,7 +143,7 @@
     @include('includes.vessel_form')
                                                                 <div style="text-align:right">
                                                                     <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
-                                                                    <input class="btn  btn-primary" type="submit" value="Update">
+                                                                    <input class="btn  btn-primary" type="submit" value="Update Vessel Details">
                                                                 </div>
                                                             </form>
                                                         </div>
@@ -190,6 +189,7 @@
                                                 <tr>
                                                     <th class="text-center">Name</th>
                                                     <th class="text-center">Good Type</th>
+                                                    <th class="text-center">Consignee</th>
                                                     <th class="text-center">Shipping Type</th>
                                                     <th class="text-center">Package</th>
                                                     <th class="text-center">Weight</th>
@@ -201,6 +201,7 @@
                                                 <tr>
                                                     <td class="text-center">{{ ucwords($cargoMod->cargo_name) }}</td>
                                                     <td class="text-center">{{ ucfirst($cargoMod->goodType->name )}}</td>
+                                                    <td class="text-center">{{ $cargoMod->consignee_name }}</td>
                                                     <td class="text-center">{{ ucwords($cargoMod->shipping_type) }}</td>
                                                     <td class="text-center">{{ $cargoMod->package }}</td>
                                                     <td class="text-center">{{ $cargoMod->weight }}</td>
@@ -239,7 +240,7 @@
     @include('includes.cargos_form')
                                                                                         <div style="text-align:right">
                                                                                             <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
-                                                                                            <input class="btn  btn-primary" type="submit" value="Update">
+                                                                                            <input class="btn  btn-primary" type="submit" value="Update Cargo Details">
                                                                                         </div>
                                                                             </form>
 
@@ -358,7 +359,7 @@
                                                             </button>
                                             </div>
 
-                                        <div class="modal fade voyage-modal" tabindex="-1" role="dialog" aria-labelledby="voyageEditModal" aria-hidden="true" style="display: none;">
+                                            <div class="modal fade voyage-modal" tabindex="-1" role="dialog" aria-labelledby="voyageEditModal" aria-hidden="true" style="display: none;">
                                                 <div class="modal-dialog modal-lg">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -366,147 +367,36 @@
                                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                                         </div>
                                                         <div class="modal-body">
-                                            
-                                                        </div>
-                                                        <div class="modal-footer">
+                                                            <form method='POST' action="{{ route('update-quotation-voyage',['id'=>$quotation->voyage->id]) }}">
+                                                                {{ csrf_field() }}
+    @include('includes.voyage_form')
+                                                                <div style="text-align:right">
+                                                                    <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                                                                    <input class="btn  btn-primary" type="submit" value="Update Voyage Details">
+                                                                </div>
+                                                            </form>
                                                         </div>
                                                     </div>
                                                 </div>
-                                        </div>
-
-                                            @endif
-                                        </div>
-                                        <div class="tab-pane p-20" id="consignee" role="tabpanel">
-                                            <h3 class="text-center">Consignee Details</h3>
-                                            @if($quotation->consignee == null)
-                                            <example-component />
-                                            <form class="form-material m-t-40" method="POST" action={{ route( 'add-quotation-consignee',[ 'id'=>$quotation->id])}}> {{ csrf_field() }}
-                                                <div class="row">
-                                                    <div class="col-sm-12 col-md-6">
-                                                        <example-component></example-component>
-                                                        <div class="row">
-                                                            <div class="col-sm-12">
-                                                                <div class="form-group">
-                                                                    <label for="consignee_id">Select Consignee</label>
-                                                                    <select name="consignee_id" id="consignee_id" style="width:100%" class="select2 form-control">
-                                                                                    <option value="">Select Consignee</option>
-                                                                                    @foreach(\App\Consignee::all() as $value)
-                                                                                        <option value="{{$value->id}}">{{$value->consignee_name}} - {{$value->consignee_address}}</option>
-                                                                                    @endforeach
-                                                                                </select>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-sm-12">
-                                                                <div class="form-group">
-                                                                    <input class="btn pull-right btn-primary" type="submit" value="Save">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </form>
-                                            @else
-                                            <div class="row">
-                                                <table class="table table-stripped">
-                                                    <tbody>
-                                                        <tr>
-                                                            <td><strong>Name : </strong>{{ ucwords($quotation->consignee->consignee_name
-                                                                )}}
-                                                            </td>
-                                                            <td><strong>Address : </strong> {{ $quotation->consignee->consignee_address}}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><strong>Phone : </strong> {{ $quotation->consignee->consignee_telephone}}</td>
-                                                            <td><strong>Email : </strong> {{ $quotation->consignee->consignee_email}}</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
                                             </div>
 
-                                            <div style="text-align:right">
-                                                    <button data-toggle="modal" data-target=".consignee-modal" class="btn btn-primary">
-                                                                    Edit Consignee Details
-                                                                </button>
-                                                </div>
-
-                                                <div class="modal fade consignee-modal" tabindex="-1" role="dialog" aria-labelledby="consigneeEditModal" aria-hidden="true" style="display: none;">
-                                                        <div class="modal-dialog modal-lg">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h4 class="modal-title" id="consigneeEditModal">Edit Consignee Details</h4>
-                                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                                                </div>
-                                                                <div class="modal-body"> 
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                </div>
                                             @endif
                                         </div>
+
                                         </div>
                                         </div>
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="col-md-12">
                                     <div class="table-responsive m-t-40" style="clear: both;">
                                         @if($quotation->status != \Esl\helpers\Constants::LEAD_QUOTATION_ACCEPTED && $quotation->status != \Esl\helpers\Constants::LEAD_QUOTATION_WAITING
                                         && $quotation->status != \Esl\helpers\Constants::LEAD_QUOTATION_CONVERTED)
                                         <h3>Add Tariff Service</h3>
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                                <div class="row">
-                                                    <div class="col-sm-4">
-                                                        <div class="form-group">
-                                                            <select name="tariff" onchange="perday(this)" required id="tariff" class="form-control select2">
-                                                    @foreach($tariffs as $tariff)
-                                                        <option value="{{$tariff}}">{{ ucwords($tariff->name) }} ~ {{ ucwords($tariff->unit) }}({{$tariff->unit_value}}) @ {{ $tariff->rate }}</option>
-                                                    @endforeach
-                                                </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-2">
-                                                        <div class="form-group">
-                                                            <input type="number" required id="service_units" name="service_units" placeholder="Units" class="form-control">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-4">
-                                                        <div class="form-group">
-                                                            <select name="tax" required id="tax" class="form-control select2">
-                                                    @foreach($taxs as $tax)
-                                                        <option value="{{$tax}}">{{ ucwords($tax->Description) }} - {{ $tax->TaxRate }} %</option>
-                                                    @endforeach
-                                                </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-1">
-                                                        <button class="btn btn-block btn-primary" onclick="addTariff()"><i class="fa fa-check"></i></button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-12">
-                                                <table class="table table-striped table-responsive">
-                                                    <thead>
-                                                        <tr>
-                                                            <tr>
-                                                                <th>Description</th>
-                                                                <th class="text-right">GRT/LOA</th>
-                                                                <th class="text-right">RATE</th>
-                                                                <th class="text-right">UNITS</th>
-                                                                <th class="text-right">Tax</th>
-                                                                <th class="text-right">Total (Incl)</th>
-                                                                <th class="text-right">Action</th>
-                                                            </tr>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody id="service">
-                                                    </tbody>
-                                                </table>
-                                                <button onclick="addServiceToQuotaion()" class="btn btn-primary pull-right">Add</button>
-                                            </div>
+    @include('includes.tarrifs_form')
+                                        <div style="text-align:right;">
+                                            <button onclick="addServiceToQuotaion()" class="btn btn-primary pull-right">Add</button>
                                         </div>
                                         @endif
                                         <table class="table table-hover">
@@ -610,33 +500,15 @@
                                     </div>
                                 </div>
                                 <div class="col-md-12">
-                                    <div class="pull-right m-t-30 text-right">
-                                        <p id="sub_ex">Total (Excl) {{$quotation->lead->currency }} : {{ number_format($quotation->services->sum('total')
-                                            - $quotation->services->sum('tax')) }}</p>
-                                        <p id="total_tax">Tax {{$quotation->lead->currency }} : {{ number_format($quotation->services->sum('tax'))
-                                            }} </p>
-                                        <p id="sub_in">Total (Incl) {{$quotation->lead->currency }} : {{ number_format($quotation->services->sum('total'))
-                                            }} </p>
-                                        <hr>
-                                        <h3 id="total_amount"><b>Total (Incl) {{$quotation->lead->currency }} :</b> {{ number_format($quotation->services->sum('total'))
-                                            }}
-                                        </h3>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                    <hr>
-                                    <form action="" method="post" onsubmit="event.preventDefault();submitForm(this, '/notifying','redirect');" id="notifying">
+                                    <hr> @if(empty($quotation->parties))
+                                    <form method="POST" action={{ route( 'add-quotation-notifee') }}>
+                                        {{ csrf_field() }}
                                         <div class="row">
-                                            <div class="col-sm-12">
-                                                @if($quotation->parties != null) @foreach(json_decode($quotation->parties->emails) as $party)
-                                                <b>{{$loop->iteration}}. </b> {{ $party }} @endforeach @endif
-                                                <br>
-                                                <br>
-                                            </div>
                                             <div class="col-sm-3">Add Emails to CC</div>
                                             <div class="col-sm-6">
                                                 <input type="hidden" name="quotation_id" value="{{$quotation->id}}">
                                                 <div class="form-group">
-                                                    <input type="text" name="notifying" placeholder="Add emails here separate with (,) " class="form-control">
+                                                    <input type="text" name="notifying" placeholder="Add emails here separate with ( , ) " class="form-control">
                                                 </div>
                                             </div>
                                             <div class="col-sm-3">
@@ -644,69 +516,159 @@
                                             </div>
                                         </div>
                                     </form>
+                                    @endif @if(!empty($quotation->parties))
+                                    <div class="modal fade notifiees-modal" tabindex="-1" role="dialog" aria-labelledby="editEmailsModal" aria-hidden="true"
+                                        style="display: none;">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title" id="editEmailsModal">Edit Email Notifiees</h4>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="{{ route('update-quotation-notifee',['id'=>$quotation->parties->id])}}" method="POST">
+                                                        {{ csrf_field() }}
+                                                        <input type="hidden" name="quotation_id" value="{{$quotation->id}}">
+                                                        <div class="form-group">
+                                                            <input type="text" name="notifying" placeholder="Add emails here separate with ( , ) " class="form-control" value="{{ implode(",",json_decode($quotation->parties->emails)) }}">
+                                                        </div>
+                                                        <div style="text-align:right">
+                                                            <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                                                            <input class="btn  btn-primary" type="submit" value="Update Email Notifiees">
+                                                        </div>
+                                                    </form>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-12">
+                                        <h3>Email Notifiees</h3>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        @if($quotation->parties != null) @foreach(json_decode($quotation->parties->emails) as $party)
+                                        <b>{{$loop->iteration}}. </b> {{ $party }}&nbsp;&nbsp; @endforeach @endif
+                                    </div>
+                                    <div style="text-align:right">
+                                        <button data-toggle="modal" data-target=".notifiees-modal" class="btn btn-primary">
+                                                                                                    Update Emails Notifiees
+                                                                                                </button>
+                                    </div>
+                                    @endif
+
                                     <hr>
                                     <div class="col-sm-12">
 
+                                        @if(!empty($quotation->remarks->count() ))
                                         <h3>Remarks</h3>
                                         <table class="table table-responsive">
                                             <thead>
                                                 <tr>
-                                                    <th>Name</th>
-                                                    <th>Remarks</th>
-                                                    <th class="text-right">Date</th>
+                                                    <th class="text-center">Name</th>
+                                                    <th class="text-center">Remarks</th>
+                                                    <th class="text-center">Made on</th>
+                                                    <th>actions</th>
+
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 @foreach($quotation->remarks->sortByDesc('created_at') as $remark)
                                                 <tr>
-                                                    <td>{{ ucwords($remark->user->name) }}</td>
-                                                    <td>{{ ucfirst($remark->remark) }}</td>
-                                                    {{--
-                                                    <td class="text-right">{{ \Carbon\Carbon::parse($remark->created_at)->format('d-M-y') }}</td>
-                                                    --}}
+                                                    <td class="text-center">{{ ucwords($remark->user->name) }}</td>
+                                                    <td class="text-center" width="500px">{{ ucfirst($remark->remark) }}</td>
+                                                    <td class="text-center">{{ \Carbon\Carbon::parse($remark->created_at)->format('d-M-Y') }}</td>
+                                                    <td class="text-center">
+                                                        <div style="display:flex; flex-flow:row;justify-content:space-around">
+                                                            <div>
+                                                                <button data-toggle="modal" data-target=".editRemarkModal{{ $remark->id }}" class="btn btn-xs btn-primary">
+                                                                                                                                                                                <i class="fa fa-pencil"></i>
+                                                                                                                                                                            </button>
+                                                            </div>
+                                                            <div>
+                                                                <form method="POST" action="{{ route('delete-quotation-remark',['id'=>$remark->id]) }}">
+                                                                    {{ csrf_field() }}
+                                                                    <button type="submit" class="btn btn-xs btn-danger">
+                                                                    <i class="fa fa-trash"></i>
+                                                                    </button>
+                                                                </form>
+                                                            </div>
+                                                            <div>
+
+                                                                <div class="modal fade editRemarkModal{{ $remark->id }}" tabindex="-1" role="dialog" aria-labelledby="remarkEditModal" aria-hidden="true"
+                                                                    style="display: none;">
+                                                                    <div class="modal-dialog modal-lg">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h4 class="modal-title" id="remarkEditModal">Edit Remark Details</h4>
+                                                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                <form method="POST" action="{{ route('edit-quotation-remark',['id'=>$remark->id]) }}">
+                                                                                    {{ csrf_field() }}
+                                                                                    <input type="hidden" name="quotation_id" id="quotation_id" value="{{ $quotation->id }}">
+                                                                                    <div class="form-group">
+                                                                                        <label for="remarks">Add Remarks</label>
+                                                                                    <textarea name="remarks" id="remarks" cols="30" rows="3" class="form-control">{{ $remark->remark }}</textarea>
+                                                                                    </div>
+                                                                                    <div style="text-align:right">
+                                                                                        <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                                                                                        <input class="btn  btn-primary" type="submit" value="Update Remark Details">
+                                                                                    </div>
+                                                                                </form>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                    </td>
                                                 </tr>
                                                 @endforeach
+
                                             </tbody>
                                         </table>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <form id="pda_remarks_form" action="" method="post">
-                                            {{ csrf_field() }}
-                                            <div class="form-group">
-                                                <label for="remarks">Remarks</label>
-                                                <textarea name="remarks" id="remarks" cols="30" rows="3" class="form-control"></textarea>
-                                            </div>
-                                            <input type="hidden" name="quotation_id" id="quotation_id" value="{{ $quotation->id }}">
-                                            <div class="row">
-                                                <div class="col-sm-12">
-                                                    <button class="btn btn-primary pull-right" onclick="event.preventDefault(); remark()">Add remark</button>
+                                        @endif
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <form action="{{ route('add-quotation-remark')}}" method="post">
+                                                {{ csrf_field() }}
+                                                <div class="form-group">
+                                                    <label for="remarks">Add Remarks</label>
+                                                    <textarea name="remarks" id="remarks" cols="30" rows="3" class="form-control"></textarea>
                                                 </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <hr>
-                                    <div class="text-right">
-                                        @if($quotation->status == \Esl\helpers\Constants::LEAD_QUOTATION_APPROVED)
-                                        <a href="{{ url('/quotation/send/'.$quotation->id) }}" class="btn btn btn-outline-success">Send To Customer</a>                                        @endif @if($quotation->status == \Esl\helpers\Constants::LEAD_QUOTATION_WAITING)
-                                        <a href="{{ url('/quotation/customer/accepted/'.$quotation->id) }}" class="btn btn btn-primary">Accepted</a>
-                                        <a href="{{ url('/quotation/customer/declined/'.$quotation->id) }}" class="btn btn-danger" type="submit"> Declined </a>                                        @endif @if($quotation->status == \Esl\helpers\Constants::LEAD_QUOTATION_ACCEPTED)
-                                        <a href="{{ url('/quotation/convert/'.$quotation->id) }}" class="btn btn btn-primary">Start Processing</a>                                        @endif {{-- <a href="{{ url('/quotation/customer/accepted/'.$quotation->id) }}" class="btn btn btn-primary">Archive</a>--}}
-                                        <a href="{{ url('/quotation/preview/'.$quotation->id) }}" class="btn btn btn-outline-success">Preview</a>                                        @if($quotation->status != \Esl\helpers\Constants::LEAD_QUOTATION_ACCEPTED && $quotation->status
-                                        != \Esl\helpers\Constants::LEAD_QUOTATION_WAITING && $quotation->status != \Esl\helpers\Constants::LEAD_QUOTATION_REQUEST
-                                        && $quotation->status != \Esl\helpers\Constants::LEAD_QUOTATION_APPROVED && $quotation->status
-                                        != \Esl\helpers\Constants::LEAD_QUOTATION_CONVERTED)
-                                        <a href="{{ url('/quotation/request/'.$quotation->id) }}" class="btn btn-success" type="submit"> Request Approval </a>                                        @endif
+                                                <input type="hidden" name="quotation_id" id="quotation_id" value="{{ $quotation->id }}">
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <button class="btn btn-primary pull-right" type="submit">Add remark</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <hr>
+                                        <div class="text-right">
+                                            @if($quotation->status == \Esl\helpers\Constants::LEAD_QUOTATION_APPROVED)
+                                            <a href="{{ url('/quotation/send/'.$quotation->id) }}" class="btn btn btn-outline-success">Send To Customer</a>                                            @endif @if($quotation->status == \Esl\helpers\Constants::LEAD_QUOTATION_WAITING)
+                                            <a href="{{ url('/quotation/customer/accepted/'.$quotation->id) }}" class="btn btn btn-primary">Accepted</a>
+                                            <a href="{{ url('/quotation/customer/declined/'.$quotation->id) }}" class="btn btn-danger" type="submit"> Declined </a>                                            @endif @if($quotation->status == \Esl\helpers\Constants::LEAD_QUOTATION_ACCEPTED)
+                                            <a href="{{ url('/quotation/convert/'.$quotation->id) }}" class="btn btn btn-primary">Start Processing</a>                                            @endif {{-- <a href="{{ url('/quotation/customer/accepted/'.$quotation->id) }}"
+                                                class="btn btn btn-primary">Archive</a>--}}
+                                            <a href="{{ url('/quotation/preview/'.$quotation->id) }}" class="btn btn btn-outline-success">Preview</a>                                            @if($quotation->status != \Esl\helpers\Constants::LEAD_QUOTATION_ACCEPTED &&
+                                            $quotation->status != \Esl\helpers\Constants::LEAD_QUOTATION_WAITING && $quotation->status
+                                            != \Esl\helpers\Constants::LEAD_QUOTATION_REQUEST && $quotation->status != \Esl\helpers\Constants::LEAD_QUOTATION_APPROVED
+                                            && $quotation->status != \Esl\helpers\Constants::LEAD_QUOTATION_CONVERTED)
+                                            <a href="{{ url('/quotation/request/'.$quotation->id) }}" class="btn btn-success" type="submit"> Request Approval </a>                                            @endif
+                                        </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
 @endsection
  
 @section('scripts')
-                <script>
-                    var form = $('#pda_remarks_form');
+                        <script>
+                            var form = $('#pda_remarks_form');
         var currency = '{{$quotation->lead->currency }}';
 
         function remark() {
@@ -885,7 +847,6 @@
         }
 
         function addService(data){
-            console.log(data);
             $('#service').append('<tr id="' + data.id + '">' +
                 '<td>' + data.description + '</td>' +
                 '<td class="text-right">' + data.grt_loa + '</td>' +
@@ -907,7 +868,7 @@
 
         function addServiceToQuotaion() {
             if(Object.keys(this.data.service).length < 1){
-                alert('No Service Added');
+                alert('Please add Services First');
             }
             else {
                 axios.post('{{ url('/quotation-service') }}', this.data)
@@ -954,5 +915,5 @@
                 $('#service_units').val(this.data.port_stay);
             }
         }
-                </script>
+                        </script>
 @endsection

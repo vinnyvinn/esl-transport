@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Quotation;
+use App\Remarks;
 use Esl\helpers\Constants;
 use Esl\Repository\AgencyRepo;
 use Esl\Repository\NotificationRepo;
@@ -79,6 +80,28 @@ class AgencyApprovalController extends Controller
             'remark' => $request->remarks
         ]);
 
-        return Response(['success' => 'Approved']);
+        // return Response(['success' => 'Approved']);
+        NotificationRepo::create()->success('Remark added successfully');
+        return redirect()->back();
+    }
+
+    public function deleteRemark(Request $request, $id){
+        $remark = Remarks::findOrFail($id);
+        $remark->delete();
+
+        NotificationRepo::create()->success('Remark deleted successfully');
+        return redirect()->back();
+    }
+
+    public function updateRemark(Request $request, $id){
+        $remark = Remarks::findOrFail($id);
+        $remark->user_id = Auth::user()->id;
+        $remark->remark_to = Auth::user()->id;
+        $remark->quotation_id = $request->quotation_id;
+        $remark->remark = $request->remarks;
+        $remark->update();
+
+        NotificationRepo::create()->success('Remark updated successfully');
+        return redirect()->back();
     }
 }

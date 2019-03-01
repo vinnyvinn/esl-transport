@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\GoodType;
 use App\Lead;
+use App\ServiceTax;
+use App\Tariff;
 use Esl\helpers\Constants;
 use Illuminate\Http\Request;
 
@@ -17,7 +19,10 @@ class CustomerRequestController extends Controller
         {
 
             return view('customers.request')
-                ->withCustomer($lead);
+                ->withCustomer($lead)
+                ->withTaxs(ServiceTax::all()->sortBy('Description'))
+                ->withGoodtypes(GoodType::all())
+                ->withTariffs(Tariff::all()->sortBy('name'));
         }
 
         if ($customer_type == '000'){
