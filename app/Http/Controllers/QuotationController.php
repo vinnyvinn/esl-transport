@@ -8,6 +8,7 @@ use App\GoodType;
 use App\Quotation;
 use App\ServiceTax;
 use App\Tariff;
+use App\Mail\QuotationApprovalMail;
 use Barryvdh\DomPDF\Facade as PDF;
 use Carbon\Carbon;
 use Esl\helpers\Constants;
@@ -16,6 +17,8 @@ use Esl\Repository\NotificationRepo;
 use Esl\Repository\QuotationRepo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
 
 class QuotationController extends Controller
 {
@@ -45,11 +48,15 @@ class QuotationController extends Controller
 
     public function requestQuotation($id)
     {
-        Quotation::findOrFail($id)->update(['status' => Constants::LEAD_QUOTATION_REQUEST]);
+
+        Mail::to(Constants::HEAD_TRANSPORT_EMAIL)
+        ->cc(Constants::ACCOUNTS_EMAIL)
+        ->send(new QuotationApprovalMail(Auth::user(),URL::previous()));
+        // Quotation::findOrFail($id)->update(['status' => Constants::LEAD_QUOTATION_REQUEST]);
 
         NotificationRepo::create()->notification(Constants::Q_APPROVAL_TITLE, Constants::Q_APPROVAL_TEXT,
             '/quotation/preview/'.$id,0,Constants::DEPARTMENT_AGENCY)
-        ->success('Approval send successfully');
+        ->success('Approval request sent successfully');
 
         return redirect()->back();
     }

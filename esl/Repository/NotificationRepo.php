@@ -8,7 +8,6 @@
 
 namespace Esl\Repository;
 
-
 use App\Notification;
 
 class NotificationRepo

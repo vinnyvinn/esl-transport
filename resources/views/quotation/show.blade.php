@@ -647,17 +647,26 @@
                                         </div>
                                         <hr>
                                         <div class="text-right">
+                                            <a href="{{ url('/quotation/preview/'.$quotation->id) }}" class="btn btn btn-outline-success">Preview</a>
                                             @if($quotation->status == \Esl\helpers\Constants::LEAD_QUOTATION_APPROVED)
-                                            <a href="{{ url('/quotation/send/'.$quotation->id) }}" class="btn btn btn-outline-success">Send To Customer</a>                                            @endif @if($quotation->status == \Esl\helpers\Constants::LEAD_QUOTATION_WAITING)
+                                            <a href="{{ url('/quotation/send/'.$quotation->id) }}" class="btn btn btn-outline-success">Send To Customer</a>
+                                            @endif 
+
+                                            @if($quotation->status == \Esl\helpers\Constants::LEAD_QUOTATION_WAITING)
                                             <a href="{{ url('/quotation/customer/accepted/'.$quotation->id) }}" class="btn btn btn-primary">Accepted</a>
-                                            <a href="{{ url('/quotation/customer/declined/'.$quotation->id) }}" class="btn btn-danger" type="submit"> Declined </a>                                            @endif @if($quotation->status == \Esl\helpers\Constants::LEAD_QUOTATION_ACCEPTED)
-                                            <a href="{{ url('/quotation/convert/'.$quotation->id) }}" class="btn btn btn-primary">Start Processing</a>                                            @endif {{-- <a href="{{ url('/quotation/customer/accepted/'.$quotation->id) }}"
-                                                class="btn btn btn-primary">Archive</a>--}}
-                                            <a href="{{ url('/quotation/preview/'.$quotation->id) }}" class="btn btn btn-outline-success">Preview</a>                                            @if($quotation->status != \Esl\helpers\Constants::LEAD_QUOTATION_ACCEPTED &&
+                                            <a href="{{ url('/quotation/customer/declined/'.$quotation->id) }}" class="btn btn-danger" type="submit"> Declined </a>                                            
+                                            @endif 
+                                            
+                                            @if($quotation->status == \Esl\helpers\Constants::LEAD_QUOTATION_ACCEPTED)
+                                            <a href="{{ url('/quotation/convert/'.$quotation->id) }}" class="btn btn btn-primary">Start Processing</a>
+                                            @endif
+
+                                            @if($quotation->status != \Esl\helpers\Constants::LEAD_QUOTATION_ACCEPTED &&
                                             $quotation->status != \Esl\helpers\Constants::LEAD_QUOTATION_WAITING && $quotation->status
                                             != \Esl\helpers\Constants::LEAD_QUOTATION_REQUEST && $quotation->status != \Esl\helpers\Constants::LEAD_QUOTATION_APPROVED
                                             && $quotation->status != \Esl\helpers\Constants::LEAD_QUOTATION_CONVERTED)
-                                            <a href="{{ url('/quotation/request/'.$quotation->id) }}" class="btn btn-success" type="submit"> Request Approval </a>                                            @endif
+                                            <a href="{{ url('/quotation/request/'.$quotation->id) }}" class="btn btn-success" type="submit"> Request Approval </a>                                            
+                                            @endif
                                         </div>
                                         </div>
                                     </div>
