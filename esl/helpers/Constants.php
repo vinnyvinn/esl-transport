@@ -10,6 +10,7 @@ namespace Esl\helpers;
 
 class Constants
 {
+    const DEFAULT_CURRENCY = USD;
     const STATUS_OK = 200;
     const STATUS_ERROR = 401;
     const LEAD_CUSTOMER = 'lead';
