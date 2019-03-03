@@ -22,8 +22,6 @@
                         <h4 class="card-title">Leads <a href="{{ route('leads.create') }}" class="btn btn-primary pull-right">Add Lead</a></h4>
                     </div>
                     <div class="card-body">
-
-                        <hr>
                         <div class="table-responsive">
                             <table class="table table-striped dataTable table-bordered">
                                 <thead>
