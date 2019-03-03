@@ -5,6 +5,9 @@
                 <li> <a class="has-arrow waves-effect waves-dark" href="{{ url('/') }}" aria-expanded="false">
                         <i class="mdi mdi-gauge"></i><span class="hide-menu">Dashboard</span></a>
                 </li>
+                <li> <a class="has-arrow waves-effect waves-dark" href="{{ url('/quotations') }}" aria-expanded="false">
+                        <i class="mdi mdi-gauge"></i><span class="hide-menu">Quotations</span></a>
+                </li>
                 <li> <a class="has-arrow waves-effect waves-dark" href="{{ url('/leads') }}" aria-expanded="false">
                         <i class="mdi mdi-gauge"></i><span class="hide-menu">Leads</span></a>
                 </li>

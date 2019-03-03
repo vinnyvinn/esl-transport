@@ -219,7 +219,7 @@ class QuotationController extends Controller
             'Client_id' => $customer->DCLink,
             'laytime_start' => Carbon::now(),
             'time_allowed' => 0,
-//            'cargo_id' => $quotation->cargos->first()->id,
+//          'cargo_id' => $quotation->cargos->first()->id,
             'cargo_id' => 0,
             'stage' => 'Pre-arrival docs',
             'status' => 0,
@@ -235,5 +235,10 @@ class QuotationController extends Controller
 
         return view('quotation.pdas')
             ->withPdas(Quotation::get()->sortBy('created_at'));
+    }
+
+    public function allQuotations(){
+        $quotations = Quotation::all();
+        return view('quotation.index',['quotations'=> $quotations]);
     }
 }

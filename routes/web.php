@@ -15,6 +15,7 @@ Auth::routes();
 
 Route::get('/', 'HomeController@dashboard');
 Route::resource('/customers', 'CustomerController');
+Route::get('/quotations', 'QuotationController@allQuotations');
 Route::get('/customer-request/{customer_id}/{customer_type}', 'CustomerRequestController@customerRequest');
 Route::resource('/good-types', 'GoodTypeController');
 Route::resource('/leads', 'LeadController');
