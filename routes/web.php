@@ -40,9 +40,19 @@ Route::get('/all-pdas', 'QuotationController@allPdas');
 Route::get('/pdas/{status}', 'QuotationController@pdaStatus');
 Route::get('/quotation/view/{id}', 'QuotationController@viewQuotation');
 Route::get('/quotation/preview/{id}', 'QuotationController@previewQuotation');
-Route::get('/quotation/send/{id}', 'QuotationController@sendToCustomer');
-Route::get('/quotation/customer/accepted/{id}', 'QuotationController@customerAccept');
-Route::get('/quotation/customer/declined/{id}', 'QuotationController@customerDecline');
+Route::post('/quotation/send/{id}', 'QuotationController@sendToCustomer')->name('send-customer-quotation');
+
+// lead quotation accept or decline
+Route::get('/accept/{identifier}','QuotationController@customerAccept')->name('client-accept-quotation');
+Route::get('/decline/{identifier}', 'QuotationController@customerDecline')->name('client-decline-quotation');
+
+// client quotation response recived url
+Route::view('/received','client-response-view')->name('client-quotation-response');
+
+// user quotation accept or decline
+Route::get('/quotation/customer/accepted/{id}', 'QuotationController@userAcceptCustomerQuotation');
+Route::get('/quotation/customer/declined/{id}', 'QuotationController@userDeclineCustomerQuotation');
+
 Route::get('/all-notifications', 'NotificationController@index');
 Route::get('/agency', 'AgencyController@index');
 Route::post('/agency/approve', 'AgencyApprovalController@approve');
@@ -52,7 +62,7 @@ Route::post('/agency/remark/update/{id}', 'AgencyApprovalController@updateRemark
 Route::post('/agency/disapprove', 'AgencyApprovalController@revision');
 Route::get('/notifications/{id}', 'NotificationController@show');
 Route::get('/quotation/request/{id}', 'QuotationController@requestQuotation');
-Route::post('/quotation/approve/{id}', 'QuotationController@managerAprroveQuotation')->name('manager-approve-quotation');
+Route::get('/quotation/approve/{id}', 'QuotationController@managerAprroveQuotation')->name('manager-approve-quotation');
 Route::post('/quotation/disapprove/{id}', 'QuotationController@managerDisaprroveQuotation')->name('manager-disapprove-quotation');
 //Route::get('/quotation/{id}/pdf', 'QuotationController@pdfQuotation');
 Route::post('/update-service', 'QuotationServiceController@updateService');

@@ -7,12 +7,13 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class QuotationApprovalMail extends Mailable
+class QuotationRequestApproval extends Mailable
 {
     use Queueable, SerializesModels;
 
     protected $user;
     protected $url;
+
 
     /**
      * Create a new message instance.
@@ -33,9 +34,10 @@ class QuotationApprovalMail extends Mailable
     public function build()
     {
         return $this->from($this->user->email)
-            ->markdown('emails.quotations.approval-request',[
+        ->subject(ucwords('Quotation request approved'))
+        ->markdown('emails.quotations.request-approval',[
             'name' => $this->user->name,
-            'url' => $this->url
+            'url' => $this->url,
         ]);
     }
 }

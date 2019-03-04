@@ -5,6 +5,11 @@ namespace App\Http\Controllers;
 use App\BillOfLanding;
 use App\ExtraService;
 use App\GoodType;
+use App\Mail\QuotationApprovalRequest;
+use App\Mail\QuotationRequestDissaproval;
+use App\Mail\QuotationRequestApproval;
+use App\Mail\EslClientQuotation;
+use App\Mail\ClientResponse;
 use App\Quotation;
 use App\ServiceTax;
 use App\Tariff;
@@ -16,10 +21,8 @@ use Esl\Repository\NotificationRepo;
 use Esl\Repository\QuotationRepo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\QuotationApprovalMail;
-use App\Mail\QuotationRequestDissaproval;
+use Illuminate\Support\Facades\URL;
 
 class QuotationController extends Controller
 {
@@ -49,11 +52,10 @@ class QuotationController extends Controller
 
     public function requestQuotation($id)
     {
-
         // mail people
         Mail::to(Constants::HEAD_TRANSPORT_EMAIL)
-            ->cc([Constants::ACCOUNTS_EMAIL,Constants::ACCOUNTS_EMAIL_TWO])
-            ->send(new QuotationApprovalMail(Auth::user(), URL::previous()));
+            ->cc([Constants::ACCOUNTS_EMAIL, Constants::ACCOUNTS_EMAIL_TWO])
+            ->send(new QuotationApprovalRequest(Auth::user(), URL::previous()));
 
         // update status
         Quotation::findOrFail($id)->update(['status' => Constants::LEAD_QUOTATION_REQUEST]);
@@ -100,21 +102,32 @@ class QuotationController extends Controller
     // manager approve quotation
     public function managerAprroveQuotation($id)
     {
+        $quotation = Quotation::with('user')->findOrFail($id);
 
+        $quotation->update(['status' => Constants::LEAD_QUOTATION_APPROVED]);
+
+        Mail::to($quotation->user->email)
+            ->cc([Constants::ACCOUNTS_EMAIL, Constants::ACCOUNTS_EMAIL_TWO])
+            ->send(new QuotationRequestApproval(Auth::user(), URL::previous()));
+
+        NotificationRepo::create()->notification(Constants::Q_APPROVAL_TITLE, Constants::Q_APPROVAL_TEXT,
+            '/quotation/preview/' . $id, 0, Constants::DEPARTMENT_AGENCY)
+            ->success('Quotation approval successfully');
+
+        return redirect()->back();
     }
 
     // manager dissaprove quotation
     public function managerDisaprroveQuotation(Request $request, $id)
     {
-
         $quotation = Quotation::with('user')->findOrFail($id);
 
         $quotation->update(['status' => Constants::LEAD_QUOTATION_DECLINED]);
 
         Mail::to($quotation->user->email)
-        ->cc([Constants::ACCOUNTS_EMAIL,Constants::ACCOUNTS_EMAIL_TWO])
-        ->send(new QuotationRequestDissaproval(Auth::user(),URL::previous(), $request->disaproval_message));
-        
+            ->cc([Constants::ACCOUNTS_EMAIL, Constants::ACCOUNTS_EMAIL_TWO])
+            ->send(new QuotationRequestDissaproval(Auth::user(), URL::previous(), $request->disaproval_message));
+
         NotificationRepo::create()->notification(Constants::Q_APPROVAL_TITLE, Constants::Q_APPROVAL_TEXT,
             '/quotation/preview/' . $id, 0, Constants::DEPARTMENT_AGENCY)
             ->success('Quotation dissaproval successfully');
@@ -122,18 +135,22 @@ class QuotationController extends Controller
         return redirect()->back();
     }
 
-    public function sendToCustomer($id)
+    public function sendToCustomer(Request $request, $id)
     {
-        QuotationRepo::make()->changeStatus($id,
-            Constants::LEAD_QUOTATION_WAITING);
+        $quotation = Quotation::with('lead')->findOrFail($id);
 
-        NotificationRepo::create()->notification(Constants::Q_APPROVED_TITLE,
-            Constants::Q_APPROVED_TEXT,
-            '/quotation/preview/' . $id, 0, 'Agency', Auth::user()->id);
+        $quotation->update(['status' => Constants::LEAD_QUOTATION_WAITING]);
+
+        Mail::to($quotation->lead->email)
+        ->send(new EslClientQuotation(Auth::user(),$quotation->lead,URL::previous(),$request->subject, $request->message,$quotation->identifier));
 
         //TODO:: generate pdf here
+        // NotificationRepo::create()->success('PDA send to client successfully');
+        // return redirect()->back();
 
-        NotificationRepo::create()->success('PDA send to client successfully');
+        NotificationRepo::create()->notification(Constants::Q_APPROVAL_TITLE, Constants::Q_APPROVAL_TEXT,
+            '/quotation/preview/' . $id, 0, Constants::DEPARTMENT_AGENCY)
+            ->success('Client quotation sent successfully');
 
         return redirect()->back();
     }
@@ -147,7 +164,36 @@ class QuotationController extends Controller
 
     }
 
-    public function customerAccept($id)
+    // clent accept quotation
+    public function customerAccept($identifier)
+    {
+    
+        $this->clientResponse($identifier,true,'Quotation Accepted','I accept the quotation linked below. You can proceed to the next steps.');
+
+        return redirect()->route('client-quotation-response');
+    }
+
+    // client decline quotation
+    public function customerDecline($identifier){
+
+        $this->clientResponse($identifier,false,'Quotation Declined','I decline the quotation linked below. Please revise it and get back to me.');
+
+        return redirect()->route('client-quotation-response');
+    }
+
+
+    // reused client response function
+    private function clientResponse($identifier,$bool,$subject,$message){
+
+        $quotation = Quotation::with('user','lead')->where('identifier', $identifier)->firstOrFail();
+
+        Mail::to($quotation->user->email)
+        ->send(new ClientResponse($quotation,$accepted=$bool,$subject,$message));
+
+    }
+
+    // user accept client accepted quotation
+    public function userAcceptCustomerQuotation($id)
     {
         QuotationRepo::make()->changeStatus($id,
             Constants::LEAD_QUOTATION_ACCEPTED);
@@ -155,6 +201,23 @@ class QuotationController extends Controller
         NotificationRepo::create()->notification(Constants::Q_APPROVED_TITLE,
             Constants::Q_APPROVED_TEXT,
             '/quotation/preview/' . $id, 0, 'Agency', Auth::user()->id)->success('Accepted successfully');
+
+        //TODO:: generate pdf here
+        //TODO:: send mails
+
+        return redirect()->back();
+    }
+
+    // user decline client declined quotation
+    public function userDeclineCustomerQuotation($id)
+    {
+        QuotationRepo::make()->changeStatus($id,
+            Constants::LEAD_QUOTATION_DECLINED_CUSTOMER);
+
+        NotificationRepo::create()->notification(Constants::Q_DECLINED_C_TITLE,
+            Constants::Q_DECLINED_C_TEXT,
+            '/quotation/preview/' . $id, 0, 'Agency', Auth::user()->id)
+            ->warning('Declined by customer');
 
         //TODO:: generate pdf here
         //TODO:: send mails
@@ -183,22 +246,6 @@ class QuotationController extends Controller
             ->withDms($dms)
             ->withStatus($status);
 
-    }
-
-    public function customerDecline($id)
-    {
-        QuotationRepo::make()->changeStatus($id,
-            Constants::LEAD_QUOTATION_DECLINED_CUSTOMER);
-
-        NotificationRepo::create()->notification(Constants::Q_DECLINED_C_TITLE,
-            Constants::Q_DECLINED_C_TEXT,
-            '/quotation/preview/' . $id, 0, 'Agency', Auth::user()->id)
-            ->warning('Declined by customer');
-
-        //TODO:: generate pdf here
-        //TODO:: send mails
-
-        return redirect()->back();
     }
 
     public function convertCustomer(Request $request, $id)

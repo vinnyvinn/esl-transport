@@ -530,7 +530,8 @@
                                                         {{ csrf_field() }}
                                                         <input type="hidden" name="quotation_id" value="{{$quotation->id}}">
                                                         <div class="form-group">
-                                                            <input type="text" name="notifying" placeholder="Add emails here separate with ( , ) " class="form-control" value="{{ implode(",",json_decode($quotation->parties->emails)) }}">
+                                                            <input type="text" name="notifying" placeholder="Add emails here separate with ( , ) " class="form-control" value="{{ implode("
+                                                                , ",json_decode($quotation->parties->emails)) }}">
                                                         </div>
                                                         <div style="text-align:right">
                                                             <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
@@ -610,7 +611,7 @@
                                                                                     <input type="hidden" name="quotation_id" id="quotation_id" value="{{ $quotation->id }}">
                                                                                     <div class="form-group">
                                                                                         <label for="remarks">Add Remarks</label>
-                                                                                    <textarea name="remarks" id="remarks" cols="30" rows="3" class="form-control">{{ $remark->remark }}</textarea>
+                                                                                        <textarea name="remarks" id="remarks" cols="30" rows="3" class="form-control">{{ $remark->remark }}</textarea>
                                                                                     </div>
                                                                                     <div style="text-align:right">
                                                                                         <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
@@ -646,22 +647,12 @@
                                         </div>
                                         <hr>
                                         <div class="text-right">
-                                            <a href="{{ url('/quotation/preview/'.$quotation->id) }}" class="btn btn-secondary">Preview</a>
-                                            @if($quotation->status == \Esl\helpers\Constants::LEAD_QUOTATION_APPROVED)
-                                            <a href="{{ url('/quotation/send/'.$quotation->id) }}" class="btn btn btn-outline-success">Send To Customer</a>
-                                            @endif                    
-
-                                            @if($quotation->status == \Esl\helpers\Constants::LEAD_QUOTATION_WAITING)
+                                            <a href="{{ url('/quotation/preview/'.$quotation->id) }}" class="btn btn-secondary">Preview</a>                                            @if($quotation->status == \Esl\helpers\Constants::LEAD_QUOTATION_APPROVED)
+                                            <button data-toggle="modal" data-target=".send-customer-quotation" class="btn btn-success">Send To Customer</button>                                            @endif @if($quotation->status == \Esl\helpers\Constants::LEAD_QUOTATION_WAITING)
                                             <a href="{{ url('/quotation/customer/accepted/'.$quotation->id) }}" class="btn btn btn-primary">Accepted</a>
-                                            <a href="{{ url('/quotation/customer/declined/'.$quotation->id) }}" class="btn btn-danger" type="submit"> Declined </a>                                            
-                                            @endif 
-                                            
-                                            @if($quotation->status == \Esl\helpers\Constants::LEAD_QUOTATION_ACCEPTED)
-                                            <a href="{{ url('/quotation/convert/'.$quotation->id) }}" class="btn btn btn-primary">Start Processing</a>
-                                            @endif
-
-                                            @if($quotation->status != \Esl\helpers\Constants::LEAD_QUOTATION_ACCEPTED &&
-                                            $quotation->status != \Esl\helpers\Constants::LEAD_QUOTATION_WAITING && $quotation->status
+                                            <a href="{{ url('/quotation/customer/declined/'.$quotation->id) }}" class="btn btn-danger" type="submit"> Declined </a>                                            @endif @if($quotation->status == \Esl\helpers\Constants::LEAD_QUOTATION_ACCEPTED)
+                                            <a href="{{ url('/quotation/convert/'.$quotation->id) }}" class="btn btn btn-primary">Start Processing</a>                                            @endif @if($quotation->status != \Esl\helpers\Constants::LEAD_QUOTATION_ACCEPTED
+                                            && $quotation->status != \Esl\helpers\Constants::LEAD_QUOTATION_WAITING && $quotation->status
                                             != \Esl\helpers\Constants::LEAD_QUOTATION_REQUEST && $quotation->status != \Esl\helpers\Constants::LEAD_QUOTATION_APPROVED
                                             && $quotation->status != \Esl\helpers\Constants::LEAD_QUOTATION_CONVERTED)
                                             <a href="{{ url('/quotation/request/'.$quotation->id) }}" class="btn btn-success" type="submit"> 
@@ -671,44 +662,75 @@
                                                 {{ 'Request Approval' }}
                                                 @endif
 
-                                            </a>                                            
-                                            @endif
-
-                                            @if($quotation->status == \Esl\helpers\Constants::LEAD_QUOTATION_REQUEST)
+                                            </a> @endif @if($quotation->status
+                                            == \Esl\helpers\Constants::LEAD_QUOTATION_REQUEST)
                                             <button data-toggle="modal" data-target=".qutation-dissaprove-modal" class="btn btn-warning">Disapprove</button>
-                                            <a href="{{ route('manager-approve-quotation', ['id' => $quotation->id]) }}" class="btn btn-success">Approve</a>
-                                            @endif
-                                            
+                                            <a href="{{ route('manager-approve-quotation', ['id' => $quotation->id]) }}" class="btn btn-success">Approve</a>                                            @endif
+
                                         </div>
 
                                         {{-- quotation disaaproval modal --}}
-                                        <div class="modal fade qutation-dissaprove-modal" tabindex="-1" role="dialog" aria-labelledby="quotationDissaproveModalLabel" aria-hidden="true"
-                                        style="display: none;">
-                                        <div class="modal-dialog modal-lg">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h4 class="modal-title" id="quotationDissaproveModalLabel">Reason for dissaproval</h4>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <form class="form-material m-t-40" method="POST" action="{{ route('manager-disapprove-quotation', ['id' =>$quotation->id]) }}">
-                                                        {{ csrf_field() }}
+                                        <div class="modal fade qutation-dissaprove-modal" tabindex="-1" role="dialog" aria-labelledby="quotationDissaproveModalLabel"
+                                            aria-hidden="true" style="display: none;">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title" id="quotationDissaproveModalLabel">Reason for dissaproval</h4>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form method="POST" action="{{ route('manager-disapprove-quotation', ['id' =>$quotation->id]) }}">
+                                                            {{ csrf_field() }}
 
-                                                        <div class="form-group">
-                                                            <label for="exampleFormControlTextarea1">Reason for dissaproval</label>
-                                                            <textarea class="form-control" rows="3" name="disaproval_message"></textarea>
-                                                          </div>
+                                                            <div class="form-group">
+                                                                <label for="disaproval_message">Reason for dissaproval</label>
+                                                                <textarea class="form-control" id="disaproval_message" rows="3" name="disaproval_message"></textarea>
+                                                            </div>
 
-                                                        <div style="text-align:right">
-                                                            <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
-                                                            <input class="btn  btn-primary" type="submit" value="Send">
-                                                        </div>
-                                                    </form>
+                                                            <div style="text-align:right">
+                                                                <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                                                                <input class="btn  btn-primary" type="submit" value="Send">
+                                                            </div>
+                                                        </form>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                        {{-- quotation disaaproval modal end --}}
+
+                                        {{-- quotation disaaproval modal end --}} {{-- send to customer modal --}}
+                                        <div class="modal fade send-customer-quotation" tabindex="-1" role="dialog" aria-labelledby="sendCustomerQuotationModalLabel"
+                                            aria-hidden="true" style="display: none;">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title" id="sendCustomerQuotationModalLabel">Send Quotation To Customer</h4>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form method="POST" action="{{ route('send-customer-quotation',[ 'id'=>$quotation->id ])}}">
+                                                            {{ csrf_field() }}
+
+                                                            <div class="form-group">
+                                                                <label for="subject">Subject</label>
+                                                                <input type="text" class="form-control" id="subject" name="subject" placeholder="Subject">
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <label for="exampleFormControlTextarea1">Message</label>
+                                                                <textarea class="form-control" rows="3" name="message"></textarea>
+                                                            </div>
+
+                                                            <div style="text-align:right">
+                                                                <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                                                                <input class="btn  btn-primary" type="submit" value="Send">
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {{-- send to customer modal end --}}
+
 
                                         </div>
                                     </div>
