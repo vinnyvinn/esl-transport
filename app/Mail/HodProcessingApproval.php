@@ -7,7 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class HodApproval extends Mailable
+class HodProcessingApproval extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -33,8 +33,8 @@ class HodApproval extends Mailable
     public function build()
     {
         return $this->from($this->user->email)
-        ->subject('Quotation Approval')
-        ->markdown('emails.quotations.hod_approval_request',[
+        ->subject('Quotation Processing Approval')
+        ->markdown('emails.quotations.hod_processing_approval',[
             'name' => $this->user->name,
             'url' => $this->url,
         ]);

@@ -1,9 +1,9 @@
 @component('mail::message')
 Dear Sir/Madam
 
-Quotation Approval Request,
+Quotation Processing Approval Request,
 
-Kindly review the client quotation below and approve it for processing.
+Kindly review the client quotation below and allow it for processing.
 
 <div style="text-align:center; margin-bottom:20px;"><a href="{{ $url }}" target="blank" style="background:blue;color:white;text-decoration:none;padding:10px;font-weight:bold;">Accepted Quotation</a></div>
 

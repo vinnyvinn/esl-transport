@@ -34,6 +34,7 @@ class Constants
     const LEAD_QUOTATION_CONVERTED = 'converted';
     const LEAD_QUOTATION_WAITING = 'waiting';
     const LEAD_QUOTATION_ACCEPTED = 'accepted';
+    const LEAD_QUOTATION_ALLOWED = 'allowed';
     const CUSTOMER = 'customer';
     const Q_APPROVAL_TITLE = 'Quotation Approval Request';
     const Q_APPROVED_TITLE = 'Quotation Approved';

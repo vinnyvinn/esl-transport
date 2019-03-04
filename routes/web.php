@@ -64,6 +64,7 @@ Route::get('/notifications/{id}', 'NotificationController@show');
 Route::get('/quotation/request/{id}', 'QuotationController@requestQuotation');
 Route::get('/quotation/approve/{id}', 'QuotationController@managerAprroveQuotation')->name('manager-approve-quotation');
 Route::post('/quotation/disapprove/{id}', 'QuotationController@managerDisaprroveQuotation')->name('manager-disapprove-quotation');
+Route::get('/quotation/allow/{id}', 'QuotationController@allowForProcessing')->name('allow-for-processing');
 //Route::get('/quotation/{id}/pdf', 'QuotationController@pdfQuotation');
 Route::post('/update-service', 'QuotationServiceController@updateService');
 Route::post('/notifying', 'NotifyingPartyController@notifying')->name('add-quotation-notifee');

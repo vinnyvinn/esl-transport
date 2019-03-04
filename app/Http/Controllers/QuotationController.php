@@ -12,6 +12,7 @@ use App\Mail\EslClientQuotation;
 use App\Mail\ClientResponse;
 use App\Mail\HodApproval;
 use App\Mail\HodClientQuotationDecline;
+use App\Mail\HodProcessingApproval;
 use App\Quotation;
 use App\ServiceTax;
 use App\Tariff;
@@ -217,7 +218,6 @@ class QuotationController extends Controller
         $quotation = Quotation::findOrFail($id);
         $quotation->update(['status' => Constants::LEAD_QUOTATION_DECLINED_CUSTOMER]);
 
-
         NotificationRepo::create()->notification(Constants::Q_DECLINED_C_TITLE,
             Constants::Q_DECLINED_C_TEXT,
             '/quotation/preview/' . $id, 0, 'Agency', Auth::user()->id)
@@ -250,6 +250,22 @@ class QuotationController extends Controller
             ->withDms($dms)
             ->withStatus($status);
 
+    }
+
+    public function  allowForProcessing($id){
+
+        $quotation = Quotation::with('user')->findOrFail($id);
+        $quotation->update(['status' => Constants::LEAD_QUOTATION_ALLOWED]);
+
+        NotificationRepo::create()->notification(Constants::Q_DECLINED_C_TITLE,
+            Constants::Q_DECLINED_C_TEXT,
+            '/quotation/preview/' . $id, 0, 'Agency', Auth::user()->id)
+            ->warning('Quotation processing approved');
+
+            Mail::to($quotation->user->email)
+        ->send(new HodProcessingApproval(Auth::user(), URL::previous()));
+
+        return redirect()->back();
     }
 
     public function convertCustomer(Request $request, $id)
