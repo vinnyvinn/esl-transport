@@ -8,7 +8,6 @@ use App\GoodType;
 use App\Quotation;
 use App\ServiceTax;
 use App\Tariff;
-use App\Mail\QuotationApprovalMail;
 use Barryvdh\DomPDF\Facade as PDF;
 use Carbon\Carbon;
 use Esl\helpers\Constants;
@@ -17,8 +16,10 @@ use Esl\Repository\NotificationRepo;
 use Esl\Repository\QuotationRepo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\QuotationApprovalMail;
+use App\Mail\QuotationRequestDissaproval;
 
 class QuotationController extends Controller
 {
@@ -29,10 +30,10 @@ class QuotationController extends Controller
         // $quote->with(['lead','vessel','cargos','voyage','consignee']);
         // $quote = Quotation::with(['lead','parties','cargos.goodType','consignee',
         //     'vessel','voyage','services.tariff','remarks.user'])->findOrFail($id);
-        $quote = Quotation::with(['lead','parties','cargos.goodType',
-            'vessel','voyage','services.tariff','remarks.user'])->findOrFail($id);
+        $quote = Quotation::with(['lead', 'parties', 'cargos.goodType',
+            'vessel', 'voyage', 'services.tariff', 'remarks.user'])->findOrFail($id);
 
-        if ($quote->service_type_id != null){
+        if ($quote->service_type_id != null) {
             return view('quotation.other-service')
                 ->withQuotation($quote)
                 ->withTaxs(ServiceTax::all()->sortBy('Description'))
@@ -49,21 +50,25 @@ class QuotationController extends Controller
     public function requestQuotation($id)
     {
 
+        // mail people
         Mail::to(Constants::HEAD_TRANSPORT_EMAIL)
-        ->cc(Constants::ACCOUNTS_EMAIL)
-        ->send(new QuotationApprovalMail(Auth::user(),URL::previous()));
-        // Quotation::findOrFail($id)->update(['status' => Constants::LEAD_QUOTATION_REQUEST]);
+            ->cc([Constants::ACCOUNTS_EMAIL,Constants::ACCOUNTS_EMAIL_TWO])
+            ->send(new QuotationApprovalMail(Auth::user(), URL::previous()));
 
+        // update status
+        Quotation::findOrFail($id)->update(['status' => Constants::LEAD_QUOTATION_REQUEST]);
+
+        // status update success
         NotificationRepo::create()->notification(Constants::Q_APPROVAL_TITLE, Constants::Q_APPROVAL_TEXT,
-            '/quotation/preview/'.$id,0,Constants::DEPARTMENT_AGENCY)
-        ->success('Approval request sent successfully');
+            '/quotation/preview/' . $id, 0, Constants::DEPARTMENT_AGENCY)
+            ->success('Approval request sent successfully');
 
         return redirect()->back();
     }
 
     public function viewQuotation($id)
     {
-        $quote = Quotation::with(['lead','cargos.goodType','vessel','services.tariff','remarks.user'])->findOrFail($id);
+        $quote = Quotation::with(['lead', 'cargos.goodType', 'vessel', 'services.tariff', 'remarks.user'])->findOrFail($id);
 
         if ($quote->service_type_id != null) {
             return view('quotation.other-service-view')
@@ -81,7 +86,7 @@ class QuotationController extends Controller
 
     public function previewQuotation($id)
     {
-        $quote = Quotation::with(['lead','cargos.goodType','vessel','services.tariff','remarks.user'])->findOrFail($id);
+        $quote = Quotation::with(['lead', 'cargos.goodType', 'vessel', 'services.tariff', 'remarks.user'])->findOrFail($id);
 
         if ($quote->service_type_id != null) {
             return view('quotation.other-preview')
@@ -92,6 +97,31 @@ class QuotationController extends Controller
             ->withQuotation($quote);
     }
 
+    // manager approve quotation
+    public function managerAprroveQuotation($id)
+    {
+
+    }
+
+    // manager dissaprove quotation
+    public function managerDisaprroveQuotation(Request $request, $id)
+    {
+
+        $quotation = Quotation::with('user')->findOrFail($id);
+
+        $quotation->update(['status' => Constants::LEAD_QUOTATION_DECLINED]);
+
+        Mail::to($quotation->user->email)
+        ->cc([Constants::ACCOUNTS_EMAIL,Constants::ACCOUNTS_EMAIL_TWO])
+        ->send(new QuotationRequestDissaproval(Auth::user(),URL::previous(), $request->disaproval_message));
+        
+        NotificationRepo::create()->notification(Constants::Q_APPROVAL_TITLE, Constants::Q_APPROVAL_TEXT,
+            '/quotation/preview/' . $id, 0, Constants::DEPARTMENT_AGENCY)
+            ->success('Quotation dissaproval successfully');
+
+        return redirect()->back();
+    }
+
     public function sendToCustomer($id)
     {
         QuotationRepo::make()->changeStatus($id,
@@ -99,7 +129,7 @@ class QuotationController extends Controller
 
         NotificationRepo::create()->notification(Constants::Q_APPROVED_TITLE,
             Constants::Q_APPROVED_TEXT,
-            '/quotation/preview/'.$id,0,'Agency', Auth::user()->id);
+            '/quotation/preview/' . $id, 0, 'Agency', Auth::user()->id);
 
         //TODO:: generate pdf here
 
@@ -110,11 +140,10 @@ class QuotationController extends Controller
 
     public function pdfQuotation($id)
     {
-        $quotation = Quotation::with(['lead','cargos.goodType','vessel','services.tariff'])->findOrFail($id);
+        $quotation = Quotation::with(['lead', 'cargos.goodType', 'vessel', 'services.tariff'])->findOrFail($id);
 
         $pdf = PDF::loadView('quotation.pdf', compact('quotation'));
         return $pdf->download('pda.pdf');
-
 
     }
 
@@ -125,7 +154,7 @@ class QuotationController extends Controller
 
         NotificationRepo::create()->notification(Constants::Q_APPROVED_TITLE,
             Constants::Q_APPROVED_TEXT,
-            '/quotation/preview/'.$id,0,'Agency', Auth::user()->id)->success('Accepted successfully');
+            '/quotation/preview/' . $id, 0, 'Agency', Auth::user()->id)->success('Accepted successfully');
 
         //TODO:: generate pdf here
         //TODO:: send mails
@@ -135,18 +164,18 @@ class QuotationController extends Controller
 
     public function pdaStatus($status)
     {
-        if ($status == Constants::LEAD_QUOTATION_PENDING){
-            $dms = Quotation::with(['lead','vessel','cargos'])->where('status',
+        if ($status == Constants::LEAD_QUOTATION_PENDING) {
+            $dms = Quotation::with(['lead', 'vessel', 'cargos'])->where('status',
                 Constants::LEAD_QUOTATION_PENDING)->simplePaginate(25);
         }
 
-        if ($status == Constants::LEAD_QUOTATION_REQUEST){
-            $dms = Quotation::with(['lead','vessel','cargos'])->where('status',
+        if ($status == Constants::LEAD_QUOTATION_REQUEST) {
+            $dms = Quotation::with(['lead', 'vessel', 'cargos'])->where('status',
                 Constants::LEAD_QUOTATION_REQUEST)->simplePaginate(25);
         }
 
-        if ($status == Constants::LEAD_QUOTATION_APPROVED){
-            $dms = Quotation::with(['lead','vessel','cargos'])->where('status',
+        if ($status == Constants::LEAD_QUOTATION_APPROVED) {
+            $dms = Quotation::with(['lead', 'vessel', 'cargos'])->where('status',
                 Constants::LEAD_QUOTATION_APPROVED)->simplePaginate(25);
         }
 
@@ -163,8 +192,8 @@ class QuotationController extends Controller
 
         NotificationRepo::create()->notification(Constants::Q_DECLINED_C_TITLE,
             Constants::Q_DECLINED_C_TEXT,
-            '/quotation/preview/'.$id,0,'Agency', Auth::user()->id)
-        ->warning('Declined by customer');
+            '/quotation/preview/' . $id, 0, 'Agency', Auth::user()->id)
+            ->warning('Declined by customer');
 
         //TODO:: generate pdf here
         //TODO:: send mails
@@ -174,26 +203,26 @@ class QuotationController extends Controller
 
     public function convertCustomer(Request $request, $id)
     {
-        $quotation = Quotation::with(['user','consignee','lead','parties','cargos.goodType',
-            'vessel','voyage','services.tariff','remarks.user'])->findOrFail($id);
+        $quotation = Quotation::with(['user', 'consignee', 'lead', 'parties', 'cargos.goodType',
+            'vessel', 'voyage', 'services.tariff', 'remarks.user'])->findOrFail($id);
 
-        if ($quotation->service_type_id == null){
-            if ($quotation->consignee == null){
+        if ($quotation->service_type_id == null) {
+            if ($quotation->consignee == null) {
                 NotificationRepo::create()->error('No Consignee details added');
                 return redirect()->back();
             }
 
-            if ($quotation->voyage == null){
+            if ($quotation->voyage == null) {
                 NotificationRepo::create()->error('No Voyage details added');
                 return redirect()->back();
             }
 
-            if (count($quotation->services) < 1){
+            if (count($quotation->services) < 1) {
                 NotificationRepo::create()->error('No Services added');
                 return redirect()->back();
             }
 
-            if (count($quotation->cargos) < 1){
+            if (count($quotation->cargos) < 1) {
                 NotificationRepo::create()->error('No Cargo added');
                 return redirect()->back();
             }
@@ -204,14 +233,14 @@ class QuotationController extends Controller
 
         NotificationRepo::create()->notification(Constants::Q_DECLINED_C_TITLE,
             Constants::Q_DECLINED_C_TEXT,
-            '/quotation/preview/'.$id,0,'Agency', Auth::user()->id)
-        ->success('Invoice generated and Project created successfully');
+            '/quotation/preview/' . $id, 0, 'Agency', Auth::user()->id)
+            ->success('Invoice generated and Project created successfully');
 
-        $leadData =  $quotation->lead;
+        $leadData = $quotation->lead;
         $customer = CustomersRepo::customerInit()->convertLeadToCustomer($leadData->toArray());
 
         $bl = BillOfLanding::create([
-            'vessel_id' =>$quotation->vessel_id,
+            'vessel_id' => $quotation->vessel_id,
             'quote_id' => $quotation->id,
             'service_type_id' => $quotation->service_type_id != null ? $quotation->service_type_id : null,
             'voyage_id' => $quotation->service_type_id != null ? 0 : $quotation->id,
@@ -224,10 +253,10 @@ class QuotationController extends Controller
             'stage' => 'Pre-arrival docs',
             'status' => 0,
             'sof_status' => 0,
-            'bl_number' => 'B/L-NO'.$customer->DCLink,
+            'bl_number' => 'B/L-NO' . $customer->DCLink,
         ]);
 
-        return redirect('/dms/edit/'.$bl->id);
+        return redirect('/dms/edit/' . $bl->id);
     }
 
     public function allPdas()
@@ -237,8 +266,9 @@ class QuotationController extends Controller
             ->withPdas(Quotation::get()->sortBy('created_at'));
     }
 
-    public function allQuotations(){
+    public function allQuotations()
+    {
         $quotations = Quotation::all();
-        return view('quotation.index',['quotations'=> $quotations]);
+        return view('quotation.index', ['quotations' => $quotations]);
     }
 }

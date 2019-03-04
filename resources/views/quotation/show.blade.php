@@ -621,7 +621,6 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-
                                                     </td>
                                                 </tr>
                                                 @endforeach
@@ -647,10 +646,10 @@
                                         </div>
                                         <hr>
                                         <div class="text-right">
-                                            <a href="{{ url('/quotation/preview/'.$quotation->id) }}" class="btn btn btn-outline-success">Preview</a>
+                                            <a href="{{ url('/quotation/preview/'.$quotation->id) }}" class="btn btn-secondary">Preview</a>
                                             @if($quotation->status == \Esl\helpers\Constants::LEAD_QUOTATION_APPROVED)
                                             <a href="{{ url('/quotation/send/'.$quotation->id) }}" class="btn btn btn-outline-success">Send To Customer</a>
-                                            @endif 
+                                            @endif                    
 
                                             @if($quotation->status == \Esl\helpers\Constants::LEAD_QUOTATION_WAITING)
                                             <a href="{{ url('/quotation/customer/accepted/'.$quotation->id) }}" class="btn btn btn-primary">Accepted</a>
@@ -665,9 +664,52 @@
                                             $quotation->status != \Esl\helpers\Constants::LEAD_QUOTATION_WAITING && $quotation->status
                                             != \Esl\helpers\Constants::LEAD_QUOTATION_REQUEST && $quotation->status != \Esl\helpers\Constants::LEAD_QUOTATION_APPROVED
                                             && $quotation->status != \Esl\helpers\Constants::LEAD_QUOTATION_CONVERTED)
-                                            <a href="{{ url('/quotation/request/'.$quotation->id) }}" class="btn btn-success" type="submit"> Request Approval </a>                                            
+                                            <a href="{{ url('/quotation/request/'.$quotation->id) }}" class="btn btn-success" type="submit"> 
+                                                @if($quotation->status == \Esl\helpers\Constants::LEAD_QUOTATION_DECLINED)
+                                                {{ 'Re-request Approval' }}
+                                                @else
+                                                {{ 'Request Approval' }}
+                                                @endif
+
+                                            </a>                                            
                                             @endif
+
+                                            @if($quotation->status == \Esl\helpers\Constants::LEAD_QUOTATION_REQUEST)
+                                            <button data-toggle="modal" data-target=".qutation-dissaprove-modal" class="btn btn-warning">Disapprove</button>
+                                            <a href="{{ route('manager-approve-quotation', ['id' => $quotation->id]) }}" class="btn btn-success">Approve</a>
+                                            @endif
+                                            
                                         </div>
+
+                                        {{-- quotation disaaproval modal --}}
+                                        <div class="modal fade qutation-dissaprove-modal" tabindex="-1" role="dialog" aria-labelledby="quotationDissaproveModalLabel" aria-hidden="true"
+                                        style="display: none;">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title" id="quotationDissaproveModalLabel">Reason for dissaproval</h4>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form class="form-material m-t-40" method="POST" action="{{ route('manager-disapprove-quotation', ['id' =>$quotation->id]) }}">
+                                                        {{ csrf_field() }}
+
+                                                        <div class="form-group">
+                                                            <label for="exampleFormControlTextarea1">Reason for dissaproval</label>
+                                                            <textarea class="form-control" rows="3" name="disaproval_message"></textarea>
+                                                          </div>
+
+                                                        <div style="text-align:right">
+                                                            <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                                                            <input class="btn  btn-primary" type="submit" value="Send">
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                        {{-- quotation disaaproval modal end --}}
+
                                         </div>
                                     </div>
                                 </div>
