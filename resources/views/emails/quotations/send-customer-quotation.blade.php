@@ -1,7 +1,8 @@
 @component('mail::message')
-ESL Transport client quotation 
 
 Dear {{ ucwords($lead) }},
+
+ESL Transport client quotation 
 
 {{ $message }}
 

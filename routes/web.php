@@ -50,8 +50,8 @@ Route::get('/decline/{identifier}', 'QuotationController@customerDecline')->name
 Route::view('/received','client-response-view')->name('client-quotation-response');
 
 // user quotation accept or decline
-Route::get('/quotation/customer/accepted/{id}', 'QuotationController@userAcceptCustomerQuotation');
-Route::get('/quotation/customer/declined/{id}', 'QuotationController@userDeclineCustomerQuotation');
+Route::get('/quotation/customer/accepted/{id}', 'QuotationController@userAcceptCustomerQuotation')->name('user-accept-client-quotation');
+Route::get('/quotation/customer/declined/{id}', 'QuotationController@userDeclineCustomerQuotation')->name('user-decline-client-quotation');
 
 Route::get('/all-notifications', 'NotificationController@index');
 Route::get('/agency', 'AgencyController@index');

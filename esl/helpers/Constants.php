@@ -12,6 +12,7 @@ class Constants
 {
     const DEFAULT_CURRENCY = USD;
     const HEAD_TRANSPORT_EMAIL = 'head-transport@esl.com';
+    const HEAD_OF_DEPARTMENT = 'hod@esl.com';
     const ACCOUNTS_EMAIL = 'accounts@esl.com';
     const ACCOUNTS_EMAIL_TWO = 'another-accounts@esl.com';
     const STATUS_OK = 200;

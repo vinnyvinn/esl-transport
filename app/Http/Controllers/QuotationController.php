@@ -10,6 +10,8 @@ use App\Mail\QuotationRequestDissaproval;
 use App\Mail\QuotationRequestApproval;
 use App\Mail\EslClientQuotation;
 use App\Mail\ClientResponse;
+use App\Mail\HodApproval;
+use App\Mail\HodClientQuotationDecline;
 use App\Quotation;
 use App\ServiceTax;
 use App\Tariff;
@@ -195,15 +197,16 @@ class QuotationController extends Controller
     // user accept client accepted quotation
     public function userAcceptCustomerQuotation($id)
     {
-        QuotationRepo::make()->changeStatus($id,
-            Constants::LEAD_QUOTATION_ACCEPTED);
+
+        $quotation = Quotation::findOrFail($id);
+        $quotation->update(['status' => Constants::LEAD_QUOTATION_ACCEPTED]);
 
         NotificationRepo::create()->notification(Constants::Q_APPROVED_TITLE,
             Constants::Q_APPROVED_TEXT,
-            '/quotation/preview/' . $id, 0, 'Agency', Auth::user()->id)->success('Accepted successfully');
+            '/quotation/preview/' . $id, 0, 'Agency', Auth::user()->id)->success('Quotation status set to Accepted');
 
-        //TODO:: generate pdf here
-        //TODO:: send mails
+        Mail::to(Constants::HEAD_OF_DEPARTMENT)
+        ->send(new HodApproval(Auth::user(), URL::previous()));
 
         return redirect()->back();
     }
@@ -211,16 +214,17 @@ class QuotationController extends Controller
     // user decline client declined quotation
     public function userDeclineCustomerQuotation($id)
     {
-        QuotationRepo::make()->changeStatus($id,
-            Constants::LEAD_QUOTATION_DECLINED_CUSTOMER);
+        $quotation = Quotation::findOrFail($id);
+        $quotation->update(['status' => Constants::LEAD_QUOTATION_DECLINED_CUSTOMER]);
+
 
         NotificationRepo::create()->notification(Constants::Q_DECLINED_C_TITLE,
             Constants::Q_DECLINED_C_TEXT,
             '/quotation/preview/' . $id, 0, 'Agency', Auth::user()->id)
-            ->warning('Declined by customer');
+            ->warning('Quotation status set to Declined');
 
-        //TODO:: generate pdf here
-        //TODO:: send mails
+        Mail::to(Constants::HEAD_OF_DEPARTMENT)
+        ->send(new HodClientQuotationDecline(Auth::user(), URL::previous()));
 
         return redirect()->back();
     }
