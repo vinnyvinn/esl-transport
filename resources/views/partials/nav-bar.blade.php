@@ -14,7 +14,7 @@
                     <ul aria-expanded="false" class="collapse">
                         <li><a href="{{ url('/agency') }}">Users</a></li>
                     <li><a href="{{ route('departments.index') }}">Departments</a></li>
-                        <li><a href="">Roles</a></li>
+                    <li><a href="{{ route('roles.index') }}">Roles</a></li>
                     </ul>
                 </li>
                 

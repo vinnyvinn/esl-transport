@@ -94,3 +94,6 @@ Route::resource('/stage-components', 'StageComponentController');
 //generate docs
 Route::get('/generate-documents/{type}/{id}', 'GenerateDocument@generateDocument');
 
+//roles
+Route::resource('roles','RolesController');
+
