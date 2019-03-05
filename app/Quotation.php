@@ -52,5 +52,12 @@ class Quotation extends ESLModel
     {
         return $this->hasMany(QuotationLog::class,'quotation_id','id');
     }
+
+    public function funds(){
+        return $this->hasMany(Funds::class,'quotation_id','id');
+    }
     
+    public function serviceCost(){
+        return $this->hasMany(ServiceCost::class,'quotation_id','id');
+    }
 }

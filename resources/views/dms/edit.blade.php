@@ -335,22 +335,24 @@
                                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <form method="POST" action="">
+                                                        <form method="POST" action="{{ route('save-quotation-fund')}}" enctype="multipart/form-data">
                                                                 {{ csrf_field() }}
+
+                                                                <input type="hidden" name="quotation_id" value="{{ $dms->quote->id }}">
 
                                                                 <div class="form-group">
                                                                         <label for="employee_id">Employee Number/ID</label>
-                                                                        <input type="text" class="form-control" id="employee_id" placeholder="Employee Number/ID">
+                                                                        <input type="text" class="form-control" id="employee_id" name="employee_id" required placeholder="Employee Number/ID">
                                                                 </div>
 
                                                                 <div class="form-group">
                                                                         <label for="amount">Amount Requested</label>
-                                                                        <input type="number" class="form-control" id="amount" placeholder="Amount Requested">
+                                                                        <input type="number" class="form-control" id="amount" name="amount" required placeholder="Amount Requested">
                                                                 </div>
 
                                                                 <div class="form-group">
                                                                 <label for="amount">Currency</label>
-                                                                <select class="custom-select" style="width:100%;">
+                                                                <select class="custom-select" style="width:100%;" name="currency">
                                                                         <option value="KSH">KSH</option>
                                                                         <option value="USD">USD</option>
                                                                       </select>
@@ -358,9 +360,9 @@
 
                                                                 <div class="form-group">
                                                                 <label for="amount">Payment Type</label>
-                                                                <select class="custom-select"  style="width:100%;">
-                                                                        <option value="KSH">type one</option>
-                                                                        <option value="USD">type two</option>
+                                                                <select class="custom-select"  name="payment_type" style="width:100%;">
+                                                                        <option value="type one">type one</option>
+                                                                        <option value="type two">type two</option>
                                                                       </select>
                                                                 </div>
 
@@ -371,12 +373,23 @@
 
                                                                 <div class="form-group">
                                                                         <label for="reason">Reason</label>
-                                                                        <textarea class="form-control" id="reason" rows="3" name="reason"></textarea>
+                                                                        <textarea class="form-control" required id="reason" rows="3" name="reason"></textarea>
                                                                 </div>
 
-                                                                <div class="form-group">
+                                                                <div class="row">
+                                                                    <div class="col">
+                                                                        <div class="form-group">
+                                                                            <label for="name"> Support file name </label>
+                                                                            <input type="text" id="name" name="name" class="form-control" placeholder="File Name" >
+                                                                        </div>
+    
+                                                                    </div>
+                                                                    <div class="col">
+                                                                        <div class="form-group">
                                                                         <label for="supporting_docs">Select supporting Document</label>
                                                                         <input type="file" class="form-control-file" id="supporting_docs" name="supporting_docs">
+                                                                </div>
+                                                                    </div>
                                                                 </div>
 
                                                                 <div style="text-align:right">
@@ -400,30 +413,42 @@
                                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <form method="POST" action="">
+                                                        <form method="POST" action="{{ route('save-service-cost') }}" enctype="multipart/form-data">
                                                                 {{ csrf_field() }}
+
+                                                                <input type="hidden" name="quotation_id" value="{{ $dms->quote->id }}">
 
                                                                 <div class="form-group">
                                                                         <label for="amount">Select Service</label>
-                                                                        <select class="custom-select" style="width:100%;">
-                                                                            <option value="KSH">service one</option>
-                                                                            <option value="USD">service two</option>
+                                                                        <select class="custom-select" style="width:100%;" name="service">
+                                                                            <option value="service one">service one</option>
+                                                                            <option value="service two">service two</option>
                                                                         </select>
                                                                 </div>
 
                                                                 <div class="form-group">
                                                                         <label for="amount">Service Buying Amont</label>
-                                                                        <input type="number" class="form-control" id="amount" placeholder="Amount Requested">
+                                                                        <input type="number" class="form-control" id="amount" name="amount" placeholder="Amount Requested">
                                                                 </div>
 
                                                                 <div class="form-group">
                                                                         <label for="description">Description</label>
-                                                                        <textarea class="form-control" id="description" rows="3" name="description"></textarea>
+                                                                        <textarea class="form-control" required id="description" rows="3" name="description"></textarea>
                                                                 </div>
 
-                                                                <div class="form-group">
-                                                                        <label for="supporting_docs">Select supporting Document</label>
-                                                                        <input type="file" class="form-control-file" id="supporting_docs" name="supporting_docs">
+                                                                <div class="row">
+                                                                    <div class="col">
+                                                                        <div class="form-group">
+                                                                            <label for="name">Support file name</label>
+                                                                            <input type="name" class="form-control" id="name" name="name" placeholder="Support file name">
+                                                                    </div>
+                                                                    </div>
+                                                                    <div class="col">
+                                                                        <div class="form-group">
+                                                                            <label for="supporting_docs">Select supporting Document</label>
+                                                                            <input type="file" class="form-control-file" id="supporting_docs" name="supporting_docs">
+                                                                    </div>
+                                                                    </div>
                                                                 </div>
 
                                                                 <div style="text-align:right">

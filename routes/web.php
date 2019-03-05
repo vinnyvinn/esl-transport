@@ -99,3 +99,9 @@ Route::resource('/roles','RolesController');
 
 //roles
 Route::resource('/users', 'UserController');
+
+// quotation funds
+Route::post('/quotation/funds', 'FundsController@saveFund')->name('save-quotation-fund');
+
+// service cost
+Route::post('/quotation/service-cost', 'ServiceCostController@saveServiceCost')->name('save-service-cost');
