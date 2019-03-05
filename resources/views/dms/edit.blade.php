@@ -17,7 +17,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="card card-body printableArea">
-                <h3 class="text-center">Final Disbursement Account {{ ucwords( $dms->customer->Name)  }}</h3>
+                <h3 class="text-center">Final Disbursement Account {{ ucwords( $dms->customer->Name)  }}</h3>                
                 <br>
                 <div class="row">
                     <div class="card-body wizard-content">
@@ -109,14 +109,16 @@
                                                 <span class="hidden-sm-up"><i class="ti-user"></i></span> <span class="hidden-xs-down">Cargo</span></a> </li>
                                         <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#messages" role="tab">
                                                 <span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">Voyage Details</span></a> </li>
-                                         <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#agency" role="tab">
+                                        <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#budget" role="tab">
+                                                <span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">Budget</span></a> </li>
+                                         {{-- <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#agency" role="tab">
                                                 <span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">Actions</span></a> </li>
                                         <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#sof" role="tab">
                                                 <span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">SOF</span></a> </li>
                                         <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#checklist1" role="tab">
                                                 <span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">Checklist Details</span></a> </li>
                                         <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#history" role="tab">
-                                                <span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">History</span></a> </li>
+                                                <span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">History</span></a> </li> --}}
                                         {{--@foreach(\App\Stage::all() as $value)--}}
                                             {{--<li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#{{ str_slug($value->name) }}" role="tab">--}}
                                                     {{--<span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">{{ ucwords($value->name) }}</span></a> </li>--}}
@@ -199,7 +201,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td><strong>Cargo Discharge Rate : </strong> {{ $dms->quote->cargos->first()->discharge_rate }} MT / WWD</td>
-                                                        <td><strong>Lay Time Start : </strong> {{ \Carbon\Carbon::parse($dms->laytime_start)->format('d-M-y') }}</td>
+                                                        {{-- <td><strong>Lay Time Start : </strong> {{ \Carbon\Carbon::parse($dms->laytime_start)->format('d-M-y') }}</td> --}}
                                                         <td><strong>DWT : </strong> {{ $dms->vessel->dwt }}</td>
                                                     </tr>
                                                     <tr>
@@ -215,7 +217,7 @@
                                                     <tr>
                                                         <td><strong>Port of Discharge: </strong> {{ $dms->vessel->port_of_discharge }}, {{ $dms->vessel->country_of_discharge }}</td>
                                                         <td><strong>Place of Receipt: </strong> {{ $dms->place_of_receipt }}</td>
-                                                        <td><strong>Date of Loading : </strong> {{ \Carbon\Carbon::parse($dms->date_of_loading)->format('d-M-y') }}</td>
+                                                        {{-- <td><strong>Date of Loading : </strong> {{ \Carbon\Carbon::parse($dms->date_of_loading)->format('d-M-y') }}</td> --}}
                                                     </tr>
                                                 </table>
                                                 <div class="modal fade bs-example-modal-lgvessel" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
@@ -272,7 +274,7 @@
                                                 <tbody>
                                                 @foreach($dms->quote->cargos as $cargo)
                                                     <tr>
-                                                        <td>{{ ucwords($cargo->name) }}</td>
+                                                        <td>{{ ucwords($cargo->cargo_name) }}</td>
                                                         <td>{{ ucfirst($cargo->goodType->name )}}</td>
                                                         <td>{{ $cargo->discharge_rate }}</td>
                                                         <td>{{ ceil($cargo->weight/$cargo->discharge_rate) }} Days</td>
@@ -295,17 +297,248 @@
                                                         </tr>
                                                         <tr>
                                                             <td><strong>Final Destination : </strong>{{ ucwords($dms->quote->voyage->final_destination )}}</td>
-                                                            <td><strong>ETA : </strong> {{ \Carbon\Carbon::parse($dms->quote->voyage->eta)->format('d-M-y') }}</td>
-                                                            <td><strong>Vessel Arrived : </strong> {{ \Carbon\Carbon::parse($dms->quote->voyage->vessel_arrived)->format('d-M-y')}}</td>
-                                                        </tr>
-                                                        <tr>
                                                             <td><strong>Service Code : </strong> {{ strtoupper($dms->quote->voyage->service_code) }}</td>
+                                                            {{-- <td><strong>ETA : </strong> {{ \Carbon\Carbon::parse($dms->quote->voyage->eta)->format('d-M-y') }}</td> --}}
+                                                            {{-- <td><strong>Vessel Arrived : </strong> {{ \Carbon\Carbon::parse($dms->quote->voyage->vessel_arrived)->format('d-M-y')}}</td> --}}
                                                         </tr>
 
                                                         </tbody>
                                                     </table>
                                                 </div>
                                         </div>
+
+                                        <div class="tab-pane p-20" id="budget" role="tabpanel">
+                                                <h3>Project Expense</h3>
+                                                <hr>
+                                                <div>
+                                                <button data-toggle="modal" data-target=".dms-fund-request" class="btn btn-warning">
+                                                    Request Fund
+                                                </button>
+                                                <button data-toggle="modal" data-target=".dms-project-service-cost" class="btn btn-warning">
+                                                    Add Project Service Cost
+                                                </button>
+                                                <button data-toggle="modal" data-target=".dms-requested-fund" class="btn btn-primary">
+                                                    View Requested Fund
+                                                </button>
+                                                <button data-toggle="modal" data-target=".dms-project-statement" class="btn btn-primary">
+                                                    Project Statement
+                                                </button>
+                                                </div>
+
+                                                {{-- Request fund modal start --}}
+                                                <div class="modal fade dms-fund-request" tabindex="-1" role="dialog" aria-labelledby="requestFundModalLabel" aria-hidden="true"
+                                                style="display: none;">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" id="requestFundModalLabel">Request Fund</h4>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form method="POST" action="">
+                                                                {{ csrf_field() }}
+
+                                                                <div class="form-group">
+                                                                        <label for="employee_id">Employee Number/ID</label>
+                                                                        <input type="text" class="form-control" id="employee_id" placeholder="Employee Number/ID">
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                        <label for="amount">Amount Requested</label>
+                                                                        <input type="number" class="form-control" id="amount" placeholder="Amount Requested">
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                <label for="amount">Currency</label>
+                                                                <select class="custom-select" style="width:100%;">
+                                                                        <option value="KSH">KSH</option>
+                                                                        <option value="USD">USD</option>
+                                                                      </select>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                <label for="amount">Payment Type</label>
+                                                                <select class="custom-select"  style="width:100%;">
+                                                                        <option value="KSH">type one</option>
+                                                                        <option value="USD">type two</option>
+                                                                      </select>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                        <label for="eta"> Deadline </label>
+                                                                        <input type="text" id="deadline" required name="deadline" class="datepicker form-control" placeholder="Deadline" >
+                                                                    </div>
+
+                                                                <div class="form-group">
+                                                                        <label for="reason">Reason</label>
+                                                                        <textarea class="form-control" id="reason" rows="3" name="reason"></textarea>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                        <label for="supporting_docs">Select supporting Document</label>
+                                                                        <input type="file" class="form-control-file" id="supporting_docs" name="supporting_docs">
+                                                                </div>
+
+                                                                <div style="text-align:right">
+                                                                    <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                                                                    <input class="btn  btn-primary" type="submit" value="Request">
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {{-- Request fund modal end --}}
+
+                                                {{-- Add Project Service Cost modal start --}}
+                                                <div class="modal fade dms-project-service-cost" tabindex="-1" role="dialog" aria-labelledby="projectServiceCostModalLabel" aria-hidden="true"
+                                                style="display: none;">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" id="projectServiceCostModalLabel">Add Service Cost</h4>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form method="POST" action="">
+                                                                {{ csrf_field() }}
+
+                                                                <div class="form-group">
+                                                                        <label for="amount">Select Service</label>
+                                                                        <select class="custom-select" style="width:100%;">
+                                                                            <option value="KSH">service one</option>
+                                                                            <option value="USD">service two</option>
+                                                                        </select>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                        <label for="amount">Service Buying Amont</label>
+                                                                        <input type="number" class="form-control" id="amount" placeholder="Amount Requested">
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                        <label for="description">Description</label>
+                                                                        <textarea class="form-control" id="description" rows="3" name="description"></textarea>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                        <label for="supporting_docs">Select supporting Document</label>
+                                                                        <input type="file" class="form-control-file" id="supporting_docs" name="supporting_docs">
+                                                                </div>
+
+                                                                <div style="text-align:right">
+                                                                    <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                                                                    <input class="btn  btn-primary" type="submit" value="Add">
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {{-- Add Project Service Cost modal start --}}
+
+                                            {{-- view Requested Fund modal start --}}
+                                            <div class="modal fade dms-requested-fund" tabindex="-1" role="dialog" aria-labelledby="allRequestFundModalLabel" aria-hidden="true"
+                                            style="display: none;">
+                                            <div class="modal-dialog modal-lg" style="max-width:1000px;">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title" id="allRequestFundModalLabel">All Requested Funds</h4>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div>
+                                                                <table class="table table-striped">
+                                                                        <thead>
+                                                                        <tr>
+                                                                            <th>Employee</th>
+                                                                            <th>Em No/Id</th>
+                                                                            <th>Deadline</th>
+                                                                            <th>Reason</th>
+                                                                            <th>S/File</th>
+                                                                            <th>status</th>
+                                                                            <th>Amount</th>
+                                                                            <th>action</th>
+                                                                        </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                        {{-- @foreach() --}}
+                                                                            <tr>
+                                                                                <td></td>
+                                                                                <td></td>
+                                                                                <td></td>
+                                                                                <td></td>
+                                                                                <td></td>
+                                                                                <td></td>
+                                                                                <td></td>
+                                                                                <td></td>
+                                                                            </tr>
+                                                                        {{-- @endforeach --}}
+                                                                        </tbody>
+                                                                        <tfoot>
+                                                                            <td colspan="6">Total</td>
+                                                                            <td>00 </td>
+                                                                        </tfoot>
+                                                                    </table>                                                           
+
+                                                            <div style="text-align:right">
+                                                                <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {{-- view Requested Fund modal end --}}
+
+                                        {{-- Project Statement modal start --}}
+                                        <div class="modal fade dms-project-statement" tabindex="-1" role="dialog" aria-labelledby="projectStatementModalLabel" aria-hidden="true"
+                                        style="display: none;">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title" id="projectStatementModalLabel">Project Statements</h4>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div>
+
+                                                            <table class="table table-striped">
+                                                                    <thead>
+                                                                    <tr>
+                                                                        <th>Service Name</th>
+                                                                        <th>Receipt</th>
+                                                                        <th>Selling Price</th>
+                                                                        <th>Cost</th>
+                                                                        <th>Profit</th>
+                                                                    </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    {{-- @foreach() --}}
+                                                                        <tr>
+                                                                            <td></td>
+                                                                            <td></td>
+                                                                            <td></td>
+                                                                            <td></td>
+                                                                            <td></td>                                                                          
+                                                                        </tr>
+                                                                    {{-- @endforeach --}}
+                                                                    </tbody>
+                                                                </table>                                                        
+
+                                                        <div style="text-align:right">
+                                                            <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{-- Project Statement modal end --}}
+
+
+                                        </div>{{-- budget div end --}}
+
                                         <div class="tab-pane p-20" id="agency" role="tabpanel">
                                             <h3 class="text-center">Generate Files</h3>
                                             <hr>
@@ -446,9 +679,11 @@
                                             </table>
                                         </div>
                                     </div>
+                                    <div class="pt-3">
                                     <a href="{{ url('/dms/complete/'.$dms->id) }}" class="btn pull-right btn-warning text-white mytooltip">
                                         Complete Project <span class="tooltip-content3">
                                                 Are you sure??.</span></a>
+                                    </div>
                                 </div>
                             </div>
                             @foreach($stages as $stage)

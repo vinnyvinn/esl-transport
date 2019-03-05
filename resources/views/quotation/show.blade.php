@@ -317,13 +317,13 @@
                                             </form>
                                             @else
                                             <div class="row">
-                                                <table class="table table-stripped">
+                                                <table class="table">
                                                     <tbody>
                                                         <tr>
                                                             <td><strong>Name : </strong>{{ ucwords($quotation->voyage->voyage_name
                                                                 )}}
                                                             </td>
-                                                            <td><strong>Voyage NO : </strong> {{ strtoupper($quotation->voyage->voyage_no)
+                                                            <td><strong>Voyage NO : </strong> {{ $quotation->voyage->voyage_no
                                                                 }}
                                                             </td>
                                                             <td><strong>Service Code : </strong> {{ $quotation->voyage->service_code
