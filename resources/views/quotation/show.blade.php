@@ -659,7 +659,7 @@
                                             @endif 
 
                                             @if($quotation->status == \Esl\helpers\Constants::LEAD_QUOTATION_ALLOWED)
-                                            <a href="{{ url('/quotation/convert/'.$quotation->id) }}" class="btn btn btn-primary">Start Processing</a>                                           
+                                            <a href="{{ route('convert-customer',['id' => $quotation->id]) }}" class="btn btn btn-primary">Start Processing</a>                                           
                                             @endif 
 
                                             @if($quotation->status == \Esl\helpers\Constants::LEAD_QUOTATION_ACCEPTED)

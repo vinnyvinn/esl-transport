@@ -52,4 +52,5 @@ class Quotation extends ESLModel
     {
         return $this->hasMany(QuotationLog::class,'quotation_id','id');
     }
+    
 }

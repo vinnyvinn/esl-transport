@@ -14,7 +14,7 @@ class AddAssigneeIdColumnToQuotationsTable extends Migration
     public function up()
     {
         Schema::table('quotations', function (Blueprint $table) {
-            $table->integer('consignee_id')->unsigned()->nullable();
+            // $table->integer('consignee_id')->unsigned()->nullable();
         });
     }
 

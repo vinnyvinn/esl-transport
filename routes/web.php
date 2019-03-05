@@ -71,7 +71,7 @@ Route::post('/notifying', 'NotifyingPartyController@notifying')->name('add-quota
 Route::post('/update-notifiee/{id}', 'NotifyingPartyController@updateNotifiee')->name('update-quotation-notifee');
 
 //next stage
-Route::get('/quotation/convert/{id}', 'QuotationController@convertCustomer');
+Route::get('/quotation/convert/{id}', 'QuotationController@convertCustomer')->name('convert-customer');
 Route::get('/bill-of-lading/{id}', 'BillOfLandingController@edit');
 Route::get('/test/', 'BillOfLandingController@test');
 //dms
@@ -95,5 +95,7 @@ Route::resource('/stage-components', 'StageComponentController');
 Route::get('/generate-documents/{type}/{id}', 'GenerateDocument@generateDocument');
 
 //roles
-Route::resource('roles','RolesController');
+Route::resource('/roles','RolesController');
 
+//roles
+Route::resource('/users', 'UserController');

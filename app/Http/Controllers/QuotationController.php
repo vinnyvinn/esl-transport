@@ -138,13 +138,13 @@ class QuotationController extends Controller
     {
         $quotation = Quotation::with('lead')->findOrFail($id);
 
-        // $quotation->update(['status' => Constants::LEAD_QUOTATION_WAITING]);
+        $quotation->update(['status' => Constants::LEAD_QUOTATION_WAITING]);
 
         //TODO:: generate pdf here
         // NotificationRepo::create()->success('PDA send to client successfully');
 
-        $quotationPdf = PDF::loadView('pdf.quotation-email');
-        return $quotationPdf->stream('result.pdf');
+        // $quotationPdf = PDF::loadView('pdf.quotation-email');
+        // return $quotationPdf->stream('result.pdf');
         
         Mail::to($quotation->lead->email)
         ->send(new EslClientQuotation(Auth::user(),$quotation->lead,URL::previous(),$request->subject, $request->message,$quotation->identifier));
@@ -271,14 +271,24 @@ class QuotationController extends Controller
 
     public function convertCustomer(Request $request, $id)
     {
-        $quotation = Quotation::with(['user', 'consignee', 'lead', 'parties', 'cargos.goodType',
+        $quotation = Quotation::with(['user', 'cargos', 'lead', 'parties', 'cargos.goodType',
             'vessel', 'voyage', 'services.tariff', 'remarks.user'])->findOrFail($id);
 
         if ($quotation->service_type_id == null) {
-            if ($quotation->consignee == null) {
-                NotificationRepo::create()->error('No Consignee details added');
+
+            // check if cargo has consignee name
+            $null_cargos = collect();
+            foreach($quotation->cargos as $cargo){
+                if ($cargo->consignee_name == null) {
+                    $null_cargos->push($cargo->id);
+                }
+            }
+
+            if(count($null_cargos) > 0){
+                NotificationRepo::create()->error( count($null_cargos).' cargos do not have consignee');
                 return redirect()->back();
             }
+            
 
             if ($quotation->voyage == null) {
                 NotificationRepo::create()->error('No Voyage details added');
@@ -296,8 +306,10 @@ class QuotationController extends Controller
             }
         }
 
-        QuotationRepo::make()->changeStatus($id,
-            Constants::LEAD_QUOTATION_CONVERTED);
+        $quotation->update(['status' => Constants::LEAD_QUOTATION_CONVERTED]);
+
+        // QuotationRepo::make()->changeStatus($id,
+        //     Constants::LEAD_QUOTATION_CONVERTED);
 
         NotificationRepo::create()->notification(Constants::Q_DECLINED_C_TITLE,
             Constants::Q_DECLINED_C_TEXT,
@@ -312,7 +324,7 @@ class QuotationController extends Controller
             'quote_id' => $quotation->id,
             'service_type_id' => $quotation->service_type_id != null ? $quotation->service_type_id : null,
             'voyage_id' => $quotation->service_type_id != null ? 0 : $quotation->id,
-            'consignee_id' => $quotation->service_type_id != null ? 0 : $quotation->consignee->id,
+            // 'consignee_id' => $quotation->service_type_id != null ? 0 : $quotation->consignee->id,
             'Client_id' => $customer->DCLink,
             'laytime_start' => Carbon::now(),
             'time_allowed' => 0,

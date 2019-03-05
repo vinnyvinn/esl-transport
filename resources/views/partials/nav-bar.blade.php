@@ -12,7 +12,7 @@
                 <li> <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
                         <i class="mdi mdi-account"></i><span class="hide-menu">Users</span></a>
                     <ul aria-expanded="false" class="collapse">
-                        <li><a href="{{ url('/agency') }}">Users</a></li>
+                        <li><a href="{{ route('users.index') }}">Users</a></li>
                     <li><a href="{{ route('departments.index') }}">Departments</a></li>
                     <li><a href="{{ route('roles.index') }}">Roles</a></li>
                     </ul>
