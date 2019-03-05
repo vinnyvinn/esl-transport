@@ -12,6 +12,7 @@ class HodProcessingApproval extends Mailable
     use Queueable, SerializesModels;
 
     protected $user;
+    protected $owner;
     protected $url;
 
     /**
@@ -19,9 +20,10 @@ class HodProcessingApproval extends Mailable
      *
      * @return void
      */
-    public function __construct($user,$url)
+    public function __construct($user,$owner,$url)
     {
         $this->user = $user;
+        $this->owner = $owner;
         $this->url = $url;
     }
 
@@ -36,6 +38,7 @@ class HodProcessingApproval extends Mailable
         ->subject('Quotation Processing Approval')
         ->markdown('emails.quotations.hod_processing_approval',[
             'name' => $this->user->name,
+            'owner' => $this->owner->name,
             'url' => $this->url,
         ]);
     }

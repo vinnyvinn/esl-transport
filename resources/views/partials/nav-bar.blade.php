@@ -8,6 +8,16 @@
                 <li> <a class="has-arrow waves-effect waves-dark" href="{{ url('/quotations') }}" aria-expanded="false">
                         <i class="mdi mdi-gauge"></i><span class="hide-menu">Quotations</span></a>
                 </li>
+
+                <li> <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
+                        <i class="mdi mdi-account"></i><span class="hide-menu">Users</span></a>
+                    <ul aria-expanded="false" class="collapse">
+                        <li><a href="{{ url('/agency') }}">Users</a></li>
+                    <li><a href="{{ route('departments.index') }}">Departments</a></li>
+                        <li><a href="">Roles</a></li>
+                    </ul>
+                </li>
+                
                 <li> <a class="has-arrow waves-effect waves-dark" href="{{ url('/leads') }}" aria-expanded="false">
                         <i class="mdi mdi-gauge"></i><span class="hide-menu">Leads</span></a>
                 </li>
@@ -37,7 +47,7 @@
                         {{--<li><a href="">Transport</a></li>--}}
                         {{--<li><a href="">Logistics</a></li>--}}
                     </ul>
-                </li>
+                </li>             
             </ul>
         </nav>
     </div>

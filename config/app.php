@@ -165,6 +165,12 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         UxWeb\SweetAlert\SweetAlertServiceProvider::class,
 
+        
+        /*
+         * blade to pdf provider
+         */
+        Barryvdh\DomPDF\ServiceProvider::class,
+
         /*
          * Package Service Providers...
          */
@@ -227,6 +233,10 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Alert' => UxWeb\SweetAlert\SweetAlert::class,
+        /*
+         * blade to pdf alias
+         */
+        'PDF' => Barryvdh\DomPDF\Facade::class,
 
     ],
 

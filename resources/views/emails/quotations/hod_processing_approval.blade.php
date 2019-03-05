@@ -1,5 +1,5 @@
 @component('mail::message')
-Dear Sir/Madam
+Dear {{ ucwords($owner) }}
 
 Quotation Processing Approval,
 

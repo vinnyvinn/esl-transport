@@ -595,7 +595,7 @@
                                                                     </button>
                                                                 </form>
                                                             </div>
-                                                            <div>
+                                                        <div>
 
                                                                 <div class="modal fade editRemarkModal{{ $remark->id }}" tabindex="-1" role="dialog" aria-labelledby="remarkEditModal" aria-hidden="true"
                                                                     style="display: none;">

@@ -16,7 +16,8 @@ use App\Mail\HodProcessingApproval;
 use App\Quotation;
 use App\ServiceTax;
 use App\Tariff;
-use Barryvdh\DomPDF\Facade as PDF;
+// use Barryvdh\DomPDF\Facade as PDF;
+use PDF;
 use Carbon\Carbon;
 use Esl\helpers\Constants;
 use Esl\Repository\CustomersRepo;
@@ -31,11 +32,6 @@ class QuotationController extends Controller
 {
     public function showQuotation($id)
     {
-        $quote = Quotation::findOrFail($id);
-
-        // $quote->with(['lead','vessel','cargos','voyage','consignee']);
-        // $quote = Quotation::with(['lead','parties','cargos.goodType','consignee',
-        //     'vessel','voyage','services.tariff','remarks.user'])->findOrFail($id);
         $quote = Quotation::with(['lead', 'parties', 'cargos.goodType',
             'vessel', 'voyage', 'services.tariff', 'remarks.user'])->findOrFail($id);
 
@@ -142,14 +138,17 @@ class QuotationController extends Controller
     {
         $quotation = Quotation::with('lead')->findOrFail($id);
 
-        $quotation->update(['status' => Constants::LEAD_QUOTATION_WAITING]);
-
-        Mail::to($quotation->lead->email)
-        ->send(new EslClientQuotation(Auth::user(),$quotation->lead,URL::previous(),$request->subject, $request->message,$quotation->identifier));
+        // $quotation->update(['status' => Constants::LEAD_QUOTATION_WAITING]);
 
         //TODO:: generate pdf here
         // NotificationRepo::create()->success('PDA send to client successfully');
-        // return redirect()->back();
+
+        $quotationPdf = PDF::loadView('pdf.quotation-email');
+        return $quotationPdf->stream('result.pdf');
+        
+        Mail::to($quotation->lead->email)
+        ->send(new EslClientQuotation(Auth::user(),$quotation->lead,URL::previous(),$request->subject, $request->message,$quotation->identifier));
+        // ->attachData($quotationPdf,$quotation->lead->name.'pdf',['mime' => 'application/pdf']);
 
         NotificationRepo::create()->notification(Constants::Q_APPROVAL_TITLE, Constants::Q_APPROVAL_TEXT,
             '/quotation/preview/' . $id, 0, Constants::DEPARTMENT_AGENCY)
@@ -229,6 +228,22 @@ class QuotationController extends Controller
         return redirect()->back();
     }
 
+       public function  allowForProcessing($id){
+
+        $quotation = Quotation::with('user')->findOrFail($id);
+        $quotation->update(['status' => Constants::LEAD_QUOTATION_ALLOWED]);
+
+        NotificationRepo::create()->notification(Constants::Q_DECLINED_C_TITLE,
+            Constants::Q_DECLINED_C_TEXT,
+            '/quotation/preview/' . $id, 0, 'Agency', Auth::user()->id)
+            ->warning('Quotation processing request sent successfully');
+
+            Mail::to($quotation->user->email)
+        ->send(new HodProcessingApproval(Auth::user(), $quotation->user ,URL::previous()));
+
+        return redirect()->back();
+    }
+
     public function pdaStatus($status)
     {
         if ($status == Constants::LEAD_QUOTATION_PENDING) {
@@ -252,21 +267,7 @@ class QuotationController extends Controller
 
     }
 
-    public function  allowForProcessing($id){
-
-        $quotation = Quotation::with('user')->findOrFail($id);
-        $quotation->update(['status' => Constants::LEAD_QUOTATION_ALLOWED]);
-
-        NotificationRepo::create()->notification(Constants::Q_DECLINED_C_TITLE,
-            Constants::Q_DECLINED_C_TEXT,
-            '/quotation/preview/' . $id, 0, 'Agency', Auth::user()->id)
-            ->warning('Quotation processing approved');
-
-            Mail::to($quotation->user->email)
-        ->send(new HodProcessingApproval(Auth::user(), URL::previous()));
-
-        return redirect()->back();
-    }
+ 
 
     public function convertCustomer(Request $request, $id)
     {

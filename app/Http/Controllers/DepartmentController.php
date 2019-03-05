@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Department;
 use Illuminate\Http\Request;
+use Esl\Repository\NotificationRepo;
 
 class DepartmentController extends Controller
 {
@@ -37,7 +38,7 @@ class DepartmentController extends Controller
     public function store(Request $request)
     {
         Department::create($request->all());
-
+        NotificationRepo::create()->success('Department added successfully');
         return redirect('/departments');
     }
 
@@ -74,8 +75,8 @@ class DepartmentController extends Controller
     public function update(Request $request, Department $department)
     {
         $department->update($request->all());
+        NotificationRepo::create()->success('Department updated successfully');
         return redirect('/departments');
-
     }
 
     /**
@@ -87,6 +88,7 @@ class DepartmentController extends Controller
     public function destroy(Department $department)
     {
         $department->delete();
+        NotificationRepo::create()->success('Department deleted successfully');
         return redirect('/departments');
     }
 }
