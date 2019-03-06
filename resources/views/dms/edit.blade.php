@@ -324,6 +324,40 @@
                                                     Project Statement
                                                 </button>
                                                 </div>
+                                               
+                                             <div style="margin-top:40px;">
+                                                    <hr>
+                                                    <div class="card">
+                                                        <div class="card-body">
+                                                            <h4 class="card-title">
+                                                                <div class="d-flex justify-content-between">
+                                                                    <div>
+                                                                        <h4>Purchase Orders</h4>
+                                                                    </div>
+                                                                <a href="{{ route('generate-po',['id'=> $dms->quote->id])}}" class="btn btn-primary btn-sm">Generate Purchase Order</a>
+                                                                </div>
+                                                            </h4>
+                                                            <div style="margin-top:20px;">
+                                                                    <table class="table table-striped">
+                                                                            <thead>
+                                                                            <tr>
+                                                                                <th>#</th>
+                                                                                <th>Supplier</th>
+                                                                                <th>Created By</th>
+                                                                                <th>Status</th>
+                                                                                <th>PO Date</th>
+                                                                                <th>Acrion</th>
+                                                                            </tr>
+                                                                            </thead>
+                                                                            <tbody>
+        
+                                                                            </tbody>
+                                                                        </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>{{-- purchase order card end --}}
+                                            </div>{{-- purchase order wrapper div end --}}
+
 
                                                 {{-- Request fund modal start --}}
                                                 <div class="modal fade dms-fund-request" tabindex="-1" role="dialog" aria-labelledby="requestFundModalLabel" aria-hidden="true"

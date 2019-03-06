@@ -105,3 +105,6 @@ Route::post('/quotation/funds', 'FundsController@saveFund')->name('save-quotatio
 
 // service cost
 Route::post('/quotation/service-cost', 'ServiceCostController@saveServiceCost')->name('save-service-cost');
+
+//purchase order
+Route::get('/generate-po/{id}','PurchaseOrderController@index')->name('generate-po');
