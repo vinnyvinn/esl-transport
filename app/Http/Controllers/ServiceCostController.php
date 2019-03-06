@@ -23,6 +23,7 @@ class ServiceCostController extends Controller
                 'name' => $request->name,
             ]);
 
+            $serviceCost->serviceCostDoc()->save($serviceCostDoc);
         }
 
         NotificationRepo::create()->success('Service Cost added successfully');

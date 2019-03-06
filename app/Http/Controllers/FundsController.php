@@ -7,12 +7,16 @@ use Esl\Repository\NotificationRepo;
 use Esl\Repository\UploadFileRepo;
 use App\Funds;
 use App\FundDoc;
+use Illuminate\Support\Facades\Auth;
 
 class FundsController extends Controller
 {
     public function saveFund(Request $request){
 
-        $fund = new Funds($request->except(['name','supporting_docs']));
+        $data = $request->except(['name','supporting_docs']);
+        $data['employee_id'] = Auth::user()->id;
+
+        $fund = new Funds($data);
         $fund->save();
         if(!empty($request->supporting_docs)){
             $path_file = UploadFileRepo::init()->upload($request->supporting_docs, 'documents/uploads/');

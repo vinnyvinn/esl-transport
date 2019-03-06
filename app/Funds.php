@@ -15,4 +15,8 @@ class Funds extends Model
     public function fundDoc(){
         return $this->hasMany(FundDoc::class,'fund_id','id');
     }
+
+    public function user(){
+        return $this->belongsTo(User::class,'employee_id','id');
+    }
 }

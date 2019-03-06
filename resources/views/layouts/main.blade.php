@@ -18,6 +18,7 @@
     <link href="{{ asset('css/colors/blue.css') }}" id="theme" rel="stylesheet">
     <link href="{{ asset('assets/plugins/wizard/steps.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('css/dataTables.bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{asset('css/custom.css')}}">
     <style>
         .slect2{
             width: 100% !important;

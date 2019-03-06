@@ -1,0 +1,8 @@
+id,name,department_id,email,password,deleted_at,remember_token,created_at,updated_at
+1,Super Admin,1,superadmin@esl.com,$2y$10$nXu1yjajaSJ5UMXGNzRxuupTrXXoSKVAXnLO85oOnfMcEU3rNP5/y,,IzYrYgEIeDK1p7aDsSyoudzt8N0jWvSy071yNOHl1LfaFnOj8cAlv1aXXg0Q,2018-04-24 15:28:23.790000000,2018-04-24 15:28:23.790000000
+4,marvin collins,1,collins@demo.com,$2y$10$6xQixX3dLOJUXGhM/yWhuuQtntHq6p0pOKzzkXwCHDad60GzI.bxi,,OLulZ9GNWAkKaN2V0Cx99RBmv7abqUbmeeICjDsnKLJWy1dLFhOWrjkI8E7a,2018-04-26 12:24:49.807000000,2018-04-26 12:24:49.807000000
+8,Sudo User,1,sudo@esl.com,$2y$10$hrT0f0PYvP6ZvavTCLx5kuTc/3Fe8yxIeqayCkwucKUglp8764h9q,,FzyinM3bUoVhQK2DxeG1PPhVVYws9ZQEGnv5Du3yJUOarNavzDsrauYDUsN8,2018-04-30 07:27:55.823000000,2018-05-22 06:33:44.127000000
+11,Erick Osinya,1,erick.osinya@esl-eastafrica.com,$2y$10$3knwrStRh0SxcPk.4GnP4OFjUFCwnmmctrPVi4BrBWuqIth9a.ZgC,,9W0UazlsnMFEbVibawHpvaM2O8AVlDYfzh9MMUaoaCEw97KdZX5TDLuZiyAG,2018-04-30 07:46:32.503000000,2018-04-30 07:53:50.997000000
+24,John Lagat,1,john.lagat@esl-eastafrica.com,$2y$10$lH/2Wnb0jQTTSUD8mNCdk.Oy3Dna6kGOZHyRHXhbs0r40FqvRRxBm,,r5B2BYgQYWqBJh2LkG1ljYa2IQK7e4RgVomaQVjkKuHezQYRblbjKVvYKHBh,2018-10-12 09:57:48.963000000,2018-10-12 09:57:48.963000000
+29,Evans Ngala,1,evans.ngala@esl-eastafrica.com,$2y$10$bF48bZwxB069l5ULZXbOReBSLbErPWlndtpLALY3KTlg7Up7XXFV6,,PpIBrtkVCNJZU8QgYY3iUAtvgkZZZ2KUkrpgvak8njK3WmfwILiC5p1irbPt,2018-10-16 06:11:31.337000000,2018-10-16 06:11:31.337000000
+30,Maurine Opiyo,1,maurine.atieno@esl-eastafrica.com,$2y$10$OzXgFacvvV76D3eGqTKfwuwsJ03p.EG7mhwcHHej6eq5/d9pA43yi,,3ukUpmtC3NOKSV5XYDbKwBzqEsQXs9DrL6xnO4Ve5EXngR3JifjsfoZjukhc,2018-11-13 12:10:52.927000000,2018-11-13 12:10:52.927000000

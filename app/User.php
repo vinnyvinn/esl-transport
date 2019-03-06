@@ -38,4 +38,8 @@ class User extends Authenticatable
     public function remarks(){
         return $this->hasMany(Remarks::class,'user_id','id');
     }
+
+    public function funds(){
+        return $this->hasMany(Funds::class,'employee_id','id');
+    }
 }

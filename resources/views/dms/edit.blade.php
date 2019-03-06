@@ -340,10 +340,10 @@
 
                                                                 <input type="hidden" name="quotation_id" value="{{ $dms->quote->id }}">
 
-                                                                <div class="form-group">
+                                                                {{-- <div class="form-group">
                                                                         <label for="employee_id">Employee Number/ID</label>
                                                                         <input type="text" class="form-control" id="employee_id" name="employee_id" required placeholder="Employee Number/ID">
-                                                                </div>
+                                                                </div> --}}
 
                                                                 <div class="form-group">
                                                                         <label for="amount">Amount Requested</label>
@@ -477,32 +477,39 @@
                                                                         <thead>
                                                                         <tr>
                                                                             <th>Employee</th>
-                                                                            <th>Em No/Id</th>
                                                                             <th>Deadline</th>
                                                                             <th>Reason</th>
                                                                             <th>S/File</th>
-                                                                            <th>status</th>
                                                                             <th>Amount</th>
                                                                             <th>action</th>
                                                                         </tr>
                                                                         </thead>
                                                                         <tbody>
-                                                                        {{-- @foreach() --}}
+                                                                        @foreach($dms->quote->funds as $key => $fund)
                                                                             <tr>
-                                                                                <td></td>
-                                                                                <td></td>
-                                                                                <td></td>
-                                                                                <td></td>
-                                                                                <td></td>
-                                                                                <td></td>
-                                                                                <td></td>
+                                                                                <td>{{ $fund->user->name }}</td>
+                                                                                <td>{{ $fund->deadline }}</td>
+                                                                                <td>{{ $fund->reason }}</td>
+                                                                                <td>
+                                                                                    @if($fund->fundDoc->count() > 0)
+                                                                                        <a href="{{ url($fund->fundDoc->first()->doc_path)}}" 
+                                                                                            download="{{ $fund->fundDoc->first()->name }}">
+                                                                                            {{ $fund->fundDoc->first()->name }}
+                                                                                        </a>
+                                                                                    @endif
+                                                                                </td>
+                                                                                <td>{{ $fund->amount }}</td>
                                                                                 <td></td>
                                                                             </tr>
-                                                                        {{-- @endforeach --}}
+                                                                        @endforeach
                                                                         </tbody>
                                                                         <tfoot>
-                                                                            <td colspan="6">Total</td>
-                                                                            <td>00 </td>
+                                                                            <tr style="font-weight:bold;color:black;">
+                                                                            <td colspan="5">Total</td>
+                                                                            <td>
+                                                                                {{$dms->quote->funds->sum('amount')}}
+                                                                            </td>
+                                                                        </tr>
                                                                         </tfoot>
                                                                     </table>                                                           
 
@@ -519,7 +526,7 @@
                                         {{-- Project Statement modal start --}}
                                         <div class="modal fade dms-project-statement" tabindex="-1" role="dialog" aria-labelledby="projectStatementModalLabel" aria-hidden="true"
                                         style="display: none;">
-                                        <div class="modal-dialog modal-lg">
+                                        <div class="modal-dialog modal-lg" style="max-width: 1000px;">
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <h4 class="modal-title" id="projectStatementModalLabel">Project Statements</h4>
@@ -532,22 +539,39 @@
                                                                     <thead>
                                                                     <tr>
                                                                         <th>Service Name</th>
-                                                                        <th>Receipt</th>
+                                                                        <th>S/File</th>
                                                                         <th>Selling Price</th>
                                                                         <th>Cost</th>
                                                                         <th>Profit</th>
+                                                                        <th>Receipt</th>
                                                                     </tr>
                                                                     </thead>
                                                                     <tbody>
-                                                                    {{-- @foreach() --}}
+                                                                    @foreach($dms->quote->serviceCost as $cost)
                                                                         <tr>
+                                                                            <td>{{ $cost->service }}</td>
+                                                                            <td>
+                                                                                    @if($cost->serviceCostDoc->count() > 0)
+                                                                                <a href="{{ url($cost->serviceCostDoc->first()->doc_path) }}"       download="{{$cost->serviceCostDoc->first()->name}}">
+                                                                                    {{ $cost->serviceCostDoc->first()->name }}
+                                                                                </a>
+                                                                                    @endif
+                                                                                </td>
+                                                                            <td>{{ $cost->amount }}</td>
+                                                                            <td>0.00</td>
+                                                                            <td>{{ $cost->amount - 0 }}</td>
                                                                             <td></td>
-                                                                            <td></td>
-                                                                            <td></td>
-                                                                            <td></td>
-                                                                            <td></td>                                                                          
                                                                         </tr>
-                                                                    {{-- @endforeach --}}
+                                                                    @endforeach
+                                                                    <tfoot>
+                                                                    <tr style="font-weight:bold;color:black;">
+                                                                        <td>Total</td>
+                                                                        <td></td>
+                                                                        <td>{{ $dms->quote->serviceCost->sum('amount') }}</td>
+                                                                        <td>0.00</td>
+                                                                        <td>{{ $dms->quote->serviceCost->sum('amount') - 0 }}</td>
+                                                                    </tr>
+                                                                    </tfoot>
                                                                     </tbody>
                                                                 </table>                                                        
 
@@ -704,8 +728,8 @@
                                             </table>
                                         </div>
                                     </div>
-                                    <div class="pt-3">
-                                    <a href="{{ url('/dms/complete/'.$dms->id) }}" class="btn pull-right btn-warning text-white mytooltip">
+                                    <div class="pt-3 text-right">
+                                    <a href="{{ url('/dms/complete/'.$dms->id) }}" class="btn btn-warning text-white mytooltip">
                                         Complete Project <span class="tooltip-content3">
                                                 Are you sure??.</span></a>
                                     </div>
