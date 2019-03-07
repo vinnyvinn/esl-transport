@@ -923,8 +923,10 @@
 @endsection
 @section('scripts')
     <script>
+
+        var setBudgetTab = false;
        
-        if({{ $budget == true}}){
+        if({{ $budget != null }}){
             // open budget tab
             $('.nav-tabs a[href="#budget"]').tab('show');
         }

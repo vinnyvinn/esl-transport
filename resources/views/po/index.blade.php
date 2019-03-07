@@ -239,7 +239,7 @@ $(function () {
         // add po items
         poData['purchase_order_items'] = items;
 
-        axios.post('{{ route('save-po',['id'=>$quotation]) }}', poData)
+        axios.post('{{ route('save-po',['id'=>$dms]) }}', poData)
         .then(function(response){
             window.location.replace('{{ route('edit-bill-of-landing',['id'=>$dms,'budget'=>'true' ]) }}');
         })

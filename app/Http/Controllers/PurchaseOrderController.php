@@ -20,20 +20,20 @@ class PurchaseOrderController extends Controller
 
         $billOfLanding = BillOfLanding::with('quote')->findOrFail($id);
 
-        $quotation = $billOfLanding->quote->id;
         $taxes = ServiceTax::all();
         $suppliers = Supplier::all();
         $services = ExtraService::all();
-        return view('po.index',['suppliers'=>$suppliers, 'taxes'=>$taxes, 'services' => $services, 'quotation'=>$quotation, 'dms'=>$billOfLanding->id ]);
+        return view('po.index',['suppliers'=>$suppliers, 'taxes'=>$taxes, 'services' => $services,'dms'=>$billOfLanding->id ]);
     }
 
     public function savePo(Request $request, $id)
     {
-        $quotation = Quotation::findOrFail($id);
+        $billOfLanding = BillOfLanding::with('quote','project')->findOrFail($id);
         $poData = $request->only(['po_date','po_no','supplier_id']);
         $supplier = Supplier::where('DCLink',$poData['supplier_id'])->first();
 
-        $poData['quotation_id'] = $id;
+        $poData['quotation_id'] = $billOfLanding->quote->id;
+        $poData['project_id'] = $billOfLanding->project->ProjectLink;
         $poData['user_id'] = Auth::user()->id;
         $poData['status'] = Constants::LEAD_QUOTATION_PENDING;
         $poData['input_currency'] = $supplier -> iCurrencyID > 0 ? 'USD' : 'KSH';
@@ -54,7 +54,7 @@ class PurchaseOrderController extends Controller
         // NotificationRepo::create()->success('Purchase order generated successfully');
         // return redirect()->back();
 
-        return response()->json(['created' => true, 'id' => $purchaseOrder->id ]);
+        return response()->json(['created' => true, 'bill'=> $billOfLanding->project]);
         
     }
 }

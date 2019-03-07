@@ -41,4 +41,8 @@ class BillOfLanding extends ESLModel
     {
         return $this->hasMany(Sof::class,'bill_of_landing_id','id');
     }
+
+    public function project(){
+        return $this->belongsTo(Project::class,'project_id','ProjectLink');
+    }
 }

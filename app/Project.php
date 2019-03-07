@@ -13,4 +13,8 @@ class Project extends Model
     public $timestamps = false;
 
     protected $fillable = ['ProjectName','ProjectCode','ActiveProject','MasterSubProject','Description','ProjectLevel','SubProjectOfLink','Project_iBranchId'];
+
+    public function billOfLanding(){
+        return $this->hasOne(BillOfLanding::class,'project_id','id');
+    }
 }

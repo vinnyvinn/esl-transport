@@ -6,6 +6,7 @@ use App\BillOfLanding;
 use App\DmsComponent;
 use App\Sof;
 use App\Stage;
+use App\Project;
 use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade as PDF;
 use DateTime;
@@ -24,8 +25,11 @@ class DmsController extends Controller
 
     public function edit($id, $budget=null)
     {
+        
         if($budget){
-            $budget = true;
+            $budgetSet = true;
+        }else{
+            $budgetSet = false;
         }
 
         $dms = BillOfLanding::with(['vessel.vDocs','sof','quote.services',
@@ -81,7 +85,7 @@ class DmsController extends Controller
             ->withChecklist($checklist->groupBy('title'))
             ->withUpdate($update)
             ->withStages(Stage::with(['components'])->where('service',0)->get())
-            ->withBudget($budget);
+            ->withBudget($budgetSet);
     }
 
     public function store(Request $request)
@@ -200,13 +204,21 @@ class DmsController extends Controller
     public function updateDms(Request $request)
     {
         $data = $request->all();
+
+        $billOfL = BillOfLanding::with('vessel')->findOrFail($request->dms_id);
+        $project = Project::create([
+            'ProjectCode' => "MV ". $billOfL->vessel->name ." ".$billOfL->vessel->imo_number,
+            'ProjectName' => "MV ". $billOfL->vessel->name ." ".$billOfL->vessel->imo_number,
+            'ProjectDescription' => "MV ". $billOfL->vessel->name ." ".$billOfL->vessel->imo_number,
+            'MasterSubProject' => "MV ". $billOfL->vessel->name ." ".$billOfL->vessel->imo_number,
+        ]);
+
         $data['time_allowed'] = ($request->days * 24 * 60 * 60) + ($request->hours * 60 * 60);
         $data['laytime_start'] = Carbon::parse($request->laytime_start);
         $data['date_of_loading'] = Carbon::parse($request->date_of_loading);
-        BillOfLanding::findOrFail($request->dms_id)->update($data);
-
+        $data['project_id'] = $project->ProjectLink;
+        $billOfL->update($data);
         NotificationRepo::create()->message('FDA updated successfully','FDA Update');
-
         return redirect()->back();
     }
 
@@ -247,8 +259,7 @@ class DmsController extends Controller
                 'ltime' =>$dms->laytime_start,
             ]
 
-        ];
-
+        ];        
 
         $pdf = PDF::loadView('pdf.laytime',compact('data'));
         return $pdf->download('laytime.pdf');

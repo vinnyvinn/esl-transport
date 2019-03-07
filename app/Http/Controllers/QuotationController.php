@@ -16,7 +16,6 @@ use App\Mail\HodProcessingApproval;
 use App\Quotation;
 use App\ServiceTax;
 use App\Tariff;
-use App\Project;
 // use Barryvdh\DomPDF\Facade as PDF;
 use PDF;
 use Carbon\Carbon;
@@ -268,8 +267,6 @@ class QuotationController extends Controller
 
     }
 
- 
-
     public function convertCustomer(Request $request, $id)
     {
         $quotation = Quotation::with(['user', 'cargos', 'lead', 'parties', 'cargos.goodType',
@@ -332,11 +329,7 @@ class QuotationController extends Controller
             'status' => 0,
             'sof_status' => 0,
             'bl_number' => 'B/L-NO' . $customer->DCLink,
-        ]);
-
-        // $project = Project::create([
-
-        // ]);
+        ]);     
 
         return redirect('/dms/edit/' . $bl->id);
     }
