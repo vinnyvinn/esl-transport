@@ -145,9 +145,9 @@
                                         <tfoot>
                                             <tr><td colspan="7"></td></tr>
                                             <tr>
-                                                <td colspan="5"></td>
+                                                <td colspan="4"></td>
                                                 <td class="text-right font-weight-bold">Total:</td>
-                                                <td class="text-right font-weight-bold">0</td>
+                                                <td class="text-center font-weight-bold"><span id="totalId"></span></td>
                                             </tr>
                                         </tfoot>
                                 </table>
@@ -176,14 +176,18 @@ $(function () {
     'use strict';
 
     var items = [];
-    var count = 1;
+    var count = 0;
+    
+    $('#totalId').html(0);
 
     // remove service item
-    // use on becuase items are added after page has loaded
+    // use on because items are added after page has loaded
     $('#itemTableBody').on('click','.remove-item', function(){
         var rowId = $(this).attr('id');
-        items.splice((rowId + 1), 1);
+        var newTotal = parseInt($('td span#totalId').text()) - parseInt($('td#tdTotalId'+rowId).text());
+        $('#totalId').html(newTotal);
         $(this).closest('tr').remove();
+        items.splice(rowId, 1);
         return false;
     });
 
@@ -205,12 +209,14 @@ $(function () {
                         + data['description'] + "</td><td>"
                         + data['quantity'] + "</td><td>" 
                         + data['rate'] + "</td><td>" 
-                        + data['tax'] + "</td><td>" 
+                        + data['tax'] + "</td><td id=\"tdTotalId" + count + "\" >" 
                         + (parseInt(data['quantity']) * parseInt(data['rate'])) + "</td><td>"
                         + "<a  id=\""+ count + "\" class=\"btn btn-xs btn-danger remove-item\"><i class=\"fa fa-trash\"></i></a>" + 
                         "</td></tr>"
                         ); 
-        count ++; 
+        count ++;
+        var gtotal = parseInt($('td span#totalId').text()) + (parseInt(data['quantity']) * parseInt(data['rate']));
+        $('#totalId').html(gtotal);
         items.push(data);          
     });
 
@@ -235,9 +241,7 @@ $(function () {
 
         axios.post('{{ route('save-po',['id'=>$quotation]) }}', poData)
         .then(function(response){
-            console.log(response.data);
-            // console.log(items);
-            $('#savePo').html('Save Purchase Order').attr('disabled', false);
+            window.location.replace('{{ route('edit-bill-of-landing',['id'=>$dms,'budget'=>'true' ]) }}');
         })
         .catch(function(errors){
             console.log(errors.response);

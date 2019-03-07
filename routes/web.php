@@ -77,7 +77,7 @@ Route::get('/test/', 'BillOfLandingController@test');
 //dms
 Route::get('/dms', 'DmsController@index');
 Route::get('/dms', 'DmsController@index');
-Route::get('/dms/edit/{id}', 'DmsController@edit');
+Route::get('/dms/edit/{id}/{budget?}', 'DmsController@edit')->name('edit-bill-of-landing');
 Route::get('/dms/complete/{id}', 'DmsController@complete');
 Route::get('/generate/laytime/{id}', 'DmsController@generateLayTime');
 Route::post('/dms/store/', 'DmsController@store');

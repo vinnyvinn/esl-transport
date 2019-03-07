@@ -11,17 +11,20 @@ use App\ServiceTax;
 use App\ExtraService;
 use App\PurchaseOrder;
 use App\PurchaseOrderItems;
+use App\BillOfLanding;
 use Illuminate\Support\Facades\Auth;
 
 class PurchaseOrderController extends Controller
 {
     public function index($id){
 
-        $quotation = Quotation::findOrFail($id);
+        $billOfLanding = BillOfLanding::with('quote')->findOrFail($id);
+
+        $quotation = $billOfLanding->quote->id;
         $taxes = ServiceTax::all();
         $suppliers = Supplier::all();
         $services = ExtraService::all();
-        return view('po.index',['suppliers'=>$suppliers, 'taxes'=>$taxes, 'services' => $services, 'quotation'=>$id, ]);
+        return view('po.index',['suppliers'=>$suppliers, 'taxes'=>$taxes, 'services' => $services, 'quotation'=>$quotation, 'dms'=>$billOfLanding->id ]);
     }
 
     public function savePo(Request $request, $id)

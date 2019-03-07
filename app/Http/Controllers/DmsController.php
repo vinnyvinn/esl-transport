@@ -22,8 +22,12 @@ class DmsController extends Controller
             ->withDms($bl);
     }
 
-    public function edit($id)
+    public function edit($id, $budget=null)
     {
+        if($budget){
+            $budget = true;
+        }
+
         $dms = BillOfLanding::with(['vessel.vDocs','sof','quote.services',
             'quote.voyage','customer','quote.cargos','quote.logs', 'quote.funds', 'quote.serviceCost', 'quote.purchaseOrder'])->findOrFail($id);
 
@@ -76,7 +80,8 @@ class DmsController extends Controller
             ->withStageids($stageids)
             ->withChecklist($checklist->groupBy('title'))
             ->withUpdate($update)
-            ->withStages(Stage::with(['components'])->where('service',0)->get());
+            ->withStages(Stage::with(['components'])->where('service',0)->get())
+            ->withBudget($budget);
     }
 
     public function store(Request $request)

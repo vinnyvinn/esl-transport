@@ -334,7 +334,7 @@
                                                                     <div>
                                                                         <h4>Purchase Orders</h4>
                                                                     </div>
-                                                                <a href="{{ route('generate-po',['id'=> $dms->quote->id])}}" class="btn btn-primary btn-sm">Generate Purchase Order</a>
+                                                                <a href="{{ route('generate-po',['id' => $dms->id ])}}" class="btn btn-primary btn-sm">Generate Purchase Order</a>
                                                                 </div>
                                                             </h4>
                                                             <div style="margin-top:20px;">
@@ -923,6 +923,11 @@
 @endsection
 @section('scripts')
     <script>
+       
+        if({{ $budget == true}}){
+            // open budget tab
+            $('.nav-tabs a[href="#budget"]').tab('show');
+        }
 
         function alertTransport() {
             alert('Email with required documents sent to Transport');

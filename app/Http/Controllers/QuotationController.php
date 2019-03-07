@@ -16,6 +16,7 @@ use App\Mail\HodProcessingApproval;
 use App\Quotation;
 use App\ServiceTax;
 use App\Tariff;
+use App\Project;
 // use Barryvdh\DomPDF\Facade as PDF;
 use PDF;
 use Carbon\Carbon;
@@ -308,9 +309,6 @@ class QuotationController extends Controller
 
         $quotation->update(['status' => Constants::LEAD_QUOTATION_CONVERTED]);
 
-        // QuotationRepo::make()->changeStatus($id,
-        //     Constants::LEAD_QUOTATION_CONVERTED);
-
         NotificationRepo::create()->notification(Constants::Q_DECLINED_C_TITLE,
             Constants::Q_DECLINED_C_TEXT,
             '/quotation/preview/' . $id, 0, 'Agency', Auth::user()->id)
@@ -335,6 +333,10 @@ class QuotationController extends Controller
             'sof_status' => 0,
             'bl_number' => 'B/L-NO' . $customer->DCLink,
         ]);
+
+        // $project = Project::create([
+
+        // ]);
 
         return redirect('/dms/edit/' . $bl->id);
     }
