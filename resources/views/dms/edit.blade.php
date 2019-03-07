@@ -346,10 +346,39 @@
                                                                                 <th>Created By</th>
                                                                                 <th>Status</th>
                                                                                 <th>PO Date</th>
-                                                                                <th>Acrion</th>
+                                                                                <th>Remove</th>
                                                                             </tr>
                                                                             </thead>
                                                                             <tbody>
+
+                                                                                @foreach($dms->quote->purchaseOrder as $order)
+                                                                                <tr>
+                                                                                <td>{{ $loop->iteration }}</td>
+                                                                                    <td>{{ $order->supplier->Name }}</td>
+                                                                                    <td>{{ $order->user->name }}</td>
+                                                                                    <td>{{ $order->status }}</td>
+                                                                                    <td>{{ \Carbon\Carbon::parse($order->po_date)->format('d-m-Y') }}</td>
+                                                                                    <td>
+                                                                                            <div style="display:flex; flex-flow:row;">
+                                                                                                    <div>
+                                                                                                        <button data-toggle="modal" class="btn btn-xs btn-primary">
+                                                                                                                <i class="fa fa-pencil"></i>
+                                                                                                                </button>
+                                                                                                    </div>
+                                                                                                    <div style="width:10px;"></div>
+                                                                                                    <div>
+                                                                                                        <form method="POST" action="">
+                                                                                                            {{ csrf_field() }}
+                                                                                                            <button type="submit" class="btn btn-xs btn-danger">
+                                                                                                            <i class="fa fa-trash"></i>
+                                                                                                            </button>
+                                                                                                        </form>
+                                                                                                    </div>
+                                                                                            <div>
+
+                                                                                    </td>
+                                                                                </tr>
+                                                                                @endforeach
         
                                                                             </tbody>
                                                                         </table>

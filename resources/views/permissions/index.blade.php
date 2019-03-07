@@ -19,50 +19,37 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">User Roles
-                                <span class="pull-right"><button data-toggle="modal" data-target=".add-role-modal" class="btn btn-primary">
-                                                                        Add Role
+                        <h4 class="card-title">Permissions
+                                <span class="pull-right"><button data-toggle="modal" data-target=".add-permission-modal" class="btn btn-primary">
+                                                                        Add Permission
                                                                     </button></span>
                              
 
-                        {{-- add role modal start --}}
-                        <div class="modal fade add-role-modal" tabindex="-1" role="dialog" aria-labelledby="addRoleModalLabel" aria-hidden="true"
+                        {{-- add permission modal start --}}
+                        <div class="modal fade add-permission-modal" tabindex="-1" role="dialog" aria-labelledby="addPermissionModalLabel" aria-hidden="true"
                             style="display: none;">
                             <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h4 class="modal-title" id="addRoleModalLabel">Add Role</h4>
+                                        <h4 class="modal-title" id="addPermissionModalLabel">Add Permission</h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                     </div>
                                     <div class="modal-body">
-                                        <form method="POST" action="{{ route('roles.store') }}">
+                                        <form class="form-material" method="POST" action="{{ route('permissions.store') }}">
                                             {{ csrf_field() }}
                                             <div class="row">
                                                 <div class="col-sm-12">
                                                     <div class="form-group">
-                                                        <label for="name">Name</label>
+                                                        <label for="name">Permission Name</label>
                                                         <input type="text" required id="name" name="name" class="form-control" placeholder="Name">
                                                     </div>
                                                 </div>
-
-                                                <div class="col-sm-12">
-                                                        <div class="form-group">
-                                                            <label for="name">Add Role Permissions</label><br/>
-                                                            @foreach($permissions as $key => $permission)
-                                                            <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="checkbox" id="{{ $permission->name }}" value="{{ $permission->id }}" name="{{ "permission_".$key }}">
-                                                                <label class="form-check-label" for="{{ $permission->name }}">{{ $permission->name }}</label>
-                                                            </div>
-
-                                                            @endforeach
-                                                        </div>
-                                                    </div>
                                                 
                                             </div>
                         
                                             <div style="text-align:right">
                                                 <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
-                                                <input class="btn  btn-primary" type="submit" value="Add Role">
+                                                <input class="btn  btn-primary" type="submit" value="Add Permission">
                                             </div>
                                         </form>
                                     </div>
@@ -70,7 +57,7 @@
                             </div>
                         </div>
 
-                                            {{-- add role modal end --}}
+                                            {{-- add permission modal end --}}
 
                     </div>
                     <div class="card-body">
@@ -84,19 +71,19 @@
                                 </tr>
                                 </thead>
                                 <tbody id="customers">
-                                @foreach($roles as $role)
+                                @foreach($permissions as $permission)
                                     <tr>
-                                        <td class="text-center">{{ ucwords($role->name) }}</td>
-                                        <td class="text-center">{{ \Carbon\Carbon::parse($role->created_at)->format('d-M-y') }}</td>
+                                        <td class="text-center">{{ ucwords($permission->name) }}</td>
+                                        <td class="text-center">{{ \Carbon\Carbon::parse($permission->created_at)->format('d-M-y') }}</td>
                                         <td class="text-center">
 
 
                                                 <div style="display:flex; flex-flow:row;justify-content:center">
-                                                        <button data-toggle="modal" data-target=".role-edit-modal{{ $role->id }}" class="btn btn-sm btn-warning">
+                                                        <button data-toggle="modal" data-target=".permission-edit-modal{{ $permission->id }}" class="btn btn-sm btn-warning">
                                                                 <i class="fa fa-pencil"></i>
                                                             </button>
                                                             <span style="width:10px;background:transparent"></span>
-                                                            <form action="{{ route('roles.destroy', $role->id) }}" method="post">
+                                                            <form action="{{ route('permissions.destroy', $permission->id) }}" method="post">
                                                                     {{ csrf_field() }}
                                                                     {{ method_field('DELETE') }}
                                                                     <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
@@ -106,52 +93,38 @@
                                                 {{-- flex div end --}}
                                         </td>
 
-                                        {{-- role edit modal start --}}
-                                    <div class="modal fade role-edit-modal{{ $role->id }}" tabindex="-1" role="dialog" aria-labelledby="roleEditModalLabel" aria-hidden="true"
+                                        {{-- permission edit modal start --}}
+                                    <div class="modal fade permission-edit-modal{{ $permission->id }}" tabindex="-1" role="dialog" aria-labelledby="permissionEditModalLabel" aria-hidden="true"
                                         style="display: none;">
                                         <div class="modal-dialog modal-lg">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h4 class="modal-title" id="roleEditModalLabel">Edit Role</h4>
+                                                    <h4 class="modal-title" id="permissionEditModalLabel">Edit Permission</h4>
                                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                                 </div>
                                                 <div class="modal-body">
-                                                <form method="POST" action="{{ route('roles.update',$role->id) }}">
+                                                <form class="form-material" method="POST" action="{{ route('permissions.update',$permission->id) }}">
                                                         {{ csrf_field() }}
                                                         {{ method_field('PUT') }}
                                                         <div class="row">
                                                                 <div class="col-sm-12">
                                                                     <div class="form-group">
                                                                         <label for="name">Name</label>
-                                                                        <input type="text" required id="name" name="name" class="form-control" placeholder="Name" value="{{ $role->name}}">
+                                                                        <input type="text" required id="name" name="name" class="form-control" placeholder="Name" value="{{ $permission->name}}">
                                                                     </div>
                                                                 </div>
-
-                                                                <div class="col-sm-12">
-                                                                        <div class="form-group">
-                                                                            <label for="name">Role Permissions</label><br/>
-                                                                            @foreach($permissions as $key => $permission)
-                                                                            <div class="form-check form-check-inline">
-                                                                            <input class="form-check-input" type="checkbox" id="{{ $permission->name }}" value="{{ $permission->id }}" name="{{ "permission_".$key }}" 
-                                                                            >
-                                                                                <label class="form-check-label" for="{{ $permission->name }}">{{ $permission->name }}</label>
-                                                                            </div>
-                
-                                                                            @endforeach
-                                                                        </div>
-                                                                    </div>
                                                             </div>                                                        
 
                                                         <div style="text-align:right">
                                                             <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
-                                                            <input class="btn  btn-primary" type="submit" value="Update role">
+                                                            <input class="btn  btn-primary" type="submit" value="Update permission">
                                                         </div>
                                                     </form>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    {{-- role edit modal end --}}
+                                    {{-- permission edit modal end --}}
                                     </tr>
                                 @endforeach
                                 </tbody>

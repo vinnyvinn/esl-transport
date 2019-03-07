@@ -25,9 +25,9 @@ class DmsController extends Controller
     public function edit($id)
     {
         $dms = BillOfLanding::with(['vessel.vDocs','sof','quote.services',
-            'quote.voyage','customer','quote.cargos','quote.logs', 'quote.funds', 'quote.serviceCost'])->findOrFail($id);
+            'quote.voyage','customer','quote.cargos','quote.logs', 'quote.funds', 'quote.serviceCost', 'quote.purchaseOrder'])->findOrFail($id);
 
-            // dd($dms->quote->id);
+            // dd($dms->quote->purchaseOrder);
             
         $dmsComponents = DmsComponent::with(['scomponent.stage'])->where('bill_of_landing_id',$id)->get();
         $checklist = $dmsComponents->map(function ($value) {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 use Esl\Repository\NotificationRepo;
 
 class RolesController extends Controller
@@ -16,7 +17,8 @@ class RolesController extends Controller
     public function index()
     {
         $roles = Role::all();
-        return view('roles.index', compact('roles'));
+        $permissions = Permission::all();
+        return view('roles.index', ['roles'=> $roles, 'permissions' => $permissions ]);
     }
 
     /**
@@ -37,7 +39,11 @@ class RolesController extends Controller
      */
     public function store(Request $request)
     {
-        Role::create($request->all());
+        $role = Role::create($request->only(['name']));
+        $permissions = $request->except(['name','_token']);
+        // save permission
+        $role->syncPermissions($permissions);
+
         NotificationRepo::create()->success('Role added successfully');
         return redirect()->back();
     }

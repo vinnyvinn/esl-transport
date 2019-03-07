@@ -60,4 +60,8 @@ class Quotation extends ESLModel
     public function serviceCost(){
         return $this->hasMany(ServiceCost::class,'quotation_id','id');
     }
+
+    public function purchaseOrder(){
+        return $this->hasMany(PurchaseOrder::class,'quotation_id','id');
+    }
 }

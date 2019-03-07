@@ -97,7 +97,10 @@ Route::get('/generate-documents/{type}/{id}', 'GenerateDocument@generateDocument
 //roles
 Route::resource('/roles','RolesController');
 
-//roles
+//permissions
+Route::resource('/permissions','PermissionsController');
+
+//users
 Route::resource('/users', 'UserController');
 
 // quotation funds
@@ -108,3 +111,4 @@ Route::post('/quotation/service-cost', 'ServiceCostController@saveServiceCost')-
 
 //purchase order
 Route::get('/generate-po/{id}','PurchaseOrderController@index')->name('generate-po');
+Route::post('/save-po/{id}','PurchaseOrderController@savePo')->name('save-po');

@@ -42,4 +42,8 @@ class User extends Authenticatable
     public function funds(){
         return $this->hasMany(Funds::class,'employee_id','id');
     }
+
+    public function purchaseOrder(){
+        return $this->hasMany(PurchaseOrder::class,'user_id','id');
+    }
 }

@@ -13,4 +13,5 @@ class ServiceTax extends ESLModel
     public $timestamps = false;
 
     protected $fillable = ['idTaxRate','Code','TaxRate','Description'];
+
 }

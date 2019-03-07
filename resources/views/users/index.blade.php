@@ -35,7 +35,7 @@
                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                     </div>
                                     <div class="modal-body">
-                                        <form class="form-material" method="POST" action="{{ route('users.store') }}">
+                                        <form method="POST" action="{{ route('users.store') }}">
                                             {{ csrf_field() }}
                                             @include('includes.user_form')
                                             <div style="text-align:right">
@@ -99,7 +99,7 @@
                                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                                 </div>
                                                 <div class="modal-body">
-                                                <form class="form-material" method="POST" action="{{ route('users.update',$user->id) }}">
+                                                <form method="POST" action="{{ route('users.update',$user->id) }}">
                                                         {{ csrf_field() }}
                                                         {{ method_field('PUT') }}                                                                                                              
 

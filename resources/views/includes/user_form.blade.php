@@ -31,7 +31,7 @@
             <label for="description">Department</label>
             <select name="department_id" id="department_id" style="width:100%" class="select2 form-control">
                     <option value="">Select Department</option>
-                    @foreach(\App\Department::all() as $value)
+                    @foreach(App\Department::all() as $value)
                         <option value="{{$value->id}}"
                             {{ $value->id == !empty($user->department_id) ? 'selected = "selected"':''}}
                             >{{$value->name}}</option>
@@ -56,5 +56,18 @@
                     </div>
                 </div>
             </div>
+        </div>
+        
+        <div class="col-sm-12">
+                <div class="form-group">
+                <label for="role_id">Role</label>
+                <select name="role_id" id="role_id" class="select2 form-control" style="width:100%;" required>
+                        <option value="">Select Role</option>
+                        @foreach( Spatie\Permission\Models\Role::all() as $role)
+                            <option value="{{ $role->id }}"
+                            >{{ $role->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
         </div>
 </div>

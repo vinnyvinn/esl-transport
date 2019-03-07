@@ -13,4 +13,5 @@ class ExtraService extends ESLModel
     {
         return $this->hasOne(ExtraServiceType::class,'id','extra_service_type_id');
     }
+
 }

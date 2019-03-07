@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\User;
-use Spatie\Permission\Models\Role;
+use Esl\Repository\NotificationRepo;
+use Spatie\Permission\Models\Permission;
 
-class UserController extends Controller
+
+class PermissionsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +16,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
-        return view('users.index', ['users'=> $users ]);
+        $permission = Permission::all();
+        return view('permissions.index', ['permissions' => $permission] );
     }
 
     /**
@@ -36,8 +37,10 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
+    {        
+        Permission::create($request->all());
+        NotificationRepo::create()->success('Permission added successfully');
+        return redirect()->back();
     }
 
     /**
@@ -71,7 +74,10 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $permission = Permission::findOrFail($id);
+        $permission->update($request->all());
+        NotificationRepo::create()->success('Permission updated successfully');
+        return redirect()->back();
     }
 
     /**
@@ -82,9 +88,9 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $user = User::findOrFail($id);
-        $user->delete();
-        NotificationRepo::create()->success('User deleted successfully');
+        $permission = Permission::findOrFail($id);
+        $permission->delete();
+        NotificationRepo::create()->success('Permission deleted successfully');
         return redirect()->back();
     }
 }
