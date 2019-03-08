@@ -115,4 +115,4 @@ Route::get('/view-po/{id}','PurchaseOrderController@viewPo')->name('view-po');
 Route::get('/approve-po/{id}','PurchaseOrderController@approvePo')->name('approve-po');
 Route::get('/dissaprove-po/{id}','PurchaseOrderController@dissaprovePo')->name('dissaprove-po');
 Route::post('/save-po/{id}','PurchaseOrderController@savePo')->name('save-po');
-Route::post('/print-po/{id}','PurchaseOrderController@printPo')->name('print-po');
+Route::get('/download-po/{id}','PurchaseOrderController@downloadPo')->name('download-po');

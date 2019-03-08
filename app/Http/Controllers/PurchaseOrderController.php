@@ -12,6 +12,8 @@ use App\ExtraService;
 use App\PurchaseOrder;
 use App\PurchaseOrderItems;
 use App\BillOfLanding;
+use PDF;
+use Carbon\Carbon;
 use App\Mail\PurchaseOrderApproved;
 use App\Mail\PurchaseOrderDisapproved;
 use Illuminate\Support\Facades\Auth;
@@ -89,5 +91,12 @@ class PurchaseOrderController extends Controller
 
         NotificationRepo::create()->success('Purchase order dissaproved successfully');
         return redirect()->back();
+    }
+
+    public function downloadPo($id){
+        $po = PurchaseOrder::with('user','purchaseOrderItems','supplier')->findOrFail($id);
+        $pdf = PDF::loadView('pdf.po.po-pdf',compact('po'));
+        return $pdf->download($po->supplier->Name.'-'. Carbon::parse($po->created_at)->format('d-m-y').'.pdf');
+        // return $pdf->download('downloads.pdf');
     }
 }

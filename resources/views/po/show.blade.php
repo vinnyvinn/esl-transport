@@ -10,6 +10,7 @@
                     <h4 class="text-center">Purchase Order</h4>
                     <hr/>
 
+                    <div class="po-printable-area">
                     <div class="row">
                             <div class="col-sm-8">
                                 <div style="margin-bottom:20px"><img src="{{ asset('images/logo.png') }}" alt=""></div>
@@ -43,8 +44,6 @@
                             </div>
                             </div>
                     </div>{{-- header row end --}}
-
-                    <hr/>
 
                     <div>
 
@@ -98,6 +97,7 @@
                         </div>
 
                     </div>{{-- user and totals div end --}}
+                    </div>{{-- printable area end --}}
 
             </div>
         </div>
@@ -117,9 +117,12 @@
                                     <i class="fa fa-print"> Cannot Print. Waiting Approval</i>
                                  </div>
                             @else
-                            <a href="{{ route('print-po',['id' => $po->id])}}" class="btn btn-primary">
-                                    <i class="fa fa-print">&nbsp Print Purchase Order</i>
+                            <a href="{{ route('download-po',['id' => $po->id])}}" class="btn btn-primary">
+                                    <i class="fa fa-download">&nbsp Download Purchase Order</i>
                                     </a>
+                            <button class="btn btn-primary" id="po_print_button">
+                                    <i class="fa fa-print">&nbsp Print Purchase Order</i>
+                                    </button>
                             @endif
                             
                         </div>
@@ -131,4 +134,14 @@
 
 @endsection
 @section('scripts')
+<script src="{{ asset('js/jquery.PrintArea.js')}}"></script>
+<script>
+$(function(){
+    'use strict';
+
+    $('#po_print_button').click( function(){
+        $('.po-printable-area').printArea({mode:"popup",popClose : true,popHt: 800,popWd: 800 ,popX: 0,popY: 0,popTitle:"Print Purchase order"})
+    })
+})
+</script>
 @endsection

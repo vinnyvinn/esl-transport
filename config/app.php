@@ -169,11 +169,13 @@ return [
         /*
          * blade to pdf provider
          */
+        // Barryvdh\DomPDF\ServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
 
         /*
          * Package Service Providers...
          */
+        
 
         /*
          * Application Service Providers...
@@ -237,6 +239,7 @@ return [
          * blade to pdf alias
          */
         'PDF' => Barryvdh\DomPDF\Facade::class,
+        
 
     ],
 
