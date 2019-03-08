@@ -216,7 +216,7 @@ class DmsController extends Controller
         $data['time_allowed'] = ($request->days * 24 * 60 * 60) + ($request->hours * 60 * 60);
         $data['laytime_start'] = Carbon::parse($request->laytime_start);
         $data['date_of_loading'] = Carbon::parse($request->date_of_loading);
-        $data['project_id'] = $project->ProjectLink;
+        $data['project_id'] = $project->DCLink;
         $billOfL->update($data);
         NotificationRepo::create()->message('FDA updated successfully','FDA Update');
         return redirect()->back();

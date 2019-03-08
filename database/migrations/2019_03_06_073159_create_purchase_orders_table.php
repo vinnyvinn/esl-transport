@@ -25,7 +25,7 @@ class CreatePurchaseOrdersTable extends Migration
             $table->datetime('po_date');
             $table->string('po_no');
             $table->string('input_currency');
-            $table->string('status');
+            $table->string('status')->default('requested');
             $table->timestamps();
         });
     }

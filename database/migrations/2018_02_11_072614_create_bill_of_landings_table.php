@@ -21,6 +21,7 @@ class CreateBillOfLandingsTable extends Migration
             $table->integer('service_type_id')->nullable();
             $table->integer('Client_id')->nullable();
             $table->integer('cargo_id')->nullable();
+            $table->integer('project_id')->nullable();
             $table->integer('consignee_id')->nullable();
             $table->string('code_name')->nullable();
             $table->string('stage')->nullable();

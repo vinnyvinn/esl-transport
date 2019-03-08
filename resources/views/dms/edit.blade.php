@@ -346,7 +346,7 @@
                                                                                 <th>Created By</th>
                                                                                 <th>Status</th>
                                                                                 <th>PO Date</th>
-                                                                                <th>Remove</th>
+                                                                                <th>View</th>
                                                                             </tr>
                                                                             </thead>
                                                                             <tbody>
@@ -359,23 +359,7 @@
                                                                                     <td>{{ $order->status }}</td>
                                                                                     <td>{{ \Carbon\Carbon::parse($order->po_date)->format('d-m-Y') }}</td>
                                                                                     <td>
-                                                                                            <div style="display:flex; flex-flow:row;">
-                                                                                                    <div>
-                                                                                                        <button data-toggle="modal" class="btn btn-xs btn-primary">
-                                                                                                                <i class="fa fa-pencil"></i>
-                                                                                                                </button>
-                                                                                                    </div>
-                                                                                                    <div style="width:10px;"></div>
-                                                                                                    <div>
-                                                                                                        <form method="POST" action="">
-                                                                                                            {{ csrf_field() }}
-                                                                                                            <button type="submit" class="btn btn-xs btn-danger">
-                                                                                                            <i class="fa fa-trash"></i>
-                                                                                                            </button>
-                                                                                                        </form>
-                                                                                                    </div>
-                                                                                            <div>
-
+                                                                                    <a href="{{ route('view-po',['id' => $order->id ])}}" class="btn btn-xs btn-primary" style="color:white"><i class="fa fa-eye"></i></a>
                                                                                     </td>
                                                                                 </tr>
                                                                                 @endforeach
@@ -562,13 +546,30 @@
                                                                                     @endif
                                                                                 </td>
                                                                                 <td>{{ $fund->amount }}</td>
-                                                                                <td></td>
+                                                                                <td>
+                                                                                    <div style="display:flex; flex-flow:row;">
+                                                                                        <div>
+                                                                                            <button data-toggle="modal" class="btn btn-xs btn-primary">
+                                                                                                                                                                                                            <i class="fa fa-pencil"></i>
+                                                                                                                                                                                                        </button>
+                                                                                        </div>
+                                                                                        <div style="width:5px;"></div>
+                                                                                        <div>
+                                                                                            <form method="POST">
+                                                                                                {{ csrf_field() }}
+                                                                                                <button type="submit" class="btn btn-xs btn-danger">
+                                                                                                <i class="fa fa-trash"></i>
+                                                                                                </button>
+                                                                                            </form>
+                                                                                        </div>
+                                                                                    <div>
+                                                                                </td>
                                                                             </tr>
                                                                         @endforeach
                                                                         </tbody>
                                                                         <tfoot>
                                                                             <tr style="font-weight:bold;color:black;">
-                                                                            <td colspan="5">Total</td>
+                                                                            <td colspan="4">Total</td>
                                                                             <td>
                                                                                 {{$dms->quote->funds->sum('amount')}}
                                                                             </td>

@@ -581,12 +581,13 @@
                                                     <td class="text-center" width="500px">{{ ucfirst($remark->remark) }}</td>
                                                     <td class="text-center">{{ \Carbon\Carbon::parse($remark->created_at)->format('d-M-Y') }}</td>
                                                     <td class="text-center">
-                                                        <div style="display:flex; flex-flow:row;justify-content:space-around">
+                                                        <div style="display:flex; flex-flow:row;justify-content:center">
                                                             <div>
                                                                 <button data-toggle="modal" data-target=".editRemarkModal{{ $remark->id }}" class="btn btn-xs btn-primary">
                                                                                                                                                                                 <i class="fa fa-pencil"></i>
                                                                                                                                                                             </button>
                                                             </div>
+                                                            <div style="width:5px;"></div>
                                                             <div>
                                                                 <form method="POST" action="{{ route('delete-quotation-remark',['id'=>$remark->id]) }}">
                                                                     {{ csrf_field() }}

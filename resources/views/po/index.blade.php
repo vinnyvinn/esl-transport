@@ -241,6 +241,7 @@ $(function () {
 
         axios.post('{{ route('save-po',['id'=>$dms]) }}', poData)
         .then(function(response){
+            $('#savePo').html('Purchase Order Saved').attr('disabled', true);
             window.location.replace('{{ route('edit-bill-of-landing',['id'=>$dms,'budget'=>'true' ]) }}');
         })
         .catch(function(errors){
