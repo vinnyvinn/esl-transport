@@ -10,8 +10,7 @@
 <body>
 
     <div class="container-fluid">
-        <div class="card">
-            <div class="card-body">
+            <div>
                 <div style="margin-bottom:20px text-center"><img src="{{ public_path('images/logo.png') }}" alt=""></div>
 
                 <div class="d-flex justify-content-between">
@@ -95,7 +94,6 @@
                 </div>
 
             </div>
-        </div>
     </div>
 
 </body>

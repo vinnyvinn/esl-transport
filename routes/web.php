@@ -41,6 +41,7 @@ Route::get('/pdas/{status}', 'QuotationController@pdaStatus');
 Route::get('/quotation/view/{id}', 'QuotationController@viewQuotation');
 Route::get('/quotation/preview/{id}', 'QuotationController@previewQuotation');
 Route::post('/quotation/send/{id}', 'QuotationController@sendToCustomer')->name('send-customer-quotation');
+Route::get('/quotation/download/{id}', 'QuotationController@downloadQuotation')->name('download-customer-quotation');
 
 // lead quotation accept or decline
 Route::get('/accept/{identifier}','QuotationController@customerAccept')->name('client-accept-quotation');

@@ -16,7 +16,6 @@ use App\Mail\HodProcessingApproval;
 use App\Quotation;
 use App\ServiceTax;
 use App\Tariff;
-// use Barryvdh\DomPDF\Facade as PDF;
 use PDF;
 use Carbon\Carbon;
 use Esl\helpers\Constants;
@@ -136,19 +135,16 @@ class QuotationController extends Controller
 
     public function sendToCustomer(Request $request, $id)
     {
-        $quotation = Quotation::with('lead')->findOrFail($id);
+        $quotation = Quotation::with('lead', 'cargos.goodType', 'vessel', 'services.tariff', 'remarks.user')->findOrFail($id);
 
         $quotation->update(['status' => Constants::LEAD_QUOTATION_WAITING]);
 
-        //TODO:: generate pdf here
-        // NotificationRepo::create()->success('PDA send to client successfully');
+        $quotationPdf = PDF::loadView('pdf.quotations.lead-qutation-email',compact('quotation'))->setPaper('a4')->stream();
 
-        // $quotationPdf = PDF::loadView('pdf.quotation-email');
-        // return $quotationPdf->stream('result.pdf');
+        $message = new EslClientQuotation(Auth::user(),$quotation->lead,URL::previous(),$request->subject, $request->message,$quotation->identifier);
+        $message->attachData($quotationPdf,$quotation->lead->name.'.pdf',['mime' => 'application/pdf']);
         
-        Mail::to($quotation->lead->email)
-        ->send(new EslClientQuotation(Auth::user(),$quotation->lead,URL::previous(),$request->subject, $request->message,$quotation->identifier));
-        // ->attachData($quotationPdf,$quotation->lead->name.'pdf',['mime' => 'application/pdf']);
+        Mail::to($quotation->lead->email)->send($message);
 
         NotificationRepo::create()->notification(Constants::Q_APPROVAL_TITLE, Constants::Q_APPROVAL_TEXT,
             '/quotation/preview/' . $id, 0, Constants::DEPARTMENT_AGENCY)
@@ -345,5 +341,11 @@ class QuotationController extends Controller
     {
         $quotations = Quotation::all();
         return view('quotation.index', ['quotations' => $quotations]);
+    }
+
+    public function downloadQuotation($id){
+        $quotation = Quotation::with('lead', 'cargos.goodType', 'vessel', 'services.tariff', 'remarks.user')->findOrFail($id);
+        $quotationPdf = PDF::loadView('pdf.quotations.lead-qutation-email',compact('quotation'))->setPaper('a4');
+        return $quotationPdf->download($quotation->lead->name.'-'.Carbon::parse($quotation->created_at)->format('d-m-y').'.pdf');
     }
 }

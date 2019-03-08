@@ -97,6 +97,5 @@ class PurchaseOrderController extends Controller
         $po = PurchaseOrder::with('user','purchaseOrderItems','supplier')->findOrFail($id);
         $pdf = PDF::loadView('pdf.po.po-pdf',compact('po'));
         return $pdf->download($po->supplier->Name.'-'. Carbon::parse($po->created_at)->format('d-m-y').'.pdf');
-        // return $pdf->download('downloads.pdf');
     }
 }
