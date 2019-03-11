@@ -37,3 +37,10 @@ textarea.parsley-error {
 .parsley-errors-list.filled {
     opacity: 1;
 }
+
+/* form validation errors */
+.esl-user-form-error{
+    color:red;
+    font-size:14px;
+    margin-bottom: 10px;
+}

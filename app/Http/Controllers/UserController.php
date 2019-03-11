@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use Validator;
 use Spatie\Permission\Models\Role;
+use Esl\Repository\NotificationRepo;
 
 class UserController extends Controller
 {
@@ -37,7 +39,28 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'fname' => 'required|string|max:255',
+            'lname' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email',
+            'department_id' => 'required',
+            'role_id' => 'required',
+            'password' => 'required|string|min:6|confirmed',
+        ]);
+
+        $user = User::create([
+            'fname' => $request->fname,
+            'lname' => $request->lname,
+            'name' => $request->fname." ".$request->lname,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'department_id' => $request->department_id,
+        ]);
+
+        $role = Role::find($request->role_id);
+        $user->assignRole($role->name);
+
+        return response()->json(["created"=>'true','data'=>$user]);
     }
 
     /**
@@ -71,7 +94,29 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $user = User::findOrFail($id);
+        $request->validate([
+            'fname' => 'required|string|max:255',
+            'lname' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,'.$id,
+            'department_id' => 'required',
+            'role_id' => 'required',
+            'password' => 'nullable|string|min:6|confirmed',
+        ]);
+
+        if(!empty($request->password)){
+            $data = $request->all();
+            $data['password'] = bcrypt($request->password);
+            $user->update($data);
+        }else{
+            $user->update($request->except(['password']));
+        }
+
+        $role = Role::find($request->role_id);
+        $user->syncRoles($role->name);
+        
+        return response()->json(["updated"=>'true','data'=>$user]);
     }
 
     /**

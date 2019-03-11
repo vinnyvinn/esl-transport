@@ -731,6 +731,11 @@
                                                             {{ csrf_field() }}
 
                                                             <div class="form-group">
+                                                                    <label for="lead_email">Customer Email</label>
+                                                            <input type="text" class="form-control" id="lead_email" value="{{ $quotation->lead->email }}" disabled>
+                                                                </div>
+
+                                                            <div class="form-group">
                                                                 <label for="subject">Subject</label>
                                                                 <input type="text" class="form-control" id="subject" name="subject" placeholder="Subject">
                                                             </div>

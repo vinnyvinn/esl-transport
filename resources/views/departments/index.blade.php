@@ -86,10 +86,11 @@
                                         <td class="text-center">
 
 
-                                                <div style="display:flex; flex-flow:row;justify-content:space-around">
+                                                <div style="display:flex; flex-flow:row;justify-content:center">
                                                         <button data-toggle="modal" data-target=".department-edit-modal{{ $department->id }}" class="btn btn-sm btn-warning">
                                                                 <i class="fa fa-pencil"></i>
                                                             </button>
+                                                            <div style="width:10px;"></div>
 
                                                             <form action="{{ route('departments.destroy', $department->id) }}" method="post">
                                                                     {{ csrf_field() }}

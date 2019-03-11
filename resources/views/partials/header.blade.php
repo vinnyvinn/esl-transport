@@ -52,23 +52,24 @@
                         <ul class="dropdown-user">
                             <li role="separator" class="divider"></li>
                             <li>
-                                <a href="">Manage Users</a>
+                                <a href="{{ route('users.index') }}">Manage Users</a>
                             </li>
-                            {{--<li>--}}
-                                {{--<a href="{{ url('departments') }}">Departments</a>--}}
-                            {{--</li>--}}
                             <li>
+                                <a href="{{ route('departments.index') }}">Departments</a>
+                            </li>
+                            {{-- <li>
                                 <a href="{{ route('stages.index') }}">Stages</a>
-                            </li>
+                            </li> --}}
                             <li>
-                                <a href="{{ route('other-services-type.index') }}">Extra Services Types</a>
+                                <a href="{{ route('roles.index') }}">Roles</a>
                             </li>
+                            <li><a href="{{ route('permissions.index') }}">Permissions</a></li>
                             <li>
-                                <a href="{{ url('/good-types')  }}">Cargo Types</a>
-                            </li>
-                            <li>
-                                <a href="">Roles</a>
-                            </li>
+                                    <a href="{{ route('other-services-type.index') }}">Extra Services Types</a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('/good-types')  }}">Cargo Types</a>
+                                </li>
                         </ul>
                     </div>
                 </li>

@@ -69,8 +69,7 @@
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#home" role="tab"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Vessel Details</span></a>                                        </li>
                                     <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#cargo" role="tab"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Cargo Details</span></a>                                        </li>
-                                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#voyage" role="tab"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Voyage Details</span></a>                                        </li>
-                                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#tariffs" role="tab"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Tariff Services</span></a>                                        </li>
+                                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#voyage" role="tab"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Voyage Details</span></a>                                        </li>                                   
                                 </ul>
                                 <form class="form-material m-t-40" action="{{ route('add-lead-quotation')}}" id="lead-quotation" method="POST">
                                     {{csrf_field()}}
@@ -108,26 +107,13 @@
                                                 @include('includes.voyage_form')
                                                 <div style="text-align:right">
                                                     <input class="btn" type="button" style="margin-left:30px;" value="Back">
-                                                    <input class="btn btn-primary" type="button" value="Next">                                                    
+                                                    <input class="btn  btn-primary" type="submit" value="Submit">                                                  
                                                 </div>
 
                                             </div>
                                         </div>
                                         <!-- third tab end -->
-
-                                        <!-- tarrifs tab begin -->
-                                        <div class="tab-pane" id="tariffs" role="tabpanel">
-                                                <div class="p-20">
-                                                    <h3>Add Tariff Services</h3>
-                                                    @include('includes.tarrifs_form')
-                                                    <div style="text-align:right">
-                                                        <input class="btn" type="button" style="margin-left:30px;" value="Back">
-                                                        <input class="btn  btn-primary" type="submit" value="Submit">
-                                                    </div>
-                                                </div>
-                                                <!-- padding div end -->
-                                            </div>
-                                    <!-- tarrifs tab end -->
+                                      
                             </div>
 
                         </div>

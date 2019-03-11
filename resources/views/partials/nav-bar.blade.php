@@ -5,11 +5,11 @@
                 <li> <a class="has-arrow waves-effect waves-dark" href="{{ url('/') }}" aria-expanded="false">
                         <i class="mdi mdi-gauge"></i><span class="hide-menu">Dashboard</span></a>
                 </li>
-                <li> <a class="has-arrow waves-effect waves-dark" href="{{ url('/quotations') }}" aria-expanded="false">
+                {{-- <li> <a class="has-arrow waves-effect waves-dark" href="{{ url('/quotations') }}" aria-expanded="false">
                         <i class="mdi mdi-gauge"></i><span class="hide-menu">Quotations</span></a>
-                </li>
+                </li> --}}
 
-              <li> <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
+              {{-- <li> <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
                                         <i class="mdi mdi-account"></i><span class="hide-menu">Users</span></a>
                         <ul aria-expanded="false" class="collapse">
                                 <li><a href="{{ route('users.index') }}">Users</a></li>
@@ -17,7 +17,7 @@
                                 <li><a href="{{ route('roles.index') }}">Roles</a></li>
                                 <li><a href="{{ route('permissions.index') }}">Permissions</a></li>
                         </ul>
-                </li>
+                </li> --}}
                 
                 <li> <a class="has-arrow waves-effect waves-dark" href="{{ url('/leads') }}" aria-expanded="false">
                         <i class="mdi mdi-gauge"></i><span class="hide-menu">Leads</span></a>
@@ -38,9 +38,9 @@
                 <li> <a class="has-arrow waves-effect waves-dark" href="{{ url('/all-pdas') }}" aria-expanded="false">
                         <i class="mdi mdi-gauge"></i><span class="hide-menu">PDAs</span></a>
                 </li>
-                <li> <a class="has-arrow waves-effect waves-dark" href="{{ url('/dms') }}" aria-expanded="false">
+                {{-- <li> <a class="has-arrow waves-effect waves-dark" href="{{ url('/dms') }}" aria-expanded="false">
                         <i class="mdi mdi-gauge"></i><span class="hide-menu">FDAs</span></a>
-                </li>
+                </li> --}}
                 <li style="display:none;"> <a class="has-arrow waves-effect waves-dark" href="{{ url('/reports') }}" aria-expanded="false">
                         <i class="mdi mdi-gauge"></i><span class="hide-menu">Reports</span></a>
                 </li>

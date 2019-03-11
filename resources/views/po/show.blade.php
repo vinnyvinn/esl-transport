@@ -3,6 +3,19 @@
 
 <div>@include('includes.dashboard.heading')</div>
 
+<div class="container-fluid">
+        <div class="card">
+            <div class="card-body">
+                <div style="display:flex;flex-flow:row;justify-content:space-between">
+                    <div>
+                    <h4>Status: <span class="text-uppercase font-weight-bold">{{ $po->status}}</span></h4>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+</div>
+
     <div class="container-fluid">
         <div class="card">
             <div class="card-body">
@@ -108,8 +121,12 @@
                 <div class="card-body">
                     <div style="display:flex;flex-flow:row;justify-content:space-between">
                         <div>
+                            @if($po->status != 'approved')
                             <a href="{{ route('approve-po',['id' => $po->id])}}" class="btn btn-primary">Approve</a>
+                            @endif
+                            @if($po->status != 'dissaproved')
                             <a href="{{ route('dissaprove-po',['id' => $po->id])}}" class="btn btn-danger">Dissaprove</a>
+                            @endif
                         </div>
                         <div>
                             @if($po->status != 'approved')

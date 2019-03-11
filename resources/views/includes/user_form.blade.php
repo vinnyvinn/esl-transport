@@ -4,15 +4,15 @@
             <div class="col">
                 <div class="form-group">
                     <label for="name">First Name</label>
-                    <input type="text" required id="fname" name="fname" class="form-control" placeholder="First Name" value="{{ $user->fname or "
-                        " }}">
+                    <input type="text" required id="fname" name="fname" class="form-control" placeholder="First Name">
+                    <p id="fname_error" class="esl-user-form-error"></p>
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
                     <label for="name">Last Name</label>
-                    <input type="text" required id="lname" name="lname" class="form-control" placeholder="Last Name" value="{{ $user->lname or "
-                        " }}">
+                    <input type="text" required id="lname" name="lname" class="form-control" placeholder="Last Name" >
+                    <p id="lname_error" class="esl-user-form-error"></p>
                 </div>
             </div>
         </div>
@@ -21,23 +21,22 @@
     <div class="col-sm-12">
         <div class="form-group">
             <label for="name">Email</label>
-            <input type="text" required id="email" name="email" class="form-control" placeholder="Email" value="{{ $user->email or "
-                " }}">
+            <input type="text" required id="email" name="email" class="form-control" placeholder="Email">
+            <p id="email_error" class="esl-user-form-error"></p>
         </div>
     </div>
 
     <div class="col-sm-12">
         <div class="form-group">
             <label for="description">Department</label>
-            <select name="department_id" id="department_id" style="width:100%" class="select2 form-control">
+            <select name="department_id" id="department_id" style="width:100%" class="select2 form-control" required>
                     <option value="">Select Department</option>
                     @foreach(App\Department::all() as $value)
                         <option value="{{$value->id}}"
-                            {{ $value->id == !empty($user->department_id) ? 'selected = "selected"':''}}
                             >{{$value->name}}</option>
                     @endforeach
                 </select>
-
+            <p id="department_id_error" class="esl-user-form-error"></p>
         </div>
     </div>
 
@@ -47,13 +46,16 @@
                     <div class="form-group">
                         <label for="name">Password</label>
                         <input type="text" required id="password" name="password" class="form-control" placeholder="Password">
+                        <p id="password_error" class="esl-user-form-error"></p>
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <label for="name">Confrim Password</label>
-                        <input type="text" required id="lname" name="lname" class="form-control" placeholder="Confirm Password">
+                        <label for="password_confirmation">Confrim Password</label>
+                        <input type="text" required id="password_confirmation" name="password_confirmation" class="form-control" placeholder="Confirm Password">
+                        <p id="password_confirmation_error" class="esl-user-form-error"></p>
                     </div>
+                    
                 </div>
             </div>
         </div>

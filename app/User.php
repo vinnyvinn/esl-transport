@@ -9,7 +9,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    protected $dateFormat = 'Y-m-d H:i:s';
+    // protected $dateFormat = 'Y-m-d H:i:s';
     use Notifiable, HasRoles, HasApiTokens;
 
     /**
@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name','fname','lname','department_id','role_id','email', 'password',
     ];
 
     /**
@@ -45,5 +45,9 @@ class User extends Authenticatable
 
     public function purchaseOrder(){
         return $this->hasMany(PurchaseOrder::class,'user_id','id');
+    }
+
+    public function department(){
+        return $this->belongsTo(Department::class,'department_id','id');
     }
 }

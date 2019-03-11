@@ -213,6 +213,7 @@ class CustomerController extends Controller
         $quote->lead_id = $request->lead_id;
         $quote->vessel_id = $vessel->id;
         $quote->status = Constants::LEAD_QUOTATION_PENDING;
+        $quote->identifier = uniqid() ;
         $quote->save();// save quotation
 
         $data = $request->all();

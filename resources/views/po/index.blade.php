@@ -249,7 +249,7 @@ $(function () {
             $('#savePo').html('Save Purchase Order').attr('disabled', false);
         });
 
-        }     
+        } // parsley validation end 
     });
 
 });
