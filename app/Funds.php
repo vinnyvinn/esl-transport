@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Funds extends Model
 {
-    protected $fillable = ['employee_id','quotation_id','amount','currency','payment_type','deadline','reason'];
+    protected $fillable = ['employee_id','quotation_id','amount','currency','payment_type','deadline','reason','status'];
 
     public function quotation(){
         return $this->belongsTo(Quotation::class,'quotation_id','id');

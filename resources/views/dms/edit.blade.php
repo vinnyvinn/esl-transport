@@ -200,9 +200,9 @@
                                                         <td><strong>IMO Number : </strong> {{ $dms->vessel->imo_number }}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td><strong>Cargo Discharge Rate : </strong> {{ $dms->quote->cargos->first()->discharge_rate }} MT / WWD</td>
+                                                        <td><strong>Cargo Discharge Rate : </strong> {{ $dms->quote->cargos->first()->discharge_rate or ""}} MT / WWD</td>
                                                         {{-- <td><strong>Lay Time Start : </strong> {{ \Carbon\Carbon::parse($dms->laytime_start)->format('d-M-y') }}</td> --}}
-                                                        <td><strong>DWT : </strong> {{ $dms->vessel->dwt }}</td>
+                                                        <td><strong>DWT : </strong> {{ $dms->vessel->dwt or "" }}</td>
                                                     </tr>
                                                     <tr>
                                                         <td><strong>LOA : </strong> {{ $dms->vessel->loa }}</td>
@@ -356,7 +356,7 @@
                                                                                 <td>{{ $loop->iteration }}</td>
                                                                                     <td>{{ $order->supplier->Name }}</td>
                                                                                     <td>{{ $order->user->name }}</td>
-                                                                                    <td>{{ $order->status }}</td>
+                                                                                    <td class="text-capitalize">{{ $order->status }}</td>
                                                                                     <td>{{ \Carbon\Carbon::parse($order->po_date)->format('d-m-Y') }}</td>
                                                                                     <td>
                                                                                     <a href="{{ route('view-po',['id' => $order->id ])}}" class="btn btn-xs btn-primary" style="color:white"><i class="fa fa-eye"></i></a>
@@ -512,7 +512,7 @@
                                             {{-- view Requested Fund modal start --}}
                                             <div class="modal fade dms-requested-fund" tabindex="-1" role="dialog" aria-labelledby="allRequestFundModalLabel" aria-hidden="true"
                                             style="display: none;">
-                                            <div class="modal-dialog modal-lg" style="max-width:1000px;">
+                                            <div class="modal-dialog modal-lg" style="max-width:1200px;">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h4 class="modal-title" id="allRequestFundModalLabel">All Requested Funds</h4>
@@ -528,7 +528,8 @@
                                                                             <th>Reason</th>
                                                                             <th>S/File</th>
                                                                             <th>Amount</th>
-                                                                            <th>action</th>
+                                                                            <th>status</th>
+                                                                            <th class="text-center">action</th>
                                                                         </tr>
                                                                         </thead>
                                                                         <tbody>
@@ -546,22 +547,21 @@
                                                                                     @endif
                                                                                 </td>
                                                                                 <td>{{ $fund->amount }}</td>
+                                                                                <td class="text-capitalize">{{ $fund->status }}</td>
                                                                                 <td>
-                                                                                    <div style="display:flex; flex-flow:row;">
-                                                                                        <div>
-                                                                                            <button data-toggle="modal" class="btn btn-xs btn-primary">
-                                                                                                                                                                                                            <i class="fa fa-pencil"></i>
-                                                                                                                                                                                                        </button>
-                                                                                        </div>
-                                                                                        <div style="width:5px;"></div>
-                                                                                        <div>
-                                                                                            <form method="POST">
-                                                                                                {{ csrf_field() }}
-                                                                                                <button type="submit" class="btn btn-xs btn-danger">
-                                                                                                <i class="fa fa-trash"></i>
-                                                                                                </button>
-                                                                                            </form>
-                                                                                        </div>
+                                                                                    <div style="display:flex;flex-flow:row;justify-content:center;">
+                                                                                        @if($fund->status == 'disapproved' || $fund->status =='requested')                                                                                    
+                                                                                            <a href="{{ route('approve-quotation-fund',['id'=>$fund->id]) }}" class="btn btn-xs btn-primary" title="Approve">
+                                                                                                <i class="fa fa-check"></i>
+                                                                                            </a>
+                                                                                            <div style="width:5px;"></div>
+                                                                                        @endif
+
+                                                                                        @if($fund->status == 'approved' || $fund->status =='requested')
+                                                                                            <a href="{{ route('disapprove-quotation-fund',['id'=>$fund->id]) }}" class="btn btn-xs btn-warning"  title="Dissaprove">
+                                                                                                <i class="fa fa-times"></i>
+                                                                                            </a>
+                                                                                        @endif                                                                                      
                                                                                     <div>
                                                                                 </td>
                                                                             </tr>
@@ -608,6 +608,8 @@
                                                                         <th>Cost</th>
                                                                         <th>Profit</th>
                                                                         <th>Receipt</th>
+                                                                        <th>status</th>
+                                                                        <th>actions</th>
                                                                     </tr>
                                                                     </thead>
                                                                     <tbody>
@@ -625,6 +627,22 @@
                                                                             <td>0.00</td>
                                                                             <td>{{ $cost->amount - 0 }}</td>
                                                                             <td></td>
+                                                                            <td class="text-capitalize">{{ $cost->status}}</td>
+                                                                            <td>
+                                                                                    <div style="display:flex;flex-flow:row;justify-content:center;">
+                                                                                        @if($cost->status == 'disapproved' || $cost->status =='requested')                                                                                     
+                                                                                    <a href="{{ route('approve-service-cost',['id'=>$cost->id ]) }}" class="btn btn-xs btn-primary" title="Approve">
+                                                                                                <i class="fa fa-check"></i>
+                                                                                            </a>
+                                                                                            <div style="width:5px;"></div>
+                                                                                        @endif
+                                                                                        @if($cost->status == 'approved' || $cost->status =='requested')
+                                                                                            <a href="{{ route('disapprove-service-cost',['id'=> $cost->id ]) }}" class="btn btn-xs btn-warning"  title="Dissaprove">
+                                                                                                <i class="fa fa-times"></i>
+                                                                                            </a> 
+                                                                                        @endif                                                                                      
+                                                                                    <div>
+                                                                            </td>
                                                                         </tr>
                                                                     @endforeach
                                                                     <tfoot>
@@ -792,11 +810,13 @@
                                             </table>
                                         </div>
                                     </div>
+                                    @if($dms->status < 1)
                                     <div class="pt-3 text-right">
                                     <a href="{{ url('/dms/complete/'.$dms->id) }}" class="btn btn-warning text-white mytooltip">
                                         Complete Project <span class="tooltip-content3">
                                                 Are you sure??.</span></a>
                                     </div>
+                                    @endif
                                 </div>
                             </div>
                             @foreach($stages as $stage)

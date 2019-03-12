@@ -29,4 +29,19 @@ class ServiceCostController extends Controller
         NotificationRepo::create()->success('Service Cost added successfully');
         return redirect()->back();
     }
+
+    public function approveServiceCost($id){
+        $serviceCost = ServiceCost::findOrFail($id);
+        $serviceCost->update(['status'=>'approved']);
+        NotificationRepo::create()->success('Service cost approved successfully');
+        return redirect()->back();
+        
+    }
+
+    public function disapproveServiceCost($id){
+        $serviceCost = ServiceCost::findOrFail($id);
+        $serviceCost->update(['status'=>'disapproved']);
+        NotificationRepo::create()->success('Service cost disapproved successfully');
+        return redirect()->back();
+    }
 }

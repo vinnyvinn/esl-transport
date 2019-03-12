@@ -76,8 +76,8 @@ Route::get('/quotation/convert/{id}', 'QuotationController@convertCustomer')->na
 Route::get('/bill-of-lading/{id}', 'BillOfLandingController@edit');
 Route::get('/test/', 'BillOfLandingController@test');
 //dms
-Route::get('/dms', 'DmsController@index');
-Route::get('/dms', 'DmsController@index');
+Route::get('/dms', 'DmsController@index')->name('bills-of-landing');
+// Route::get('/dms', 'DmsController@index');
 Route::get('/dms/edit/{id}/{budget?}', 'DmsController@edit')->name('edit-bill-of-landing');
 Route::get('/dms/complete/{id}', 'DmsController@complete');
 Route::get('/generate/laytime/{id}', 'DmsController@generateLayTime');
@@ -106,9 +106,13 @@ Route::resource('/users', 'UserController');
 
 // quotation funds
 Route::post('/quotation/funds', 'FundsController@saveFund')->name('save-quotation-fund');
+Route::get('/quotation/funds/approve/{id}', 'FundsController@approveFunds')->name('approve-quotation-fund');
+Route::get('/quotation/funds/disapprove/{id}', 'FundsController@disapproveFunds')->name('disapprove-quotation-fund');
 
 // service cost
 Route::post('/quotation/service-cost', 'ServiceCostController@saveServiceCost')->name('save-service-cost');
+Route::get('/quotation/service-cost/approve/{id}', 'ServiceCostController@approveServiceCost')->name('approve-service-cost');
+Route::get('/quotation/service-cost/disapprove/{id}', 'ServiceCostController@disapproveServiceCost')->name('disapprove-service-cost');
 
 //purchase order
 Route::get('/generate-po/{id}','PurchaseOrderController@index')->name('generate-po');

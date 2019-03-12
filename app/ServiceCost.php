@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ServiceCost extends Model
 {
-    protected $fillable = ['service','quotation_id','amount','description'];
+    protected $fillable = ['service','quotation_id','amount','description','status'];
 
     public function quotation(){
         return $this->belongsTo(Quotation::class,'quotation_id','id');

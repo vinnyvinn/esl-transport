@@ -35,6 +35,9 @@
                                 <li><a href="{{ url('/other-services-type') }}">Service Types</a></li>
                         </ul>
                 </li>
+                <li> <a class="has-arrow waves-effect waves-dark" href="{{ route('bills-of-landing') }}" aria-expanded="false">
+                        <i class="mdi mdi-gauge"></i><span class="hide-menu">DMS</span></a>
+                </li>
                 <li> <a class="has-arrow waves-effect waves-dark" href="{{ url('/all-pdas') }}" aria-expanded="false">
                         <i class="mdi mdi-gauge"></i><span class="hide-menu">PDAs</span></a>
                 </li>

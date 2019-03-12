@@ -80,7 +80,7 @@
                                                                 <i class="fa fa-pencil"></i>
                                                             </button>
                                                             <span style="width:10px;background:transparent"></span>
-                                                            <form action="{{ route('users.destroy', $user->id) }}" method="post">
+                                                                <form id="deleteUser-{{ $user->id}}">
                                                                     {{ csrf_field() }}
                                                                     {{ method_field('DELETE') }}
                                                                     <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
@@ -225,6 +225,21 @@
         var form = $(this);
         var formId = form.attr('id');
 
+        if(formId.startsWith("deleteUser")){
+
+            var userId = formId.split('-')[1];
+            var url = '{{ route("users.destroy", ":id") }}';
+            url = url.replace(':id',userId);
+            
+            axios.delete(url)
+            .then(function(response){
+                window.location.reload(); 
+            })
+            .catch(function(erros){
+                alert('Unable to delete Please try again');
+            });
+        }// delete end
+
         if(formId == "register_user"){
             form.parsley().validate();
             if(form.parsley().isValid()){
@@ -249,7 +264,7 @@
             }// parsley vqalidation end
         }// register user form end
         
-        if(formId != "register_user"){
+        if(formId.startsWith("update_user")){
             form.parsley().validate();
             if(form.parsley().isValid()){
 

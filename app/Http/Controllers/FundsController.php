@@ -33,4 +33,19 @@ class FundsController extends Controller
         NotificationRepo::create()->success('Quotation Request Fund added successfully');
         return redirect()->back();
     }
+
+    public function approveFunds($id){
+        $fund = Funds::findOrFail($id);
+        $fund->update(['status'=>'approved']);
+        NotificationRepo::create()->success('Fund approved successfully');
+        return redirect()->back();  
+    }
+
+    public function disapproveFunds($id){
+        $fund = Funds::findOrFail($id);
+        $fund->update(['status'=>'disapproved']);
+        NotificationRepo::create()->success('Fund disapproved successfully');
+        return redirect()->back();
+
+    }
 }
