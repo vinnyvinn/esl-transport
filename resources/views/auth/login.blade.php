@@ -22,6 +22,13 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
+<style>
+    .help-block{
+        color:red !important;
+        font-size:14px;
+    }
+</style>
+
 </head>
 
 <body>
@@ -45,11 +52,11 @@
                         <div class="form-group ">
                             <div class="col-xs-12">
                                 <label for="email">Email Address</label>
-                                <input class="form-control" name="email" id="password" type="email" value="{{ old('email') }}" autofocus required="" placeholder="Email">
+                                <input class="form-control" name="email" id="email" type="email" value="{{ old('email') }}" autofocus required="" placeholder="Email">
                             </div>
                             @if($errors->has('email'))
                                 <span class="help-block">
-                                <strong>{{ $errors->first('email') }}</strong>
+                                {{ $errors->first('email') }}
                             </span>
                             @endif
                         </div>
@@ -64,13 +71,13 @@
                             </span>
                             @endif
                         </div>
-                        <div class="form-group row">
+                        {{-- <div class="form-group row">
                             <div class="col-md-12 font-14">
                                 <div class="checkbox checkbox-primary pull-left p-t-0">
                                     <input id="remember" name="remember" {{ old('remember') ? 'checked' : '' }} type="checkbox">
                                     <label for="remember"> Remember me </label>
                                 </div> <a href="javascript:void(0)" id="to-recover" class="text-dark pull-right"><!-- <i class="fa fa-lock m-r-5"></i> --> Forgot pwd?</a> </div>
-                        </div>
+                        </div> --}}
                         <div class="form-group text-center m-t-20">
                             <div class="col-xs-12">
                                 <button class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light" type="submit">Log In</button>
