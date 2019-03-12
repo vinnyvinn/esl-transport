@@ -13,6 +13,8 @@
 
 Auth::routes();
 
+Route::group(['middleware' => ['auth']], function(){
+
 Route::get('/', 'HomeController@dashboard');
 Route::resource('/customers', 'CustomerController');
 Route::get('/quotations', 'QuotationController@allQuotations');
@@ -122,3 +124,5 @@ Route::get('/approve-po/{id}','PurchaseOrderController@approvePo')->name('approv
 Route::get('/dissaprove-po/{id}','PurchaseOrderController@dissaprovePo')->name('dissaprove-po');
 Route::post('/save-po/{id}','PurchaseOrderController@savePo')->name('save-po');
 Route::get('/download-po/{id}','PurchaseOrderController@downloadPo')->name('download-po');
+
+});
