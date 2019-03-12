@@ -103,6 +103,7 @@ Route::resource('/permissions','PermissionsController');
 
 //users
 Route::resource('/users', 'UserController');
+Route::post('/users/{id}', 'UserController@deleteUser')->name('delete-user');
 
 // quotation funds
 Route::post('/quotation/funds', 'FundsController@saveFund')->name('save-quotation-fund');

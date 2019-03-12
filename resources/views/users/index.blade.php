@@ -110,16 +110,16 @@
                                                                 <div class="row">
                                                                     <div class="col">
                                                                         <div class="form-group">
-                                                                            <label for="name">First Name</label>
-                                                                            <input type="text" required id="fname" name="fname" class="form-control" placeholder="First Name" 
+                                                                            <label for="fname_edit">First Name</label>
+                                                                            <input type="text" required id="fname_edit" name="fname" class="form-control" placeholder="First Name" 
                                                                             value="{{$user->fname or "" }}">
                                                                             <p id="fname_error_{{ $user->id }}" class="esl-user-form-error"></p>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col">
                                                                         <div class="form-group">
-                                                                            <label for="name">Last Name</label>
-                                                                            <input type="text" required id="lname" name="lname" class="form-control" placeholder="Last Name" 
+                                                                            <label for="lname_edit">Last Name</label>
+                                                                            <input type="text" required id="lname_edit" name="lname" class="form-control" placeholder="Last Name" 
                                                                             value="{{ $user->lname or "" }}">
                                                                             <p id="lname_error_{{ $user->id }}" class="esl-user-form-error"></p>
                                                                         </div>
@@ -129,8 +129,8 @@
                                                         
                                                             <div class="col-sm-12">
                                                                 <div class="form-group">
-                                                                    <label for="name">Email</label>
-                                                                    <input type="text" required id="email" name="email" class="form-control" placeholder="Email" 
+                                                                    <label for="email_edit">Email</label>
+                                                                    <input type="text" required id="email_edit" name="email" class="form-control" placeholder="Email" 
                                                                     value="{{ $user->email or "" }}">
                                                                     <p id="email_error_{{ $user->id }}" class="esl-user-form-error"></p>
                                                                 </div>
@@ -139,8 +139,8 @@
                                                             
                                                             <div class="col-sm-12">
                                                                 <div class="form-group">
-                                                                    <label for="description">Department</label>
-                                                                    <select name="department_id" id="department_id" style="width:100%" class="select2 form-control">
+                                                                    <label for="department_id_edit">Department</label>
+                                                                    <select name="department_id" id="department_id_edit" style="width:100%" class="select2 form-control">
                                                                             <option value="">Select Department</option>
                                                                             @foreach(App\Department::all() as $value)
                                                                             @if($value->id == $user->department->id)
@@ -158,15 +158,15 @@
                                                                     <div class="row">
                                                                         <div class="col">
                                                                             <div class="form-group">
-                                                                                <label for="name">Password</label>
-                                                                                <input type="text" id="password" name="password" class="form-control" placeholder="Password">
+                                                                                <label for="password_edit">Password</label>
+                                                                                <input type="text" id="password_edit" name="password" class="form-control" placeholder="Password">
                                                                                 <p id="password_error_{{ $user->id }}" class="esl-user-form-error"></p>
                                                                             </div>
                                                                         </div>
                                                                         <div class="col">
                                                                             <div class="form-group">
-                                                                                <label for="password_confirmation">Confrim Password</label>
-                                                                                <input type="text" id="password_confirmation" name="password_confirmation" class="form-control" placeholder="Confirm Password">
+                                                                                <label for="password_confirmation_edit">Confrim Password</label>
+                                                                                <input type="text" id="password_confirmation_edit" name="password_confirmation" class="form-control" placeholder="Confirm Password">
                                                                                 <p id="password_confirmation_error_{{ $user->id }}" class="esl-user-form-error"></p>
                                                                             </div>
                                                                         </div>
@@ -175,8 +175,8 @@
                                                                 
                                                                 <div class="col-sm-12">
                                                                         <div class="form-group">
-                                                                        <label for="role_id">Role</label>
-                                                                        <select name="role_id" id="role_id" class="select2 form-control" style="width:100%;" required>
+                                                                        <label for="role_id_edit">Role</label>
+                                                                        <select name="role_id" id="role_id_edit" class="select2 form-control" style="width:100%;" required>
                                                                                 <option value="">Select Role</option>
                                                                                 @foreach( Spatie\Permission\Models\Role::all() as $role)
 
@@ -228,10 +228,10 @@
         if(formId.startsWith("deleteUser")){
 
             var userId = formId.split('-')[1];
-            var url = '{{ route("users.destroy", ":id") }}';
+            var url = '{{ route("delete-user", ":id") }}';
             url = url.replace(':id',userId);
             
-            axios.delete(url)
+            axios.post(url)
             .then(function(response){
                 window.location.reload(); 
             })
