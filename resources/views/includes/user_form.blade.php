@@ -45,14 +45,14 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="name">Password</label>
-                        <input type="text" required id="password" name="password" class="form-control" placeholder="Password">
+                        <input type="password" required id="password" name="password" class="form-control" placeholder="Password">
                         <p id="password_error" class="esl-user-form-error"></p>
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-group">
                         <label for="password_confirmation">Confrim Password</label>
-                        <input type="text" required id="password_confirmation" name="password_confirmation" class="form-control" placeholder="Confirm Password">
+                        <input type="password" required id="password_confirmation" name="password_confirmation" class="form-control" placeholder="Confirm Password">
                         <p id="password_confirmation_error" class="esl-user-form-error"></p>
                     </div>
                     

@@ -28,7 +28,7 @@
                         {{-- add role modal start --}}
                         <div class="modal fade add-role-modal" tabindex="-1" role="dialog" aria-labelledby="addRoleModalLabel" aria-hidden="true"
                             style="display: none;">
-                            <div class="modal-dialog modal-lg">
+                            <div class="modal-dialog modal-lg" style="max-width:1000px">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h4 class="modal-title" id="addRoleModalLabel">Add Role</h4>
@@ -47,14 +47,18 @@
 
                                                 <div class="col-sm-12">
                                                         <div class="form-group">
+                                                            
                                                             <label for="name">Add Role Permissions</label><br/>
+                                                            <div class="row">
                                                             @foreach($permissions as $key => $permission)
+                                                            <div class="col-sm-4">
                                                             <div class="form-check form-check-inline">
                                                             <input class="form-check-input" type="checkbox" id="{{ $permission->name }}" value="{{ $permission->id }}" name="{{ "permission_".$key }}">
                                                                 <label class="form-check-label" for="{{ $permission->name }}">{{ $permission->name }}</label>
                                                             </div>
-
+                                                            </div>
                                                             @endforeach
+                                                        </div>
                                                         </div>
                                                     </div>
                                                 
@@ -84,7 +88,7 @@
                                 </tr>
                                 </thead>
                                 <tbody id="customers">
-                                @foreach($roles as $role)
+                                @foreach($roles as $roleKey => $role)
                                     <tr>
                                         <td class="text-center">{{ ucwords($role->name) }}</td>
                                         <td class="text-center">{{ \Carbon\Carbon::parse($role->created_at)->format('d-M-y') }}</td>
@@ -109,7 +113,7 @@
                                         {{-- role edit modal start --}}
                                     <div class="modal fade role-edit-modal{{ $role->id }}" tabindex="-1" role="dialog" aria-labelledby="roleEditModalLabel" aria-hidden="true"
                                         style="display: none;">
-                                        <div class="modal-dialog modal-lg">
+                                        <div class="modal-dialog modal-lg" style="max-width:1000px">
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <h4 class="modal-title" id="roleEditModalLabel">Edit Role</h4>
@@ -130,14 +134,19 @@
                                                                 <div class="col-sm-12">
                                                                         <div class="form-group">
                                                                             <label for="name">Role Permissions</label><br/>
+                                                                            <div class="row">                                                         
                                                                             @foreach($permissions as $key => $permission)
-                                                                            <div class="form-check form-check-inline">
-                                                                            <input class="form-check-input" type="checkbox" id="{{ $permission->name }}" value="{{ $permission->id }}" name="{{ "permission_".$key }}" 
-                                                                            >
-                                                                                <label class="form-check-label" for="{{ $permission->name }}">{{ $permission->name }}</label>
+                                                                            <div class="col-sm-4">  
+                                                                                @if(collect($role->permissions)->pluck('id')->contains($permission->id) )
+                                                                                <input class="form-check-input" type="checkbox" id="edit-{{ $roleKey.'-'.$key }}" value="{{ $permission->id }}" name="{{ "edit-permission_".$key }}" checked>
+                                                                                <label class="form-check-label" for="edit-{{ $roleKey.'-'.$key }}">{{ $permission->name }}</label>
+                                                                                @else
+                                                                                <input class="form-check-input" type="checkbox" id="edit-{{ $roleKey.'-'.$key }}" value="{{ $permission->id }}" name="{{ "edit-permission_".$key }}">
+                                                                                <label class="form-check-label" for="edit-{{ $roleKey.'-'.$key }}">{{ $permission->name }}</label>
+                                                                                @endif
                                                                             </div>
-                
                                                                             @endforeach
+                                                                        </div>
                                                                         </div>
                                                                     </div>
                                                             </div>                                                        

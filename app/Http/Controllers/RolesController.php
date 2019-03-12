@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Esl\Repository\NotificationRepo;
+use Illuminate\Support\Facades\Auth;
 
 class RolesController extends Controller
 {
@@ -39,9 +40,13 @@ class RolesController extends Controller
      */
     public function store(Request $request)
     {
-        $role = Role::create($request->only(['name']));
-        $permissions = $request->except(['name','_token']);
+
+        $permissions = collect($request->except(['name','_token']))->transform(function($item){
+            return Permission::find((int)$item);
+        });
+        
         // save permission
+        $role = Role::create($request->only(['name']));
         $role->syncPermissions($permissions);
 
         NotificationRepo::create()->success('Role added successfully');
@@ -79,8 +84,17 @@ class RolesController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // dd($request->except(['name','_token','_method']));
         $role = Role::findOrFail($id);
-        $role->update($request->all());
+        // $role->syncPermissions();
+
+        $permissions = collect($request->except(['name','_token','_method']))->transform(function($item){
+            return Permission::find((int)$item);
+        });
+
+        $role->update($request->only(['name']));
+        $role->syncPermissions($permissions);
+
         NotificationRepo::create()->success('Role updated successfully');
         return redirect()->back();
     }
@@ -94,6 +108,9 @@ class RolesController extends Controller
     public function destroy($id)
     {
         $role = Role::findOrFail($id);
+        $permissions = Permission::where('role_id',$role->id);
+        // delete all permissions
+        $role->syncPermissions();
         $role->delete();
         NotificationRepo::create()->success('Role deleted successfully');
         return redirect()->back();

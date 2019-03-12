@@ -127,10 +127,6 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        // $user = User::findOrFail($id);
-        // $user->delete();
-        // NotificationRepo::create()->success('User deleted successfully');
-        // return redirect()->back();
     }
 
     public function deleteUser($id)

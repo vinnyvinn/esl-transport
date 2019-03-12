@@ -20,7 +20,7 @@ Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::group(['middleware' => ['auth']], function(){
 
-Route::get('/', 'HomeController@dashboard');
+Route::get('/', 'HomeController@dashboard')->name('dashboard');
 Route::resource('/customers', 'CustomerController');
 Route::get('/quotations', 'QuotationController@allQuotations');
 Route::get('/customer-request/{customer_id}/{customer_type}', 'CustomerRequestController@customerRequest');
